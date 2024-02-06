@@ -1,7 +1,7 @@
 const portNumber = 6500;
-const mongodb="mongodb://localhost/";
+const mongodbConnectionString="mongodb://localhost/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.3";
 
 module.exports={
     portNumber,
-    mongodb
+    mongodbConnectionString
 }

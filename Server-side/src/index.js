@@ -1,7 +1,10 @@
 const http = require("http");
 const util = require("util");
 const url = require("url");
-const { portNumber, mongodb } = require("../config/config");
+const mongodb = require("mongodb");
+const { portNumber, mongodbConnectionString } = require("../config/config");
+
+let mongoClient;
 
 function processRequestBody(requset,callback){
     let chunks = [];
@@ -24,7 +27,8 @@ const server = http.createServer(async(req,res)=>{
     let path = url.parse(req.url,true);
     let queryData = path.query;
     let rootPath = path.pathname.split("/").filter((val,ind)=>ind>0);
-    let neo4jSession = neo4jDriver.session();//neo4j sesija koja se otvara kad pristigne zahtev
+    let database = mongoClient.db("postnews");
+
     let headers = {
         'Access-Control-Allow-Origin': '*',
         'Accept':'*',
@@ -44,16 +48,41 @@ const server = http.createServer(async(req,res)=>{
         //     res.end();
         // }
         //start here
+        if(rootPath[0]=='users'){
+            res.writeHead(200,'OK',headers);
+            res.end();
+        }
     }
     if(req.method.toLowerCase()==='get')
     {
         //get method
-        
+        if(rootPath[0]==='users'){
+            const users = await database.collection('users');
+            let user ={
+                email:{$eq:"michaelf@gmail.com"}
+            };
+            let response = await users.find(user);
+            res.writeHead(200,"OK",headers);
+            res.write(JSON.stringify(response));
+            res.end();
+        }
     }
     if(req.method.toLowerCase()==='post')
     {
         //post method
-        
+        if(rootPath[0]==='users'){
+            const users = await database.collection('users');
+            let user ={
+                name:"Michael",
+                lastname:"Fox",
+                age:33,
+                email:"michaelf@gmail.com"
+            };
+            let response = await users.insertOne(user);
+            res.writeHead(200,"OK",headers);
+            res.write(JSON.stringify(response));
+            res.end();
+        }
     }
     if(req.method.toLowerCase()==='delete')
     {
@@ -69,4 +98,6 @@ const server = http.createServer(async(req,res)=>{
 server.listen(portNumber,()=>{
     console.log("Listening on port "+portNumber+"...\n");
     //start here
+    mongoClient = new mongodb.MongoClient(mongodbConnectionString);
+    console.log("ALL DONE...\n");
 });
