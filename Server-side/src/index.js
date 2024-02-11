@@ -58,12 +58,14 @@ const server = http.createServer(async(req,res)=>{
         //get method
         if(rootPath[0]==='users'){
             const users = await database.collection('users');
-            let user ={
-                email:{$eq:"michaelf@gmail.com"}
-            };
-            let response = await users.find(user);
+
+            let response = await users.find(/*{email:{$eq:"michaelf@gmail.com"}},{projection:{_id:0}}*/);
+            let arr = [];
+            for await( let i of response){
+                arr.push(i);
+            }
             res.writeHead(200,"OK",headers);
-            res.write(JSON.stringify(response));
+            res.write(JSON.stringify(arr));
             res.end();
         }
     }
@@ -73,10 +75,10 @@ const server = http.createServer(async(req,res)=>{
         if(rootPath[0]==='users'){
             const users = await database.collection('users');
             let user ={
-                name:"Michael",
-                lastname:"Fox",
-                age:33,
-                email:"michaelf@gmail.com"
+                name:"Smiljko",
+                lastname:"Milic",
+                age:25,
+                email:"smiljko@gmail.com"
             };
             let response = await users.insertOne(user);
             res.writeHead(200,"OK",headers);
