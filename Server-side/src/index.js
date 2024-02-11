@@ -3,6 +3,7 @@ const util = require("util");
 const url = require("url");
 const mongodb = require("mongodb");
 const { portNumber, mongodbConnectionString } = require("../config/config");
+const { DBResponse } = require("./DBResponse");
 
 let mongoClient;
 
@@ -73,15 +74,41 @@ const server = http.createServer(async(req,res)=>{
     {
         //post method
         if(rootPath[0]==='users'){
-            const users = await database.collection('users');
-            let user ={
-                name:"Smiljko",
-                lastname:"Milic",
-                age:25,
-                email:"smiljko@gmail.com"
-            };
-            let response = await users.insertOne(user);
-            res.writeHead(200,"OK",headers);
+            processRequestBody(req,async (dataObj)=>{
+                const users = await database.collection('users');
+                let response=new DBResponse();
+                if(dataObj){
+                    let alreadyExists = await users.findOne({email:dataObj.email});
+                    if(alreadyExists!==null){
+                        response.valid=false;
+                        response.message="User with this email already exists...";
+                        res.writeHead(404,"ERROR",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else{
+                        let mongoRequest = await users.insertOne(dataObj);
+                        response.valid=true;
+                        response.message="User added successfully.";
+                        res.writeHead(200,"OK",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                }
+                else{
+                    response.valid=false;
+                    response.message="Invalid body...";
+                    res.writeHead(404,"ERROR",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+            })
+        }
+        else{
+            let response = new DBResponse();
+            response.valid=false;
+            response.message="Invalid request...";
+            res.writeHead(404,"ERROR",headers);
             res.write(JSON.stringify(response));
             res.end();
         }
@@ -89,7 +116,45 @@ const server = http.createServer(async(req,res)=>{
     if(req.method.toLowerCase()==='delete')
     {
         //delete method
-        
+        if(rootPath[0]==='users'){
+            if(queryData.email){
+                const users = await database.collection('users');
+                let response=new DBResponse();
+                let mongoRequest = await users.deleteOne({email:queryData.email});
+                // console.log(mongoRequest);
+                if(mongoRequest.acknowledged && mongoRequest.deletedCount>0){
+                    response.valid=true;
+                    response.message="User deleted.";
+                    res.writeHead(200,"OK",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+                else{
+                    let response = new DBResponse();
+                    response.valid=false;
+                    response.message="User not found...";
+                    res.writeHead(404,"ERROR",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+            }
+            else{
+                let response = new DBResponse();
+                response.valid=false;
+                response.message="Invalid request...";
+                res.writeHead(404,"ERROR",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+        }
+        else{
+            let response = new DBResponse();
+            response.valid=false;
+            response.message="Invalid request...";
+            res.writeHead(404,"ERROR",headers);
+            res.write(JSON.stringify(response));
+            res.end();
+        }
     }
     if(req.method.toLowerCase()==='put')
     {
