@@ -4,6 +4,7 @@ const url = require("url");
 const mongodb = require("mongodb");
 const { portNumber, mongodbConnectionString } = require("../config/config");
 const { DBResponse } = require("./DBResponse");
+const { json } = require("stream/consumers");
 
 let mongoClient;
 
@@ -49,8 +50,16 @@ const server = http.createServer(async(req,res)=>{
         //     res.end();
         // }
         //start here
-        if(rootPath[0]=='users'){
+        if(rootPath[0]==='users'){
             res.writeHead(200,'OK',headers);
+            res.end();
+        }
+        else if(rootPath[0]==='objava'){
+            res.writeHead(200,'OK',headers);
+            res.end();
+        }
+        else{
+            res.writeHead(404,'Error',headers);
             res.end();
         }
     }
@@ -104,6 +113,30 @@ const server = http.createServer(async(req,res)=>{
                 }
             })
         }
+        else if(rootPath[0]==='objava'){
+            processRequestBody(req,async (dataObj)=>{
+                if(dataObj){
+                    const objave = await database.collection('objava');
+                    const users = await database.collection('users');
+                    let response=new DBResponse();
+                    let postObjava = await objave.insertOne(dataObj);
+                    console.log(postObjava);
+                    response.valid=true;
+                    response.message="Post added successfully";
+                    res.writeHead(200,"OK",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+                else{
+                    let response = new DBResponse();
+                    response.valid=false;
+                    response.message="Post not added";
+                    res.writeHead(404,"Error",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+            });
+        }
         else{
             let response = new DBResponse();
             response.valid=false;
@@ -133,6 +166,37 @@ const server = http.createServer(async(req,res)=>{
                     let response = new DBResponse();
                     response.valid=false;
                     response.message="User not found...";
+                    res.writeHead(404,"ERROR",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+            }
+            else{
+                let response = new DBResponse();
+                response.valid=false;
+                response.message="Invalid request...";
+                res.writeHead(404,"ERROR",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+        }
+        if(rootPath[0]==='objava'){
+            if(queryData.id){
+                const objave = await database.collection('objava');
+                let response=new DBResponse();
+                let mongoRequest = await objave.deleteOne({email:queryData.email});
+                console.log(mongoRequest);
+                if(mongoRequest.acknowledged && mongoRequest.deletedCount>0){
+                    response.valid=true;
+                    response.message="Objava successfully deleted.";
+                    res.writeHead(200,"OK",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+                else{
+                    let response = new DBResponse();
+                    response.valid=false;
+                    response.message="Objava not found...";
                     res.writeHead(404,"ERROR",headers);
                     res.write(JSON.stringify(response));
                     res.end();
