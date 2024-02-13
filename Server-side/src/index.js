@@ -67,15 +67,76 @@ const server = http.createServer(async(req,res)=>{
     {
         //get method
         if(rootPath[0]==='users'){
-            const users = await database.collection('users');
-
-            let response = await users.find(/*{email:{$eq:"michaelf@gmail.com"}},{projection:{_id:0}}*/);
-            let arr = [];
-            for await( let i of response){
-                arr.push(i);
+            if(queryData.email && queryData.password){
+                const users = await database.collection('users');
+                let response = new DBResponse();
+                let usersArray = await users.findOne({email:queryData.email,password:queryData.password});
+                response.valid=true;
+                response.message='Correct credentials.';
+                response.data=usersArray;
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
             }
-            res.writeHead(200,"OK",headers);
-            res.write(JSON.stringify(arr));
+            else if(queryData.email){
+                const users = await database.collection('users');
+                let response = new DBResponse();
+                let usersArray = await users.findOne({email:{$eq:queryData.email}},{projection:{_id:0}});
+                response.valid=true;
+                response.message='Users found.';
+                response.data=usersArray;
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+            else{
+                let response = new DBResponse();
+                response.valid=false;
+                response.message="Invalid request...";
+                res.writeHead(404,"ERROR",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+        }
+        else if(rootPath[0]==='objava'){
+            let response = new DBResponse();
+            if(queryData.tags){
+                const objave = await database.collection('objava');
+                //objave po tagovima
+                let objaveArray = await objave.find();
+                let arr = [];
+                for await( let i of response){
+                    arr.push(i);
+                }
+                response.valid=true;
+                response.message='Objava found.';
+                response.data=arr;
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+            else{
+                const objave = await database.collection('objava');
+                let response = new DBResponse();
+                let objaveArray = await objave.find();
+                let arr = [];
+                for await( let i of objaveArray){
+                    arr.push(i);
+                }
+                response.valid=true;
+                response.message='Objava found.';
+                response.data=arr;
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+        }
+        else{
+            let response = new DBResponse();
+            response.valid=false;
+            response.message="Invalid request...";
+            res.writeHead(404,"ERROR",headers);
+            res.write(JSON.stringify(response));
             res.end();
         }
     }
@@ -117,7 +178,6 @@ const server = http.createServer(async(req,res)=>{
             processRequestBody(req,async (dataObj)=>{
                 if(dataObj){
                     const objave = await database.collection('objava');
-                    const users = await database.collection('users');
                     let response=new DBResponse();
                     let postObjava = await objave.insertOne(dataObj);
                     console.log(postObjava);
@@ -180,11 +240,11 @@ const server = http.createServer(async(req,res)=>{
                 res.end();
             }
         }
-        if(rootPath[0]==='objava'){
+        else if(rootPath[0]==='objava'){
             if(queryData.id){
                 const objave = await database.collection('objava');
                 let response=new DBResponse();
-                let mongoRequest = await objave.deleteOne({email:queryData.email});
+                let mongoRequest = await objave.deleteOne({_id:new mongodb.ObjectId(queryData.id)});
                 console.log(mongoRequest);
                 if(mongoRequest.acknowledged && mongoRequest.deletedCount>0){
                     response.valid=true;
@@ -223,6 +283,60 @@ const server = http.createServer(async(req,res)=>{
     if(req.method.toLowerCase()==='put')
     {
         //put method
+        if(rootPath[0]==='objava'){
+            processRequestBody(req,async (dataObj)=>{
+                if(dataObj){
+                    const objave = await database.collection('objava');
+                    let response = new DBResponse();
+                    if(dataObj.text!==null){
+                        let mongoResponse = await objave.updateOne(
+                            {
+                                _id:new mongodb.ObjectId(dataObj.id)
+                            },
+                            {
+                                $set:{
+                                    text:dataObj.text
+                                }
+                            }
+                        );
+                    }
+                    if(dataObj.picture!==null){
+                        mongoResponse = await objave.updateOne(
+                            {
+                                _id:new mongodb.ObjectId(dataObj.id)
+                            },
+                            {
+                                $set:{
+                                    picture:dataObj.picture
+                                }
+                            }
+                        );
+                    }
+                    response.valid=true;
+                    response.message='Objava changed...';
+                    res.writeHead(200,"OK",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+                else{
+                    let response = new DBResponse();
+                    response.valid=false;
+                    response.message='Invalid request...';
+                    res.writeHead(404,"Error",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+            });
+
+        }
+        else{
+            let response = new DBResponse();
+            response.valid=false;
+            response.message="Invalid request...";
+            res.writeHead(404,"ERROR",headers);
+            res.write(JSON.stringify(response));
+            res.end();
+        }
     }
 });
 
