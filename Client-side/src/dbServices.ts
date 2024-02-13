@@ -70,28 +70,82 @@ export function deleteUser(email:string) : Observable<any>{
 }
 
 export function postObjava(objava:Objava) : Observable<any>{
+    let formBody = new URLSearchParams();
+    formBody.append('name',objava.name);
+    formBody.append('text',objava.text);
+    formBody.append('picture',objava.picture);
+    formBody.append('tags',JSON.stringify(objava.tags));
+    formBody.append('likes',JSON.stringify(objava.likes));
+    formBody.append('author',objava.author);
 
+    const resp=fetch(objavaURL,
+                {
+                    method:"POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                      },
+                    body: formBody
+                }).then(response=>{
+                    response.json();
+                }).catch(err=>console.log(err));
+
+    return from(resp);
 }
 
 export function getObjave():Observable<any>{
-
+    const resp = fetch(objavaURL,{method:"GET"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
+    
+    return from(resp);
 }
 
 export function getObjaveByTags():Observable<any>{
-
-}
-
-export function changeObajava(text:string,picture:string):Observable<any>{
-
-}
-
-export function deleteObjava(id:string):Observable<any>{
-
-}
-
-export function reactOnObjava(user:User,objavaID:string):Observable<any>{
+    const resp = fetch(objavaURL+"?tags=true",{method:"GET"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
     
+    return from(resp);
 }
+
+export function changeObajava(objavaID:string,text:string,picture:string):Observable<any>{
+    let formBody = new URLSearchParams();
+    formBody.append('id',objavaID);
+    formBody.append('text',text);
+    formBody.append('picture',picture)
+    const resp = fetch(objavaURL,
+                    {
+                        method:"PUT",
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: formBody
+                    })
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
+    
+    return from(resp);
+}
+
+export function deleteObjava(objavaID:string):Observable<any>{
+    const resp = fetch(objavaURL+"?id="+objavaID,{method:"DELETE"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
+    
+    return from(resp);
+}
+
+// export function reactOnObjava(user:User,objavaID:string):Observable<any>{
+    
+// }
 
 function showError(error:any){
     let parent = document.querySelector(".middle");
