@@ -86,52 +86,12 @@ export function userFilter(){
 
 export function drawSignup(parent_node:HTMLElement){
 
-    const selectDiv = document.createElement("div");
-    selectDiv.classList.add("selectDiv");
-
-    let chooseLabel = document.createElement("label");
-    chooseLabel.classList.add("chooseLabel");
-    chooseLabel.innerHTML="Izaberite ulogu:";
-    selectDiv.appendChild(chooseLabel);
-
-    let chooseSelect = document.createElement("select");
-    chooseSelect.classList.add("chooseSelect");
-    chooseSelect.id="chooseSelect";
-    
-    let selOption = document.createElement("option");
-    selOption.innerHTML="";
-    selOption.value="";
-    selOption.selected=true;
-    chooseSelect.appendChild(selOption);
-
-    selOption = document.createElement("option");
-    selOption.innerHTML="KORISNIK";
-    selOption.value="KORISNIK";
-    chooseSelect.appendChild(selOption);
-    
-    selOption = document.createElement("option");
-    selOption.innerHTML = "KOMPANIJA";
-    selOption.value="KOMPANIJA";
-    chooseSelect.appendChild(selOption);
-    selectDiv.appendChild(chooseSelect);
-    parent_node.appendChild(selectDiv);
-
     //rest of signup
     const divSignup = document.createElement("div");
     divSignup.classList.add("divSignup");
 
     //divSignup za korisnika ili kompaniju
-    selectDiv.onchange=()=>{
-        let selectValue = (<HTMLSelectElement>document.querySelector("#chooseSelect")).value;
-        removeChildren(document.querySelector(".divSignup"),document.querySelectorAll(".divSignup > div"));
-        if(selectValue==="KORISNIK"){
-            drawSignupKorisnik(divSignup);
-        }
-        if(selectValue==="KOMPANIJA"){
-            drawSignupKompanija(divSignup);
-        }
-    }
-    
+    drawSignupKorisnik(divSignup);
     parent_node.appendChild(divSignup);
 
     let divSignupButton = document.createElement("div");
@@ -165,14 +125,6 @@ export function drawSignupKorisnik(parent_node:HTMLElement){
     passwordLabel.innerHTML="Lozinka:";
     divSignupLabels.appendChild(passwordLabel);
 
-    let skillsLabel = document.createElement("label");
-    skillsLabel.innerHTML="Oblast rada:";
-    divSignupLabels.appendChild(skillsLabel);
-
-    let usercvLabel = document.createElement("label");
-    usercvLabel.innerHTML="Napisite vas CV:";
-    divSignupLabels.appendChild(usercvLabel);
-
     parent_node.appendChild(divSignupLabels);
 
     //divSignup inputs
@@ -199,77 +151,6 @@ export function drawSignupKorisnik(parent_node:HTMLElement){
     passwordInput.id="signup-password";
     passwordInput.type = "password";
     divSignupInput.appendChild(passwordInput);
-
-    let skillsInput = document.createElement("input");
-    skillsInput.id="signup-skills";
-    skillsInput.type = "name";
-    divSignupInput.appendChild(skillsInput);
-
-    let cvInput = document.createElement("textarea");
-    cvInput.id="signup-usercv";
-    cvInput.rows=12;
-    cvInput.cols=36;
-    divSignupInput.appendChild(cvInput);
-
-    parent_node.appendChild(divSignupInput);
-}
-
-export function drawSignupKompanija(parent_node:HTMLElement){
-    const divSignupLabels = document.createElement("div");
-    divSignupLabels.classList.add("divSignupLabels");
-
-    let nameLabel = document.createElement("label");
-    nameLabel.innerHTML="Naziv:";
-    divSignupLabels.appendChild(nameLabel);
-
-    let cityLabel = document.createElement("label");
-    cityLabel.innerHTML="Grad:";
-    divSignupLabels.appendChild(cityLabel);
-
-    let emailLabel = document.createElement("label");
-    emailLabel.innerHTML="E-mail:";
-    divSignupLabels.appendChild(emailLabel);
-
-    let passwordLabel = document.createElement("label");
-    passwordLabel.innerHTML="Lozinka:";
-    divSignupLabels.appendChild(passwordLabel);
-
-    let descriptionLabel = document.createElement("label");
-    descriptionLabel.innerHTML="Opisite kompaniju:";
-    divSignupLabels.appendChild(descriptionLabel);
-
-    parent_node.appendChild(divSignupLabels);
-
-    //divSignup inputs
-
-    let divSignupInput = document.createElement("div");
-    divSignupInput.classList.add("divSignupInput");
-
-    let nameInput = document.createElement("input");
-    nameInput.id="signup-name";
-    nameInput.type = "name";
-    divSignupInput.appendChild(nameInput);
-
-    let cityInput = document.createElement("input");
-    cityInput.id="signup-city";
-    cityInput.type = "name";
-    divSignupInput.appendChild(cityInput);
-
-    let emailInput = document.createElement("input");
-    emailInput.id="signup-email";
-    emailInput.type = "email";
-    divSignupInput.appendChild(emailInput);
-
-    let passwordInput = document.createElement("input");
-    passwordInput.id="signup-password";
-    passwordInput.type = "password";
-    divSignupInput.appendChild(passwordInput);
-
-    let descriptionInput = document.createElement("textarea");
-    descriptionInput.id="signup-description";
-    descriptionInput.rows=12;
-    descriptionInput.cols=36;
-    divSignupInput.appendChild(descriptionInput);
 
     parent_node.appendChild(divSignupInput);
 }

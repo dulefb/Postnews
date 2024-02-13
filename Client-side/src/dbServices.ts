@@ -5,15 +5,15 @@ import { Objava } from "../classes/Objava";
 import { usersURL, objavaURL } from "./constants";
 import { removeChildren } from "./pocetnaEvents";
 
-export function postUser(user:User) : Observable<any>{
+export function postUser(user:User) : Observable<DBResponse>{
 
-    // console.log(user);
     let formBody = new URLSearchParams();
     formBody.append('name',user.name);
     formBody.append('lastname',user.lastname);
     formBody.append('email',user.email);
     formBody.append('password',user.password);
-    formBody.append('content',null);
+    formBody.append('content',JSON.stringify(user.content));
+    formBody.append('tags',JSON.stringify(user.tags));
 
     const resp=fetch(usersURL,
                 {
@@ -23,13 +23,13 @@ export function postUser(user:User) : Observable<any>{
                       },
                     body: formBody
                 }).then(response=>{
-                    response.json();
+                    return response.json();
                 }).catch(err=>console.log(err));
 
     return from(resp);
 }
 
-export function getUser(email:string) : Observable<User>{
+export function getUser(email:string) : Observable<DBResponse>{
     const user = fetch(usersURL+"?email="+email,{method:"GET"})
                     .then(response=>{
                         return response.json();
@@ -39,7 +39,7 @@ export function getUser(email:string) : Observable<User>{
     return from(user).pipe(take(1));
 }
 
-export function getUserWithEmail(email:string) : Observable<any>{
+export function getUserWithEmail(email:string) : Observable<DBResponse>{
     const user = fetch(usersURL+"?email="+email,{method:"GET"})
                     .then(response=>{
                         return response.json();
@@ -49,7 +49,7 @@ export function getUserWithEmail(email:string) : Observable<any>{
     return from(user);
 }
 
-export function getUserWithEmailAndPassword(email:string,password:string) : Observable<any>{
+export function getUserWithEmailAndPassword(email:string,password:string) : Observable<DBResponse>{
     const user = fetch(usersURL+"?email="+email+"&password="+password,{method:"GET"})
                     .then(response=>{
                         return response.json();
@@ -59,7 +59,7 @@ export function getUserWithEmailAndPassword(email:string,password:string) : Obse
     return from(user);
 }
 
-export function deleteUser(email:string) : Observable<any>{
+export function deleteUser(email:string) : Observable<DBResponse>{
     const user = fetch(usersURL+"?email="+email,{method:"DELETE"})
                     .then(response=>{
                         return response.json();
@@ -69,7 +69,7 @@ export function deleteUser(email:string) : Observable<any>{
     return from(user);
 }
 
-export function postObjava(objava:Objava) : Observable<any>{
+export function postObjava(objava:Objava) : Observable<DBResponse>{
     let formBody = new URLSearchParams();
     formBody.append('name',objava.name);
     formBody.append('text',objava.text);
@@ -86,13 +86,13 @@ export function postObjava(objava:Objava) : Observable<any>{
                       },
                     body: formBody
                 }).then(response=>{
-                    response.json();
+                    return response.json();
                 }).catch(err=>console.log(err));
 
     return from(resp);
 }
 
-export function getObjave():Observable<any>{
+export function getObjave():Observable<DBResponse>{
     const resp = fetch(objavaURL,{method:"GET"})
                     .then(response=>{
                         return response.json();
@@ -102,7 +102,7 @@ export function getObjave():Observable<any>{
     return from(resp);
 }
 
-export function getObjaveByTags():Observable<any>{
+export function getObjaveByTags():Observable<DBResponse>{
     const resp = fetch(objavaURL+"?tags=true",{method:"GET"})
                     .then(response=>{
                         return response.json();
@@ -112,7 +112,7 @@ export function getObjaveByTags():Observable<any>{
     return from(resp);
 }
 
-export function changeObajava(objavaID:string,text:string,picture:string):Observable<any>{
+export function changeObajava(objavaID:string,text:string,picture:string):Observable<DBResponse>{
     let formBody = new URLSearchParams();
     formBody.append('id',objavaID);
     formBody.append('text',text);
@@ -133,7 +133,7 @@ export function changeObajava(objavaID:string,text:string,picture:string):Observ
     return from(resp);
 }
 
-export function deleteObjava(objavaID:string):Observable<any>{
+export function deleteObjava(objavaID:string):Observable<DBResponse>{
     const resp = fetch(objavaURL+"?id="+objavaID,{method:"DELETE"})
                     .then(response=>{
                         return response.json();

@@ -16,25 +16,18 @@ export function setUpSignin(){
                 alert("Morate da unesete sva polja...");
             }
             else{
-                getUserWithEmail(user.email)
-                    .subscribe(next=>{
-                        if(next){
-                            alert("Korisnik sa ovo email adresom vec postoji...");
+                postUser(user)
+                    .subscribe(postNext=>{
+                        console.log(postNext);
+                        if(!postNext.valid){
+                            alert(postNext.message);
                         }
                         else{
-                            postUser(user)
-                                .subscribe(postNext=>{
-                                    if(postNext===false){
-                                        alert('Doslo je do greske pokusajte ponovo.');
-                                    }
-                                    else{
-                                        sessionStorage.setItem("current-user",JSON.stringify(user));
-                                        alert('Uspesno ste registrovani.');
-                                        document.location.reload();
-                                    }
-                                });
+                            sessionStorage.setItem("current-user",JSON.stringify(user));
+                            alert(postNext.message);
+                            document.location.reload();
                         }
-                    });   
+                    }); 
             }
     });
 }

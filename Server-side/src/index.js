@@ -149,7 +149,7 @@ const server = http.createServer(async(req,res)=>{
                 let response=new DBResponse();
                 if(dataObj){
                     let alreadyExists = await users.findOne({email:dataObj.email});
-                    if(alreadyExists!==null){
+                    if(alreadyExists){
                         response.valid=false;
                         response.message="User with this email already exists...";
                         res.writeHead(404,"ERROR",headers);

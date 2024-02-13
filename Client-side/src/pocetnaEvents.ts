@@ -1,5 +1,4 @@
 import { User } from "../classes/User";
-import { drawViewCompanyKonkurse, drawViewKonkurse } from "./drawFunctions";
 
 export function removeChildren(parent:Node,child:NodeListOf<Element>){
     if(child!==null){
