@@ -233,3 +233,74 @@ function drawKorisnikProfile(parent:HTMLElement,user:User){
 
     parent.appendChild(divUserProfileInfoData);
 }
+
+export function drawPostObjava(parent:HTMLElement){
+    let divPostObjava = document.createElement("div");
+    divPostObjava.classList.add("divPostObjava");
+
+    let divPostObjavaInput = document.createElement("div");
+    divPostObjavaInput.classList.add("divPostObjavaInput");
+
+    let divName = document.createElement("div");
+    divName.classList.add("divName");
+    let labelName = document.createElement("label");
+    labelName.innerHTML = "Name: ";
+    divName.appendChild(labelName);
+    let inputName = document.createElement("input");
+    inputName.type = "name";
+    inputName.id="objavaName"
+    divName.appendChild(inputName);
+    divPostObjavaInput.appendChild(divName);
+
+    let divText = document.createElement("div");
+    divText.classList.add("divText");
+    let labelText = document.createElement("label");
+    labelText.innerHTML = "Text: ";
+    divText.appendChild(labelText);
+    let inputText = document.createElement("textarea");
+    inputText.id="objavaText";
+    inputText.cols=30;
+    inputText.rows=15;
+    divText.appendChild(inputText);
+    divPostObjavaInput.appendChild(divText);
+
+    let divPicture = document.createElement("div");
+    divPicture.classList.add("divPicture");
+    let labelPicture = document.createElement("label");
+    labelPicture.innerHTML = "Picture: ";
+    divPicture.appendChild(labelPicture);
+    let inputPicture = document.createElement("input");
+    inputPicture.id="objavaImg";
+    inputPicture.type="file";
+    divPicture.appendChild(inputPicture);
+    divPostObjavaInput.appendChild(divPicture);
+
+    let divTags = document.createElement("div");
+    divTags.classList.add("divTags");
+    let labelTags = document.createElement("label");
+    labelTags.innerHTML = "Tagovi(uneti odvojene iskljucivo zapetom): ";
+    divTags.appendChild(labelTags);
+    let inputTags = document.createElement("input");
+    inputTags.id="objavaTags";
+    inputTags.type="name";
+    divTags.appendChild(inputTags);
+    divPostObjavaInput.appendChild(divTags);
+    divPostObjava.appendChild(divPostObjavaInput);
+
+    let divPostObjavaImg = document.createElement("div");
+    divPostObjavaImg.classList.add("divPostObjavaImg");
+
+    let img = document.createElement("img");
+    divPostObjavaImg.appendChild(img);
+    divPostObjava.appendChild(divPostObjavaImg);
+
+    let divPostObjavaButton = document.createElement("div");
+    divPostObjavaButton.classList.add("divPostObjavaButton");
+
+    let button = document.createElement("button");
+    button.classList.add("postObjavaButton");
+    divPostObjavaButton.appendChild(button);
+    divPostObjava.appendChild(divPostObjavaButton);
+
+    parent.appendChild(divPostObjava);
+}

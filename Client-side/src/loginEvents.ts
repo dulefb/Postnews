@@ -29,11 +29,11 @@ export function setUpLogin(){
             delay(500)
         )
         .subscribe(next=>{
-            if(next===null){
+            if(!next.valid){
                 alert("Niste uneli ispravne podatke");
             }
             else{
-                sessionStorage.setItem("current-user",JSON.stringify(next));
+                sessionStorage.setItem("current-user",JSON.stringify(next.data));
                 document.location.reload();
             }
         });
