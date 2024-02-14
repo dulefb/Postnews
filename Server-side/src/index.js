@@ -58,6 +58,14 @@ const server = http.createServer(async(req,res)=>{
             res.writeHead(200,'OK',headers);
             res.end();
         }
+        else if(rootPath[0]==='like'){
+            res.writeHead(200,'OK',headers);
+            res.end();
+        }
+        else if(rootPath[0]==='dislike'){
+            res.writeHead(200,'OK',headers);
+            res.end();
+        }
         else{
             res.writeHead(404,'Error',headers);
             res.end();
@@ -100,22 +108,7 @@ const server = http.createServer(async(req,res)=>{
         }
         else if(rootPath[0]==='objava'){
             let response = new DBResponse();
-            if(queryData.tags){
-                const objave = await database.collection('objava');
-                //objave po tagovima
-                let objaveArray = await objave.find();
-                let arr = [];
-                for await( let i of objaveArray){
-                    arr.push(i);
-                }
-                response.valid=true;
-                response.message='Objava found.';
-                response.data=arr;
-                res.writeHead(200,"OK",headers);
-                res.write(JSON.stringify(response));
-                res.end();
-            }
-            else if(queryData.email){
+            if(queryData.email){
                 const objave = await database.collection('objava');
                 let objaveArray = await objave.find(
                     {
@@ -138,7 +131,7 @@ const server = http.createServer(async(req,res)=>{
             else{
                 const objave = await database.collection('objava');
                 let response = new DBResponse();
-                let objaveArray = await objave.find();
+                let objaveArray = await objave.find().sort({_id:-1});
                 let arr = [];
                 for await( let i of objaveArray){
                     arr.push(i);
@@ -207,7 +200,29 @@ const server = http.createServer(async(req,res)=>{
         }
         else if(rootPath[0]==='objava'){
             processRequestBody(req,async (dataObj)=>{
-                if(dataObj){
+                if(queryData.tags && dataObj){
+                        const objave = await database.collection('objava');
+                        let response=new DBResponse();
+                        //objave po tagovima
+                        let objaveArray = await objave.find(
+                            {
+                                tags:{
+                                    $in:JSON.parse(dataObj.tags)
+                                }
+                            }
+                        ).sort({_id:-1});
+                        let arr = [];
+                        for await( let i of objaveArray){
+                            arr.push(i);
+                        }
+                        response.valid=true;
+                        response.message='Objava found.';
+                        response.data=arr;
+                        res.writeHead(200,"OK",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                }
+                else if(dataObj){
                     const objave = await database.collection('objava');
                     let response=new DBResponse();
                     let postObjava = await objave.insertOne(dataObj);
@@ -262,6 +277,27 @@ const server = http.createServer(async(req,res)=>{
                         {
                             $push:{
                                 likes:queryData.email
+                            }
+                        }
+                    );
+                    
+                    let getObjavaTags = await objave.findOne(
+                        {
+                            _id:new mongodb.ObjectId(queryData.oid)
+                        },
+                        {
+                            tags:1
+                        }
+                    );
+                    let userTagUpdate = await users.updateOne(
+                        {
+                            email:queryData.email
+                        },
+                        {
+                            $push:{
+                                tags:{
+                                    $each:getObjavaTags.tags
+                                }
                             }
                         }
                     );

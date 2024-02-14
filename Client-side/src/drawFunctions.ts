@@ -3,7 +3,7 @@ import { User } from "../classes/User";
 import { filter,Subject } from "rxjs";
 import { setUpLogin } from "./loginEvents";
 import { setUpSignin } from "./signupEvents";
-import {  objaveFromUserEvent, postObjavaEvents, removeChildren } from "./pocetnaEvents";
+import {  changeObjavaEvent, objaveFromUserEvent, postObjavaEvents, removeChildren } from "./pocetnaEvents";
 import { Objava } from "../classes/Objava";
 
 function addLinkToClassElement(class_element:string,href:string,class_name:string,text:string,id_value:string=null) : void{
@@ -321,6 +321,59 @@ export function drawPostObjava(parent:HTMLElement){
     parent.appendChild(divPostObjava);
 }
 
+export function drawChangeObjava(parent:HTMLElement){
+    let divPostObjava = document.createElement("div");
+    divPostObjava.classList.add("divPostObjava");
+
+    let divPostObjavaInput = document.createElement("div");
+    divPostObjavaInput.classList.add("divPostObjavaInput");
+
+    let divText = document.createElement("div");
+    divText.classList.add("divText");
+    let labelText = document.createElement("label");
+    labelText.innerHTML = "Text: ";
+    divText.appendChild(labelText);
+    let inputText = document.createElement("textarea");
+    inputText.id="objavaText";
+    inputText.cols=30;
+    inputText.rows=15;
+    divText.appendChild(inputText);
+    divPostObjavaInput.appendChild(divText);
+
+    let divPicture = document.createElement("div");
+    divPicture.classList.add("divPicture");
+    let labelPicture = document.createElement("label");
+    labelPicture.innerHTML = "Picture: ";
+    divPicture.appendChild(labelPicture);
+    let inputPicture = document.createElement("input");
+    inputPicture.id="objavaImg";
+    inputPicture.type="file";
+    divPicture.appendChild(inputPicture);
+    divPostObjavaInput.appendChild(divPicture);
+    divPostObjava.appendChild(divPostObjavaInput);
+
+    let divPostObjavaImg = document.createElement("div");
+    divPostObjavaImg.classList.add("divPostObjavaImg");
+
+    let img = document.createElement("img");
+    img.width=100;
+    img.height=100;
+    divPostObjavaImg.appendChild(img);
+    divPostObjava.appendChild(divPostObjavaImg);
+
+    let divPostObjavaButton = document.createElement("div");
+    divPostObjavaButton.classList.add("divPostObjavaButton");
+
+    let button = document.createElement("button");
+    button.classList.add("changeObjavaButton");
+    button.innerHTML="Change";
+    divPostObjavaButton.appendChild(button);
+    divPostObjava.appendChild(divPostObjavaButton);
+
+    parent.appendChild(divPostObjava);
+}
+
+
 export function drawObjavePocetna(parent:HTMLElement,objave:Objava[]){
     //crtaju se sve objave
     let divObjavaPocetna = document.createElement("div");
@@ -408,7 +461,9 @@ export function drawObjava(parent:HTMLElement,objava:any){
             let changeButton = document.createElement("button");
             changeButton.innerHTML="Change";
             changeButton.onclick=()=>{
-
+                removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
+                drawChangeObjava(document.querySelector(".middle"));
+                changeObjavaEvent(objava._id);
             }
             divObjava.appendChild(changeButton);
 

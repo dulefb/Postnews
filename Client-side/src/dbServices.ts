@@ -102,8 +102,17 @@ export function getObjave():Observable<DBResponse>{
     return from(resp);
 }
 
-export function getObjaveByTags():Observable<DBResponse>{
-    const resp = fetch(objavaURL+"?tags=true",{method:"GET"})
+export function getObjaveByTags(tags:string[]):Observable<DBResponse>{
+    let formBody = new URLSearchParams();
+    formBody.append('tags',JSON.stringify(tags));
+    const resp = fetch(objavaURL+"?tags=true",
+                    {
+                        method:"POST",
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: formBody
+                    })
                     .then(response=>{
                         return response.json();
                     })

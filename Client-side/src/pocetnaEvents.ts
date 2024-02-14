@@ -1,7 +1,7 @@
 import { Observable, Subject, fromEvent, map, switchMap } from "rxjs";
 import { Objava } from "../classes/Objava";
 import { User } from "../classes/User";
-import { getObjave, getObjaveFromUser, postObjava } from "./dbServices";
+import { changeObajava, getObjave, getObjaveByTags, getObjaveFromUser, postObjava } from "./dbServices";
 import { drawObjaveFromUser, drawObjavePocetna } from "./drawFunctions";
 
 export function postObjavaEvents(){
@@ -34,10 +34,52 @@ export function postObjavaEvents(){
                     });
             }
     });
+
+}
+
+export function changeObjavaEvent(objavaID:string){
+    let textValue:string;
+    let pictureValue:string;
+    let control$ = new Subject<string>();
+    const img$=addImageObservable(control$)
+                .subscribe(next=>{
+                    pictureValue=next;
+                });
+        document.querySelector(".changeObjavaButton").addEventListener("click",()=>{
+            textValue=(<HTMLInputElement>document.querySelector("#objavaText")).value;
+        if(textValue==="" || pictureValue===""){
+                alert("Morate da unesete sva polja...");
+            }
+            else{
+                changeObajava(objavaID,textValue,pictureValue)
+                    .subscribe(next=>{
+                        if(!next.valid){
+                            alert(next.message);
+                        }
+                        else{
+                            alert(next.message);
+                            document.location.reload();
+                        }
+                    })
+            }
+    });
 }
 
 export function getObjaveEvent(){
     getObjave()
+        .subscribe(next=>{
+            if(next.valid){
+                removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
+                drawObjavePocetna(document.querySelector(".middle"),next.data);
+            }
+            else{
+                alert(next.message);
+            }
+        });
+}
+
+export function getObjaveByTagsEvent(tags:string[]){
+    getObjaveByTags(tags)
         .subscribe(next=>{
             if(next.valid){
                 removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
