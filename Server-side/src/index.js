@@ -105,7 +105,27 @@ const server = http.createServer(async(req,res)=>{
                 //objave po tagovima
                 let objaveArray = await objave.find();
                 let arr = [];
-                for await( let i of response){
+                for await( let i of objaveArray){
+                    arr.push(i);
+                }
+                response.valid=true;
+                response.message='Objava found.';
+                response.data=arr;
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+            else if(queryData.email){
+                const objave = await database.collection('objava');
+                let objaveArray = await objave.find(
+                    {
+                        'author.email':{
+                            $eq:queryData.email
+                        }
+                    }
+                );
+                let arr = [];
+                for await( let i of objaveArray){
                     arr.push(i);
                 }
                 response.valid=true;
@@ -158,6 +178,17 @@ const server = http.createServer(async(req,res)=>{
                     }
                     else{
                         let mongoRequest = await users.insertOne(dataObj);
+                        let mongoUpdate = await users.updateOne(
+                            {
+                                _id:mongoRequest.insertedId
+                            },
+                            {
+                                $set:{
+                                    content:[],
+                                    tags:[]
+                                }
+                            });
+                        console.log(mongoUpdate);
                         response.valid=true;
                         response.message="User added successfully.";
                         res.writeHead(200,"OK",headers);
@@ -180,7 +211,18 @@ const server = http.createServer(async(req,res)=>{
                     const objave = await database.collection('objava');
                     let response=new DBResponse();
                     let postObjava = await objave.insertOne(dataObj);
-                    console.log(postObjava);
+                    let mongoUpdate = await objave.updateOne(
+                        {
+                            _id:postObjava.insertedId
+                        },
+                        {
+                            $set:{
+                                tags:JSON.parse(dataObj.tags),
+                                likes:[],
+                                author:JSON.parse(dataObj.author)
+                            }
+                        }
+                    );
                     response.valid=true;
                     response.message="Post added successfully";
                     res.writeHead(200,"OK",headers);

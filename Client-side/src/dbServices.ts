@@ -76,7 +76,7 @@ export function postObjava(objava:Objava) : Observable<DBResponse>{
     formBody.append('picture',objava.picture);
     formBody.append('tags',JSON.stringify(objava.tags));
     formBody.append('likes',JSON.stringify(objava.likes));
-    formBody.append('author',objava.author);
+    formBody.append('author',JSON.stringify(objava.author));
 
     const resp=fetch(objavaURL,
                 {
@@ -104,6 +104,16 @@ export function getObjave():Observable<DBResponse>{
 
 export function getObjaveByTags():Observable<DBResponse>{
     const resp = fetch(objavaURL+"?tags=true",{method:"GET"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
+    
+    return from(resp);
+}
+
+export function getObjaveFromUser(email:string):Observable<DBResponse>{
+    const resp = fetch(objavaURL+"?email="+email,{method:"GET"})
                     .then(response=>{
                         return response.json();
                     })

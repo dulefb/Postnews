@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export class Objava{
     public id:string;
     public name:string;
@@ -5,7 +7,7 @@ export class Objava{
     public picture:string;
     public tags:string[];
     public likes:string[];
-    public author:string;
+    public author:User;
 
     constructor(){
         this.name=null;

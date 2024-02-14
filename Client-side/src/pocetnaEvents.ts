@@ -1,7 +1,8 @@
 import { Observable, Subject, fromEvent, map, switchMap } from "rxjs";
 import { Objava } from "../classes/Objava";
 import { User } from "../classes/User";
-import { postObjava } from "./dbServices";
+import { getObjave, getObjaveFromUser, postObjava } from "./dbServices";
+import { drawObjaveFromUser, drawObjavePocetna } from "./drawFunctions";
 
 export function postObjavaEvents(){
     const objava = new Objava();
@@ -14,8 +15,9 @@ export function postObjavaEvents(){
             objava.name=(<HTMLInputElement>document.querySelector("#objavaName")).value;
             objava.text=(<HTMLInputElement>document.querySelector("#objavaText")).value;
             objava.tags=(<HTMLInputElement>document.querySelector("#objavaTags")).value.split(",");
-            objava.author=sessionStorage.getItem("current-user");
-        if(objava.name==="" || objava.text==="" || objava.tags.length>0 || objava.picture===""){
+            objava.author=JSON.parse(sessionStorage.getItem("current-user"));
+            console.log(objava);
+        if(objava.name==="" || objava.text==="" || objava.tags.length===0 || objava.picture===""){
                 alert("Morate da unesete sva polja...");
             }
             else{
@@ -29,9 +31,36 @@ export function postObjavaEvents(){
                             alert(postNext.message);
                             document.location.reload();
                         }
-                    }); 
+                    });
             }
     });
+}
+
+export function getObjaveEvent(){
+    getObjave()
+        .subscribe(next=>{
+            if(next.valid){
+                removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
+                drawObjavePocetna(document.querySelector(".middle"),next.data);
+            }
+            else{
+                alert(next.message);
+            }
+        })
+}
+
+export function objaveFromUserEvent(){
+    let user=<User>JSON.parse(sessionStorage.getItem("current-user"));
+    getObjaveFromUser(user.email)
+        .subscribe(next=>{
+            if(next.valid){
+                // removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
+                drawObjaveFromUser(document.querySelector(".middle"),next.data);
+            }
+            else{
+                alert(next.message);
+            }
+        })
 }
 
 export function removeChildren(parent:Node,child:NodeListOf<Element>){
@@ -68,9 +97,9 @@ export function removeSearchBarRecepts(){
 }
 
 export function addImageObservable(control$:Subject<string>) : Observable<string>{
-    return fromEvent(document.querySelector("#slikaRecept"),"input")
+    return fromEvent(document.querySelector("#objavaImg"),"input")
         .pipe(
-            map((event: InputEvent) => (<HTMLInputElement>event.target).files[0]),
+            map((event: InputEvent) => {console.log((<HTMLInputElement>event.target).files[0]);return (<HTMLInputElement>event.target).files[0]}),
             switchMap(file=>imageReader(file,control$))
         );
 }

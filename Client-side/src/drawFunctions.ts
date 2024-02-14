@@ -1,9 +1,10 @@
-import { getUserWithEmail, getUserWithEmailAndPassword, postUser } from "./dbServices";
+import { deleteObjava, getUserWithEmail, getUserWithEmailAndPassword, postUser } from "./dbServices";
 import { User } from "../classes/User";
 import { filter,Subject } from "rxjs";
 import { setUpLogin } from "./loginEvents";
 import { setUpSignin } from "./signupEvents";
-import {  removeChildren } from "./pocetnaEvents";
+import {  objaveFromUserEvent, postObjavaEvents, removeChildren } from "./pocetnaEvents";
+import { Objava } from "../classes/Objava";
 
 function addLinkToClassElement(class_element:string,href:string,class_name:string,text:string,id_value:string=null) : void{
     const link=document.createElement("a");
@@ -29,11 +30,12 @@ function removeLinkFromClassElement(class_element:string,link_href:string) : voi
 
 export function userFilter(){
     let currentUser = JSON.parse(sessionStorage.getItem("current-user"));
-    let currentUserLabel = sessionStorage.getItem("current-user-label");
+    // let currentUserLabel = sessionStorage.getItem("current-user-label");
 
     if(currentUser!==null){
         addLinkToClassElement(".header","#profil","header-item","PROFIL");
         addLinkToClassElement(".header","#odjavi-se","header-item","ODJAVI SE");
+        addLinkToClassElement(".header","#post-objava","header-item","NOVA OBJAVA");
         removeLinkFromClassElement(".header","#prijavi-se");
         removeLinkFromClassElement(".header","#kreiraj-nalog");
     }
@@ -41,6 +43,7 @@ export function userFilter(){
         addLinkToClassElement(".header","#prijavi-se","header-item","PRIJAVI SE");
         addLinkToClassElement(".header","#kreiraj-nalog","header-item","KREIRAJ NALOG");
         removeLinkFromClassElement(".header","#profil");
+        removeLinkFromClassElement(".header","#post-objava");
         removeLinkFromClassElement(".header","#odjavi-se");
     }
 
@@ -80,7 +83,17 @@ export function userFilter(){
         profil.onclick=()=>{
             removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
             drawKorisnikProfile(document.querySelector(".middle"),currentUser);
+            objaveFromUserEvent();
         }
+    }
+
+    const postObjava = document.querySelector("a[href='#post-objava']");
+    if(postObjava!==null){
+        postObjava.addEventListener("click",()=>{
+            removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
+            drawPostObjava(document.querySelector(".middle"));
+            postObjavaEvents();
+        });
     }
 }
 
@@ -291,6 +304,8 @@ export function drawPostObjava(parent:HTMLElement){
     divPostObjavaImg.classList.add("divPostObjavaImg");
 
     let img = document.createElement("img");
+    img.width=100;
+    img.height=100;
     divPostObjavaImg.appendChild(img);
     divPostObjava.appendChild(divPostObjavaImg);
 
@@ -299,8 +314,100 @@ export function drawPostObjava(parent:HTMLElement){
 
     let button = document.createElement("button");
     button.classList.add("postObjavaButton");
+    button.innerHTML="Dodaj";
     divPostObjavaButton.appendChild(button);
     divPostObjava.appendChild(divPostObjavaButton);
 
     parent.appendChild(divPostObjava);
+}
+
+export function drawObjavePocetna(parent:HTMLElement,objave:Objava[]){
+    //crtaju se sve objave
+    let divObjavaPocetna = document.createElement("div");
+    divObjavaPocetna.classList.add("divObjavaPocetna");
+
+    objave.forEach(x=>{
+        drawObjava(divObjavaPocetna,x);
+    });
+
+    parent.appendChild(divObjavaPocetna);
+}
+
+export function drawObjava(parent:HTMLElement,objava:any){
+    //ovde se crta objava kao post
+    // console.log(objava);
+    let user = <User>JSON.parse(sessionStorage.getItem("current-user"));
+    let divObjava = document.createElement("div");
+    divObjava.classList.add("divObjava");
+
+    let labelName = document.createElement("label");
+    labelName.innerHTML = objava.name;
+    divObjava.appendChild(labelName);
+
+    let img = document.createElement("img");
+    img.src = objava.picture;
+    img.width=250;
+    img.height=200;
+    divObjava.appendChild(img);
+
+    let labelText = document.createElement("label");
+    labelText.innerHTML = objava.text;
+    divObjava.appendChild(labelText);
+
+    let labelTags = document.createElement("label");
+    labelTags.innerHTML = "<b>Tags:</b>" + objava.tags.join(",");
+    divObjava.appendChild(labelTags);
+
+    if(objava.author.email!==user.email){
+        let labelAutor = document.createElement("label");
+        labelAutor.innerHTML="<b>Autor:</b>: " + objava.author.email;
+        divObjava.appendChild(labelAutor);
+    }
+
+    let labelNumOfLikes = document.createElement("label");
+    labelNumOfLikes.innerHTML = "<b>Likes:</b>" + objava.likes.length.toString();
+    divObjava.appendChild(labelNumOfLikes);
+
+    if(objava.author.email===user.email){
+        let changeButton = document.createElement("button");
+        changeButton.innerHTML="Change";
+        changeButton.onclick=()=>{
+
+        }
+        divObjava.appendChild(changeButton);
+
+        let deleteButton = document.createElement("button");
+        deleteButton.innerHTML="Delete";
+        deleteButton.onclick=()=>{
+            deleteObjava(objava._id)
+                .subscribe(next=>{
+                    if(!next.valid){
+                        alert(next.message);
+                    }
+                    else{
+                        alert(next.message);
+                        document.location.reload();
+                    }
+                })
+        }
+        divObjava.appendChild(deleteButton);
+    }
+
+    parent.appendChild(divObjava);
+}
+
+export function drawObjaveFromUser(parent:HTMLElement,data:Objava[]){
+    let divObjavaPocetna = document.createElement("div");
+    divObjavaPocetna.classList.add("divObjavaPocetna");
+
+    let naslov = document.createElement("h2");
+    naslov.innerHTML="Vase objave.";
+    naslov.classList.add("userObjaveNaslov");
+    divObjavaPocetna.appendChild(naslov);
+
+    data.forEach(x=>{
+        drawObjava(divObjavaPocetna,x);
+    });
+
+    parent.appendChild(divObjavaPocetna);
 }
