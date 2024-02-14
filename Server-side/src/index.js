@@ -239,6 +239,96 @@ const server = http.createServer(async(req,res)=>{
                 }
             });
         }
+        else if(rootPath[0]==='like'){
+            if(queryData.email && queryData.oid){
+                const users = await database.collection('users');
+                const objave = await database.collection('objava');
+                let response = new DBResponse();
+                let alreadyLiked = await objave.updateOne(
+                    {
+                        _id:new mongodb.ObjectId(queryData.oid)
+                    },
+                    {
+                        $pull:{
+                            likes:queryData.email
+                        }
+                    }
+                );
+                if(alreadyLiked.modifiedCount===0){
+                    let likePost = await objave.updateOne(
+                        {
+                            _id:new mongodb.ObjectId(queryData.oid)
+                        },
+                        {
+                            $push:{
+                                likes:queryData.email
+                            }
+                        }
+                    );
+                    response.valid=true;
+                    response.message="Post liked successfully.";
+                    res.writeHead(200,"OK",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+                else{
+                    let likePost = await objave.updateOne(
+                        {
+                            _id:new mongodb.ObjectId(queryData.oid)
+                        },
+                        {
+                            $push:{
+                                likes:queryData.email
+                            }
+                        }
+                    );
+                    response.valid=false;
+                    response.message="You already like this post.";
+                    res.writeHead(400,"Error",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+            }
+            else{
+                let response = new DBResponse();
+                response.valid=false;
+                response.message="Invalid request...";
+                res.writeHead(404,"ERROR",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+        }
+        else if(rootPath[0]==='dislike'){
+            if(queryData.email && queryData.oid){
+                // const users = await database.collection('users');
+                const objave = await database.collection('objava');
+                let response = new DBResponse();
+                let alreadyLiked = await objave.updateOne(
+                    {
+                        _id:new mongodb.ObjectId(queryData.oid)
+                    },
+                    {
+                        $pull:{
+                            likes:queryData.email
+                        }
+                    }
+                );
+                console.log(alreadyLiked);
+                response.valid=true;
+                response.message="You disliked this post.";
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+            else{
+                let response = new DBResponse();
+                response.valid=false;
+                response.message="Invalid request...";
+                res.writeHead(404,"ERROR",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
+        }
         else{
             let response = new DBResponse();
             response.valid=false;

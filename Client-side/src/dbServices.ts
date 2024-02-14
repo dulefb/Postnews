@@ -2,7 +2,7 @@ import { Observable, from, take, takeLast, map, toArray, mergeMap, filter, of } 
 import { User } from "../classes/User";
 import { DBResponse } from "../classes/DBResponse";
 import { Objava } from "../classes/Objava";
-import { usersURL, objavaURL } from "./constants";
+import { usersURL, objavaURL, likeURL, dislikeURL } from "./constants";
 import { removeChildren } from "./pocetnaEvents";
 
 export function postUser(user:User) : Observable<DBResponse>{
@@ -153,9 +153,25 @@ export function deleteObjava(objavaID:string):Observable<DBResponse>{
     return from(resp);
 }
 
-// export function reactOnObjava(user:User,objavaID:string):Observable<any>{
+export function postLikeObjava(email:string,objavaID:string):Observable<DBResponse>{
+    const resp = fetch(likeURL+"?email="+email+"&oid="+objavaID,{method:"POST"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
     
-// }
+    return from(resp);
+}
+
+export function postDislikeObjava(email:string,objavaID:string):Observable<DBResponse>{
+    const resp = fetch(dislikeURL+"?email="+email+"&oid="+objavaID,{method:"POST"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
+    
+    return from(resp);
+}
 
 function showError(error:any){
     let parent = document.querySelector(".middle");

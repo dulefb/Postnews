@@ -1,4 +1,4 @@
-import { deleteObjava, getUserWithEmail, getUserWithEmailAndPassword, postUser } from "./dbServices";
+import { deleteObjava, getUserWithEmail, getUserWithEmailAndPassword, postDislikeObjava, postLikeObjava, postUser } from "./dbServices";
 import { User } from "../classes/User";
 import { filter,Subject } from "rxjs";
 import { setUpLogin } from "./loginEvents";
@@ -335,7 +335,6 @@ export function drawObjavePocetna(parent:HTMLElement,objave:Objava[]){
 
 export function drawObjava(parent:HTMLElement,objava:any){
     //ovde se crta objava kao post
-    // console.log(objava);
     let user = <User>JSON.parse(sessionStorage.getItem("current-user"));
     let divObjava = document.createElement("div");
     divObjava.classList.add("divObjava");
@@ -358,39 +357,77 @@ export function drawObjava(parent:HTMLElement,objava:any){
     labelTags.innerHTML = "<b>Tags:</b>" + objava.tags.join(",");
     divObjava.appendChild(labelTags);
 
-    if(objava.author.email!==user.email){
-        let labelAutor = document.createElement("label");
-        labelAutor.innerHTML="<b>Autor:</b>: " + objava.author.email;
-        divObjava.appendChild(labelAutor);
-    }
+    let labelAutor = document.createElement("label");
+    labelAutor.innerHTML="<b>Autor:</b>: " + objava.author.email;
+    divObjava.appendChild(labelAutor);
 
     let labelNumOfLikes = document.createElement("label");
     labelNumOfLikes.innerHTML = "<b>Likes:</b>" + objava.likes.length.toString();
     divObjava.appendChild(labelNumOfLikes);
 
-    if(objava.author.email===user.email){
-        let changeButton = document.createElement("button");
-        changeButton.innerHTML="Change";
-        changeButton.onclick=()=>{
+    if(sessionStorage.getItem("current-user"))
+    {
+        if(objava.author.email!==user.email){
+            let likeButton = document.createElement("button");
+            likeButton.innerHTML="Like";
+            likeButton.onclick=()=>{
+                postLikeObjava(user.email,objava._id)
+                    .subscribe(next=>{
+                        if(!next.valid){
+                            alert(next.message);
+                        }
+                        else{
+                            alert(next.message);
+                            document.location.reload();
+                        }
+                    });
+            }
+            divObjava.appendChild(likeButton);
 
+            let dislikeButton = document.createElement("button");
+            dislikeButton.innerHTML="Dislike";
+            dislikeButton.onclick=()=>{
+                postDislikeObjava(user.email,objava._id)
+                    .subscribe(next=>{
+                        if(!next.valid){
+                            alert(next.message);
+                        }
+                        else{
+                            alert(next.message);
+                            document.location.reload();
+                        }
+                    });
+            }
+            divObjava.appendChild(dislikeButton);
         }
-        divObjava.appendChild(changeButton);
+    }
 
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML="Delete";
-        deleteButton.onclick=()=>{
-            deleteObjava(objava._id)
-                .subscribe(next=>{
-                    if(!next.valid){
-                        alert(next.message);
-                    }
-                    else{
-                        alert(next.message);
-                        document.location.reload();
-                    }
-                })
+    if(sessionStorage.getItem("current-user"))
+    {
+        if(objava.author.email===user.email){
+            let changeButton = document.createElement("button");
+            changeButton.innerHTML="Change";
+            changeButton.onclick=()=>{
+
+            }
+            divObjava.appendChild(changeButton);
+
+            let deleteButton = document.createElement("button");
+            deleteButton.innerHTML="Delete";
+            deleteButton.onclick=()=>{
+                deleteObjava(objava._id)
+                    .subscribe(next=>{
+                        if(!next.valid){
+                            alert(next.message);
+                        }
+                        else{
+                            alert(next.message);
+                            document.location.reload();
+                        }
+                    })
+            }
+            divObjava.appendChild(deleteButton);
         }
-        divObjava.appendChild(deleteButton);
     }
 
     parent.appendChild(divObjava);
