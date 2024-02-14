@@ -215,6 +215,18 @@ const server = http.createServer(async(req,res)=>{
                         for await( let i of objaveArray){
                             arr.push(i);
                         }
+
+                        let objaveWithoutTagsArray = await objave.find(
+                            {
+                                tags:{
+                                    $nin:JSON.parse(dataObj.tags)
+                                }
+                            }
+                        ).sort({_id:-1});
+
+                        for await( let i of objaveWithoutTagsArray){
+                            arr.push(i);
+                        }
                         response.valid=true;
                         response.message='Objava found.';
                         response.data=arr;
