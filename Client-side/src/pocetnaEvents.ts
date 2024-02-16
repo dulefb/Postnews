@@ -1,8 +1,8 @@
-import { Observable, Subject, fromEvent, map, switchMap } from "rxjs";
+import { Observable, Subject, debounceTime, filter, fromEvent, map, switchMap } from "rxjs";
 import { Objava } from "../classes/Objava";
 import { User } from "../classes/User";
 import { changeObajava, getObjave, getObjaveByTags, getObjaveFromUser, postObjava } from "./dbServices";
-import { drawObjaveFromUser, drawObjavePocetna } from "./drawFunctions";
+import { drawObjaveFromUser, drawObjavePocetna, drawSearchRecept } from "./drawFunctions";
 
 export function postObjavaEvents(){
     const objava = new Objava();
@@ -136,6 +136,23 @@ export function removeSearchBarRecepts(){
     if(children.length>0){
         children.forEach(child=>parent.removeChild(child));
     } 
+}
+
+export function addObservableForSearch() {
+    fromEvent(document.querySelector("#header-search-input"),"input")
+                .pipe(
+                    debounceTime(200),
+                    map((event: InputEvent) => (<HTMLInputElement>event.target).value),
+                    filter(text=>text.length>=3),
+                    switchMap(value=>getObjave()),
+                    map(stream=><Objava[]>stream.data)
+                )
+                .subscribe(next=>{
+                    // let parent = document.querySelector("#search-bar-dropdown-show");
+                    // removeSearchBarRecepts();
+                    // next.forEach(obj=>drawSearchRecept(parent,obj));
+                    console.log(next);
+                });
 }
 
 export function addImageObservable(control$:Subject<string>) : Observable<string>{

@@ -503,3 +503,20 @@ export function drawObjaveFromUser(parent:HTMLElement,data:Objava[]){
 
     parent.appendChild(divObjavaPocetna);
 }
+
+export function drawSearchRecept(parent:Node,objava:Objava) : void{
+    let divSearchSingleRecept = document.createElement("div");
+    divSearchSingleRecept.classList.add("divSearchSingleRecept");
+
+    let img = document.createElement("img");
+    img.src=objava.picture;
+    divSearchSingleRecept.appendChild(img);
+
+    let labelName = document.createElement("label");
+    labelName.innerHTML = objava.name;
+    divSearchSingleRecept.appendChild(labelName);
+
+    //Dodati klik na ono sto se pretrazi da se priakze kao objava
+
+    parent.appendChild(divSearchSingleRecept);
+}
