@@ -182,6 +182,17 @@ export function postDislikeObjava(email:string,objavaID:string):Observable<DBRes
     return from(resp);
 }
 
+export function getObjaveQuerySearch(value:string){
+    const sendValue = encodeURIComponent(value);
+    const resp = fetch(objavaURL+"?search="+sendValue,{method:"GET"})
+                    .then(response=>{
+                        return response.json();
+                    })
+                    .catch(err=>console.log(err));
+    
+    return from(resp);
+}
+
 function showError(error:any){
     let parent = document.querySelector(".middle");
     removeChildren(parent,document.querySelectorAll(".middle > div"));

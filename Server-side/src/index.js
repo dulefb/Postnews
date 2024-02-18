@@ -128,6 +128,31 @@ const server = http.createServer(async(req,res)=>{
                 res.write(JSON.stringify(response));
                 res.end();
             }
+            else if(queryData.search){
+                const objave = await database.collection('objava');
+                let response = new DBResponse();
+                let querySearch = decodeURIComponent(queryData.search);
+                let objaveArray = await objave.find(
+                    {
+                        name:{
+                            $regex:querySearch,
+                            $options:'i'
+                        }
+                    }
+                ).sort({_id:-1});
+                console.log(objaveArray);
+                let arr = [];
+                for await( let i of objaveArray){
+                    arr.push(i);
+                }
+                console.log(arr);
+                response.valid=true;
+                response.message='Objava found.';
+                response.data=arr;
+                res.writeHead(200,"OK",headers);
+                res.write(JSON.stringify(response));
+                res.end();
+            }
             else{
                 const objave = await database.collection('objava');
                 let response = new DBResponse();

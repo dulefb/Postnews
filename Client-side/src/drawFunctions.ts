@@ -378,7 +378,7 @@ export function drawObjavePocetna(parent:HTMLElement,objave:Objava[]){
     //crtaju se sve objave
     let divObjavaPocetna = document.createElement("div");
     divObjavaPocetna.classList.add("divObjavaPocetna");
-
+    
     objave.forEach(x=>{
         drawObjava(divObjavaPocetna,x);
     });
@@ -407,7 +407,10 @@ export function drawObjava(parent:HTMLElement,objava:any){
     divObjava.appendChild(labelText);
 
     let labelTags = document.createElement("label");
-    labelTags.innerHTML = "<b>Tags:</b>" + objava.tags.join(",");
+    if(objava.tags.length>0)
+    {
+        labelTags.innerHTML = "<b>Tags:</b>" + objava.tags.join(",");
+    }
     divObjava.appendChild(labelTags);
 
     let labelAutor = document.createElement("label");
