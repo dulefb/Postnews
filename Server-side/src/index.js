@@ -140,12 +140,10 @@ const server = http.createServer(async(req,res)=>{
                         }
                     }
                 ).sort({_id:-1});
-                console.log(objaveArray);
                 let arr = [];
                 for await( let i of objaveArray){
                     arr.push(i);
                 }
-                console.log(arr);
                 response.valid=true;
                 response.message='Objava found.';
                 response.data=arr;
@@ -206,7 +204,6 @@ const server = http.createServer(async(req,res)=>{
                                     tags:[]
                                 }
                             });
-                        console.log(mongoUpdate);
                         response.valid=true;
                         response.message="User added successfully.";
                         res.writeHead(200,"OK",headers);
@@ -373,7 +370,7 @@ const server = http.createServer(async(req,res)=>{
         }
         else if(rootPath[0]==='dislike'){
             if(queryData.email && queryData.oid){
-                // const users = await database.collection('users');
+                const users = await database.collection('users');
                 const objave = await database.collection('objava');
                 let response = new DBResponse();
                 let alreadyLiked = await objave.updateOne(
@@ -386,7 +383,26 @@ const server = http.createServer(async(req,res)=>{
                         }
                     }
                 );
-                console.log(alreadyLiked);
+                let getObjavaTags = await objave.findOne(
+                    {
+                        _id:new mongodb.ObjectId(queryData.oid)
+                    },
+                    {
+                        tags:1
+                    }
+                );
+                let userTagUpdate = await users.updateOne(
+                    {
+                        email:queryData.email
+                    },
+                    {
+                        $pull:{
+                            tags:{
+                                $in:getObjavaTags.tags
+                            }
+                        }
+                    }
+                );
                 response.valid=true;
                 response.message="You disliked this post.";
                 res.writeHead(200,"OK",headers);
@@ -419,7 +435,6 @@ const server = http.createServer(async(req,res)=>{
                 const users = await database.collection('users');
                 let response=new DBResponse();
                 let mongoRequest = await users.deleteOne({email:queryData.email});
-                // console.log(mongoRequest);
                 if(mongoRequest.acknowledged && mongoRequest.deletedCount>0){
                     response.valid=true;
                     response.message="User deleted.";
@@ -450,7 +465,6 @@ const server = http.createServer(async(req,res)=>{
                 const objave = await database.collection('objava');
                 let response=new DBResponse();
                 let mongoRequest = await objave.deleteOne({_id:new mongodb.ObjectId(queryData.id)});
-                console.log(mongoRequest);
                 if(mongoRequest.acknowledged && mongoRequest.deletedCount>0){
                     response.valid=true;
                     response.message="Objava successfully deleted.";

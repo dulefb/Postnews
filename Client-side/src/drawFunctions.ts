@@ -392,8 +392,8 @@ export function drawObjava(parent:HTMLElement,objava:any){
     let divObjava = document.createElement("div");
     divObjava.classList.add("divObjava");
 
-    let labelName = document.createElement("label");
-    labelName.innerHTML = objava.name;
+    let labelName = document.createElement("h3");
+    labelName.innerHTML =  objava.name;
     divObjava.appendChild(labelName);
 
     let img = document.createElement("img");
@@ -520,6 +520,9 @@ export function drawSearchRecept(parent:Node,objava:Objava) : void{
     divSearchSingleRecept.appendChild(labelName);
 
     //Dodati klik na ono sto se pretrazi da se priakze kao objava
-
+    divSearchSingleRecept.onclick=()=>{
+        removeChildren(document.querySelector(".middle"),document.querySelectorAll(".middle > div"));
+        drawObjava(document.querySelector(".middle"),objava);
+    }
     parent.appendChild(divSearchSingleRecept);
 }
