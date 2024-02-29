@@ -79,12 +79,21 @@ const server = http.createServer(async(req,res)=>{
                 const users = await database.collection('users');
                 let response = new DBResponse();
                 let usersArray = await users.findOne({email:queryData.email,password:queryData.password});
-                response.valid=true;
-                response.message='Correct credentials.';
-                response.data=usersArray;
-                res.writeHead(200,"OK",headers);
-                res.write(JSON.stringify(response));
-                res.end();
+                if(usersArray!==null){
+                    response.valid=true;
+                    response.message='Correct credentials.';
+                    response.data=usersArray;
+                    res.writeHead(200,"OK",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
+                else{
+                    response.valid=false;
+                    response.message='Incorrect credentials!';
+                    res.writeHead(404,"ERROR",headers);
+                    res.write(JSON.stringify(response));
+                    res.end();
+                }
             }
             else if(queryData.email){
                 const users = await database.collection('users');
@@ -320,7 +329,8 @@ const server = http.createServer(async(req,res)=>{
                             _id:new mongodb.ObjectId(queryData.oid)
                         },
                         {
-                            tags:1
+                            tags:1,
+                            likes:1
                         }
                     );
                     let userTagUpdate = await users.updateOne(
@@ -337,6 +347,7 @@ const server = http.createServer(async(req,res)=>{
                     );
                     response.valid=true;
                     response.message="Post liked successfully.";
+                    response.data=getObjavaTags.likes.length;
                     res.writeHead(200,"OK",headers);
                     res.write(JSON.stringify(response));
                     res.end();
@@ -388,7 +399,8 @@ const server = http.createServer(async(req,res)=>{
                         _id:new mongodb.ObjectId(queryData.oid)
                     },
                     {
-                        tags:1
+                        tags:1,
+                        likes:1
                     }
                 );
                 let userTagUpdate = await users.updateOne(
@@ -404,6 +416,7 @@ const server = http.createServer(async(req,res)=>{
                     }
                 );
                 response.valid=true;
+                response.data=getObjavaTags.likes.length;
                 response.message="You disliked this post.";
                 res.writeHead(200,"OK",headers);
                 res.write(JSON.stringify(response));

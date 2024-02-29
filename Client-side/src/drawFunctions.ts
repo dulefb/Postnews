@@ -242,6 +242,15 @@ function drawKorisnikProfile(parent:HTMLElement,user:User){
     divUserEmail.appendChild(labelEmailValue); 
     divUserProfileInfoData.appendChild(divUserEmail);
 
+    let divUserTags = document.createElement("div");
+    let labelTags = document.createElement("label");
+    labelTags.classList.add("main-label");
+    labelTags.innerHTML="Tags: ";
+    divUserTags.appendChild(labelTags);
+    let labelTagsValue = document.createElement("div");
+    labelTagsValue.innerHTML=user.tags.reduce((acc,current)=>acc+', '+current);
+    divUserTags.appendChild(labelTagsValue); 
+    divUserProfileInfoData.appendChild(divUserTags);
     
 
     parent.appendChild(divUserProfileInfoData);
@@ -434,7 +443,8 @@ export function drawObjava(parent:HTMLElement,objava:any){
                         }
                         else{
                             alert(next.message);
-                            document.location.reload();
+                            // document.location.reload();
+                            labelNumOfLikes.innerHTML="<b>Likes:</b>" + next.data.toString();
                         }
                     });
             }
@@ -450,7 +460,8 @@ export function drawObjava(parent:HTMLElement,objava:any){
                         }
                         else{
                             alert(next.message);
-                            document.location.reload();
+                            // document.location.reload();
+                            labelNumOfLikes.innerHTML="<b>Likes:</b>" + next.data.toString();
                         }
                     });
             }
