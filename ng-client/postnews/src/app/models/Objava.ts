@@ -10,11 +10,12 @@ export class Objava{
     public author:User;
 
     constructor(){
-        this.name=null;
-        this.text=null;
-        this.picture=null;
-        this.tags=null;
-        this.likes=null;
-        this.author=null;
+        this.id=""
+        this.name='';
+        this.text='';
+        this.picture='';
+        this.tags=[];
+        this.likes=[];
+        this.author=new User();
     }
 }

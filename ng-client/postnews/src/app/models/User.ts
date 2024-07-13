@@ -9,10 +9,10 @@ export class User{
     tags:string[];
     
     constructor(){
-        this.name=null;
-        this.lastname=null;
-        this.email=null;
-        this.password=null;
+        this.name="";
+        this.lastname="";
+        this.email="";
+        this.password="";
         this.content=[];
         this.tags=[];
     }
