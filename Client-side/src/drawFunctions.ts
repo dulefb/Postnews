@@ -248,7 +248,8 @@ function drawKorisnikProfile(parent:HTMLElement,user:User){
     labelTags.innerHTML="Tags: ";
     divUserTags.appendChild(labelTags);
     let labelTagsValue = document.createElement("div");
-    labelTagsValue.innerHTML=user.tags.reduce((acc,current)=>acc+', '+current);
+    if(user.tags.length>0)
+        labelTagsValue.innerHTML=user.tags.reduce((acc,current)=>acc+', '+current);
     divUserTags.appendChild(labelTagsValue); 
     divUserProfileInfoData.appendChild(divUserTags);
     

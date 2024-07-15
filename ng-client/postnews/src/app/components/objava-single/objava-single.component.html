@@ -1,7 +1,9 @@
-<p>{{objava.author.name+objava.author.lastname}}</p>
-<br/>
-<p>{{objava.name}}</p>
-<br/>
-<p>{{objava.text}}</p>
-<br/>
-<img src="{{objava.picture}}"/>
+<div *ngIf="objava">
+    <h2>{{objava.name}}</h2>
+    <br/>
+    <p>{{objava.author.name+objava.author.lastname}}</p>
+    <br/>
+    <p>{{objava.text}}</p>
+    <br/>
+    <img src="{{objava.picture}}"/>
+</div>
