@@ -1,1 +1,7 @@
-<p>header works!</p>
+<a [routerLink]="['']">Pocetna</a>
+<a [routerLink]="['']">Pretrazi</a><!--Ovde treba da ide nova komponenta za pretrazivanje...-->
+<a [routerLink]="['']" *ngIf="!user">Log in</a>
+<a [routerLink]="['']" *ngIf="!user">Register</a>
+<a [routerLink]="['']" *ngIf="user">Profile</a>
+<a [routerLink]="['']" *ngIf="user">Log out</a>
+<a [routerLink]="['']" *ngIf="user">New post</a>

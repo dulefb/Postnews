@@ -4,6 +4,7 @@ import { ObjaveFeedComponent } from './components/objave-feed/objave-feed.compon
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { User } from './models/User';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,11 @@ import { FooterComponent } from './components/footer/footer.component';
 })
 export class AppComponent implements OnInit{
   title = 'postnews';
-  
-  constructor(){}
+  user?:User;
+
+  constructor(){
+    
+  }
 
   ngOnInit(): void {
     
