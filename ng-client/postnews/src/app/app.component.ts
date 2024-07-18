@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { User } from './models/User';
+import { StoreModule } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { User } from './models/User';
     ObjaveFeedComponent,
     HttpClientModule,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    StoreModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

@@ -5,3 +5,7 @@
 .displayNone{
     display: none;
 }
+
+button{
+    width: 100%;
+}
