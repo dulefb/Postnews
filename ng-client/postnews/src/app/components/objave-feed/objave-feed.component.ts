@@ -5,11 +5,12 @@ import { DBResponse } from '../../models/DBResponse';
 import { Objava } from '../../models/Objava';
 import { ObjavaSingleComponent } from "../objava-single/objava-single.component";
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-objave-feed',
   standalone: true,
-  imports: [ObjavaSingleComponent,CommonModule],
+  imports: [ObjavaSingleComponent,CommonModule,RouterOutlet],
   templateUrl: './objave-feed.component.html',
   styleUrl: './objave-feed.component.css'
 })
@@ -21,8 +22,6 @@ export class ObjaveFeedComponent implements OnInit{
   }
 
   ngOnInit() : void{
-    this.objavaService.getObajve().subscribe(next=>{
-      this.objave$=next.data;
-    })
+    
   }
 }

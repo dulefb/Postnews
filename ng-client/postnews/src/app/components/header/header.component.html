@@ -1,7 +1,7 @@
-<button [routerLink]="['']">Pocetna</button>
+<button [routerLink]="['']" routerLinkActive="active">Pocetna</button>
 <app-search-bar></app-search-bar>
-<button [routerLink]="['']" *ngIf="!user">Log in</button>
-<button [routerLink]="['']" *ngIf="!user">Register</button>
-<button [routerLink]="['']" *ngIf="user">Profile</button>
-<button [routerLink]="['']" *ngIf="user">Log out</button>
-<button [routerLink]="['']" *ngIf="user">New post</button>
+<button [routerLink]="['/log-in']" *ngIf="!user" routerLinkActive="active">Log in</button>
+<button [routerLink]="['/sign-in']" *ngIf="!user" routerLinkActive="active">Register</button>
+<button [routerLink]="['']" *ngIf="user" routerLinkActive="active" ariaCurrentWhenActive="page">Profile</button>
+<button [routerLink]="['']" *ngIf="user" routerLinkActive="active" ariaCurrentWhenActive="page">Log out</button>
+<button [routerLink]="['']" *ngIf="user" routerLinkActive="active" ariaCurrentWhenActive="page">New post</button>

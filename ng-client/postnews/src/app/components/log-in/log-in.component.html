@@ -1,0 +1,11 @@
+<form (submit)="loginSubmit($event)">
+    <div>
+        <label>E-mail</label>
+        <input type="email" name="user-email" [(ngModel)]="userEmail"/>
+    </div>
+    <div>
+        <label>Lozinka:</label>
+        <input type="password" name="user-password" [(ngModel)]="userPassword"/>
+    </div>
+    <button>Prijavi se</button>
+</form>

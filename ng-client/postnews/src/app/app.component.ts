@@ -5,7 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { User } from './models/User';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { userReducer } from './store/user.reducer';
+import { AppState } from './app.state';
+import { stat } from 'fs';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +28,7 @@ export class AppComponent implements OnInit{
   title = 'postnews';
   user?:User;
 
-  constructor(){
+  constructor(private store:Store<AppState>){
     
   }
 
