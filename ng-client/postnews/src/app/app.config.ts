@@ -9,6 +9,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './store/user.reducer';
 import { AppState } from './app.state';
 import { provideEffects } from '@ngrx/effects';
+import { UserEffects } from './store/user.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,9 +17,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideStore(),
-    provideState<AppState>('users', {
-        user$: userReducer
+    provideState<AppState>('user', {
+        userState: userReducer
     }),
+    provideEffects([UserEffects]),
     provideHttpClient(withFetch()),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideStoreDevtools({
