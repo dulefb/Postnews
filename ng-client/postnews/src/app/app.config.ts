@@ -8,7 +8,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './store/user.reducer';
 import { AppState } from './app.state';
-import { provideEffects } from '@ngrx/effects';
+import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 
 export const appConfig: ApplicationConfig = {
@@ -16,11 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideStore(),
-    provideState<AppState>('user', {
-        userState: userReducer
-    }),
-    provideEffects([UserEffects]),
+    provideStore({userState:userReducer}),
+    provideEffects(UserEffects),
     provideHttpClient(withFetch()),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideStoreDevtools({
@@ -31,6 +28,5 @@ export const appConfig: ApplicationConfig = {
         traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
         connectInZone: true // If set to true, the connection is established within the Angular zone
     }),
-    provideEffects()
 ]
 };

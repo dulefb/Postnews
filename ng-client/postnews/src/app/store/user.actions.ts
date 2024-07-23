@@ -3,6 +3,8 @@ import { User } from "../models/User";
 import { Objava } from "../models/Objava";
 
 export interface UserState{
+    currentUserEmail:string,
+    currentUserPassword:string,
     currentUserObj:User,
     currentUserPost$:Objava[]
 }

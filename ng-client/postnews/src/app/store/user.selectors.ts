@@ -7,7 +7,7 @@ export const selectUser = createSelector(
     (user$)=>user$
 )
 
-// export const selectUserPosts = createSelector(
-//     selectUser,
-//     (user$)=>user$.currentUserPost$
-// )
+export const selectUserObject = createSelector(
+    selectUser,
+    (user$)=>user$.currentUserObj
+)

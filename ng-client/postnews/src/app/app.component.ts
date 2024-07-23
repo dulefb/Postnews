@@ -26,7 +26,6 @@ import { stat } from 'fs';
 })
 export class AppComponent implements OnInit{
   title = 'postnews';
-  user?:User;
 
   constructor(private store:Store<AppState>){
     

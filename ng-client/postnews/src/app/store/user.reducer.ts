@@ -6,6 +6,8 @@ import { User } from "../models/User";
 
 
 export const initialState : UserState = {
+    currentUserEmail:'',
+    currentUserPassword:'',
     currentUserPost$: [],
     currentUserObj: new User()
 }
@@ -22,6 +24,8 @@ export const userReducer = createReducer(
     on(UserActions.loginSucces,(state,{user})=>{
         return {
             ...state,
+            currentUserEmail:user.email,
+            currentUserPassword:user.password,
             currentUserObj:user
         }
     })
