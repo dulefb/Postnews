@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { User } from '../../models/User';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from "../search-bar/search-bar.component";
-import { ActionsSubject, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { selectUser, selectUserObject } from '../../store/user.selectors';
 import { filter, map, Observable, of } from 'rxjs';
 import { AppState } from '../../app.state';
@@ -20,17 +20,21 @@ export class HeaderComponent {
 
   user$:Observable<User>=of();
   user?:User;
-  constructor(private store:Store<AppState>,private actionsSubject:ActionsSubject){
-    
+  constructor(private store:Store<AppState>){
+
   }
 
   ngOnInit() {
-    this.user$=this.store.select(selectUserObject);
+    this.store.select(selectUser).subscribe(next=>{
+      this.user=next.currentUserObj;
+    });
   }
 
   onProfile(){
-    this.user$.subscribe(next=>{
-      this.user=next;
-    })
+    console.log(this.user);
+  }
+
+  onLogout(){
+    this.store.dispatch(UserActions.logout());
   }
 }

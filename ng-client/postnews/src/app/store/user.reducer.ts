@@ -28,5 +28,28 @@ export const userReducer = createReducer(
             currentUserPassword:user.password,
             currentUserObj:user
         }
+    }),
+    on(UserActions.logout,(state)=>{
+        return{
+            ...state,
+            currentUserEmail:'',
+            currentUserPassword:'',
+            currentUserPost$:[],
+            currentUserObj:new User()
+        }
+    }),
+    on(UserActions.signin,(state,{user})=>{
+        return{
+            ...state,
+            currentUserEmail:user.email,
+            currentUserPassword:user.password,
+            currentUserObj:user
+        }
+    }),
+    on(UserActions.signinSuccess,(state,{response})=>{
+        return{
+            ...state,
+            currentUserObj:response.data
+        }
     })
 )

@@ -1,7 +1,7 @@
 <button [routerLink]="['']" routerLinkActive="active">Pocetna</button>
 <app-search-bar></app-search-bar>
-<button [routerLink]="['/log-in']" *ngIf="!user" routerLinkActive="active">Log in</button>
-<button [routerLink]="['/sign-in']" *ngIf="!user"  routerLinkActive="active">Register</button>
-<button [routerLink]="['']" *ngIf="user" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onProfile()">Profile</button>
-<button [routerLink]="['']" *ngIf="user" routerLinkActive="active" ariaCurrentWhenActive="page">Log out</button>
-<button [routerLink]="['']" *ngIf="user" routerLinkActive="active" ariaCurrentWhenActive="page">New post</button>
+<button [routerLink]="['/log-in']" *ngIf="(user?.email==='')" routerLinkActive="active">Log in</button>
+<button [routerLink]="['/sign-in']" *ngIf="(user?.email==='')"  routerLinkActive="active">Register</button>
+<button [routerLink]="['']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onProfile()">Profile</button>
+<button [routerLink]="['']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onLogout()">Log out</button>
+<button [routerLink]="['']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page">New post</button>
