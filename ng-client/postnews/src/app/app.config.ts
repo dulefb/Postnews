@@ -19,7 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideStore({userState:userReducer}),
     provideEffects(UserEffects),
     provideHttpClient(withFetch()),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideStoreDevtools({
         maxAge: 25, // Retains last 25 states
         logOnly: !isDevMode(), // Restrict extension to log-only mode

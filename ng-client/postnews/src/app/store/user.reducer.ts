@@ -49,7 +49,9 @@ export const userReducer = createReducer(
     on(UserActions.signinSuccess,(state,{response})=>{
         return{
             ...state,
-            currentUserObj:response.data
+            currentUserObj:response.data,
+            currentUserEmail:response.data.email,
+            currentUserPassword:response.data.password
         }
     })
 )

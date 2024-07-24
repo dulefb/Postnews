@@ -201,6 +201,34 @@ const server = http.createServer(async(req,res)=>{
                         res.write(JSON.stringify(response));
                         res.end();
                     }
+                    else if(dataObj.name.length<1){
+                        response.valid=false;
+                        response.message="You have to enter your name...";
+                        res.writeHead(404,"ERROR",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.lastname.length<1){
+                        response.valid=false;
+                        response.message="You have to enter your lastname...";
+                        res.writeHead(404,"ERROR",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.email.length<1){
+                        response.valid=false;
+                        response.message="You have to enter your email...";
+                        res.writeHead(404,"ERROR",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.password.length<8){
+                        response.valid=false;
+                        response.message="Password must be longer than 8 characters...";
+                        res.writeHead(404,"ERROR",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
                     else{
                         let mongoRequest = await users.insertOne(dataObj);
                         let mongoUpdate = await users.updateOne(
@@ -213,8 +241,10 @@ const server = http.createServer(async(req,res)=>{
                                     tags:[]
                                 }
                             });
+                        let insertedData = await users.findOne({_id:mongoRequest.insertedId});
                         response.valid=true;
                         response.message="User added successfully.";
+                        response.data=insertedData;
                         res.writeHead(200,"OK",headers);
                         res.write(JSON.stringify(response));
                         res.end();

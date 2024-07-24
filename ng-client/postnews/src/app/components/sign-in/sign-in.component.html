@@ -1,19 +1,19 @@
 <form (submit)="signinSubmit($event)">
     <div>
         <label>Ime:</label>
-        <input type="name" name="user-name" *ngIf="user" [(ngModel)]="user.name"/>
+        <input type="name" name="user-name" [(ngModel)]="firstname"/>
     </div>
     <div>
         <label>Prezime:</label>
-        <input type="name" name="user-lastname" *ngIf="user" [(ngModel)]="user.lastname"/>
+        <input type="name" name="user-lastname" [(ngModel)]="lastname"/>
     </div>
     <div>
         <label>E-mail</label>
-        <input type="email" name="user-email" *ngIf="user" [(ngModel)]="user.email"/>
+        <input type="email" name="user-email" [(ngModel)]="email"/>
     </div>
     <div>
         <label>Lozinka:</label>
-        <input type="password" name="user-password" *ngIf="user" [(ngModel)]="user.password"/>
+        <input type="password" name="user-password" [(ngModel)]="password"/>
     </div>
     <div>
         <button>Prijavi se</button>

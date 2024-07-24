@@ -6,6 +6,8 @@ import { catchError, concatMap, exhaustMap, map, tap } from "rxjs";
 import { User } from "../models/User";
 import { Route, Router } from "@angular/router";
 import { DBResponse } from "../models/DBResponse";
+import { validateHeaderName } from "http";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable()
 export class UserEffects {
@@ -34,6 +36,10 @@ export class UserEffects {
                 else{
                     return UserActions.signinSuccess({response:value})
                 }
+            }),
+            catchError((value:HttpErrorResponse)=>{
+                alert(value.error.message);
+                throw new Error(value.error.message);
             })
         )),
         tap(()=>{

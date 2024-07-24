@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/User';
 import * as UserActions from '../../store/user.actions'
+import { last } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,20 +18,28 @@ import * as UserActions from '../../store/user.actions'
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
-  
-  user?:User;
+
+  firstname:string='';
+  lastname:string='';
+  email:string='';
+  password:string='';
 
   constructor(private store:Store<AppState>){
     
   }
 
   ngOnInit(): void {
-    this.user=new User();
   }
 
   signinSubmit($event: SubmitEvent) {
-    if(this.user){
-      this.store.dispatch(UserActions.signin({user:this.user}));
+    let user = new User();
+    user.name=this.firstname;
+    user.lastname=this.lastname;
+    user.email=this.email;
+    user.password=this.password;
+
+    if(user){
+      this.store.dispatch(UserActions.signin({user}));
     }
   }
 
