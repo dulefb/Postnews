@@ -16,9 +16,7 @@ export const userReducer = createReducer(
     initialState,
     on(UserActions.login,(state,{email,password})=>{
         return{
-            ...state,
-            currentUserEmail:email,
-            currentUserPassword:password
+            ...state
         }
     }),
     on(UserActions.loginSucces,(state,{user})=>{

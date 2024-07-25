@@ -10,13 +10,19 @@ import { userReducer } from './store/user.reducer';
 import { AppState } from './app.state';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
+import { objaveReducer } from './store/objave.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideStore({userState:userReducer}),
+    provideStore(
+      {
+        userState:userReducer,
+        objaveState:objaveReducer
+      }
+    ),
     provideEffects(UserEffects),
     provideHttpClient(withFetch()),
     provideStoreDevtools({

@@ -17,8 +17,12 @@ export class UserEffects {
     loadUser = createEffect(()=>this.action$.pipe(
             ofType(UserActions.login),
             exhaustMap((action)=>this.userService.getUser(action.email,action.password).pipe(
-                map(value=>UserActions.loginSucces({user:value.data})
-            ))
+                map(value=>UserActions.loginSucces({user:value.data})),
+                catchError((value:HttpErrorResponse)=>{
+                    alert(value.error.message);
+                    throw new Error(value.error.message);
+                })
+            )
         ),
         tap(()=>{
             this.router.navigateByUrl('/');
@@ -30,12 +34,7 @@ export class UserEffects {
         ofType(UserActions.signin),
         exhaustMap((action)=>this.userService.postUser(action.user).pipe(
             map(value=>{
-                if(!value.valid){
-                    throw new Error(value.message);
-                }
-                else{
-                    return UserActions.signinSuccess({response:value})
-                }
+                return UserActions.signinSuccess({response:value})
             }),
             catchError((value:HttpErrorResponse)=>{
                 alert(value.error.message);

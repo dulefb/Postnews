@@ -262,6 +262,7 @@ const server = http.createServer(async(req,res)=>{
         else if(rootPath[0]==='objava'){
             processRequestBody(req,async (dataObj)=>{
                 if(queryData.tags && dataObj){
+                        console.log(dataObj);
                         const objave = await database.collection('objava');
                         let response=new DBResponse();
                         //objave po tagovima

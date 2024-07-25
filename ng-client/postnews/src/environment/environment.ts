@@ -1,3 +1,4 @@
 export const environment = {
-    produciton:false
+    produciton:false,
+    serverApi:'http://127.0.0.1:6500/'
 };

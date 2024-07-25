@@ -5,6 +5,7 @@ import { DBResponse } from '../../models/DBResponse';
 import { objavaURL, usersURL } from '../../config/config';
 import { response } from 'express';
 import { User } from '../../models/User';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class UserServiceService {
 
   getUser(email:string,password:string){
     return this.httpClient.get<DBResponse>(
-      usersURL+'?email='+email+'&password='+password
+      environment.serverApi+'users'+'?email='+email+'&password='+password
     );
   }
 
@@ -28,7 +29,7 @@ export class UserServiceService {
     formBody.append('content',JSON.stringify(user.content));
     formBody.append('tags',JSON.stringify(user.tags));
     return this.httpClient.post<DBResponse>(
-      usersURL,
+      environment.serverApi+'users',
       formBody,
       {
         headers:{
@@ -39,6 +40,6 @@ export class UserServiceService {
   }
 
   deleteUser(userEmail:string){
-    return this.httpClient.delete(usersURL+"?email="+userEmail);
+    return this.httpClient.delete(environment.serverApi+'users'+"?email="+userEmail);
   }
 }
