@@ -1,4 +1,5 @@
-import { ObjaveState } from "./models/ObjaveState";
+
+import { ObjaveState } from "./store/objave.reducer";
 import { UserState } from "./store/user.actions";
 
 

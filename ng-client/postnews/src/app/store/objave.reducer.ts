@@ -10,10 +10,12 @@ export interface ObjaveState extends EntityState<Objava>{
     tags:string[]
 }
 
-export const objaveAdapter = createEntityAdapter<Objava>();
-
+export const objaveAdapter = createEntityAdapter<Objava>({
+    selectId:(obj:any)=>obj._id
+});
+export const initialState = objaveAdapter.getInitialState({tags:['']});
 export const objaveReducer = createReducer(
-    objaveAdapter.getInitialState({tags:['']}),
+    initialState,
     on(ObjaveActions.loadObjave,(state,{tags})=>{
         return{
             ...state,

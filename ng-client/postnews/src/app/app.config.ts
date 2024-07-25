@@ -11,6 +11,7 @@ import { AppState } from './app.state';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { objaveReducer } from './store/objave.reducer';
+import { ObjaveEffects } from './store/objave.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
         objaveState:objaveReducer
       }
     ),
-    provideEffects(UserEffects),
+    provideEffects([UserEffects,ObjaveEffects]),
     provideHttpClient(withFetch()),
     provideStoreDevtools({
         maxAge: 25, // Retains last 25 states

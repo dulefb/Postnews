@@ -9,10 +9,10 @@ import { DBResponse } from "../models/DBResponse";
 import { validateHeaderName } from "http";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ObjaveServiceService } from "../services/objave-service/objave-service.service";
-import { error } from "console";
+// import { error } from "console";
 
 @Injectable()
-export class UserEffects {
+export class ObjaveEffects {
 
     constructor(private objaveService:ObjaveServiceService,private action$:Actions,private router:Router){ }
 

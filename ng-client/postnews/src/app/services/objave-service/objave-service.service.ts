@@ -17,7 +17,7 @@ export class ObjaveServiceService {
     let formBody = new URLSearchParams();
     formBody.append('tags',JSON.stringify(tags));
     return this.httpClient.post<DBResponse>(
-      environment.serverApi+'objave'+'?tags=true',
+      environment.serverApi+'objava'+'?tags=true',
       formBody,
       {
         headers:{
