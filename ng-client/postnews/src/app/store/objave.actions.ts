@@ -17,3 +17,32 @@ export const loadObjaveFromUserSuccess = createAction(
     'Load objave from user succes',
     props<{objave:Objava[]}>()
 );
+
+export const likeObjava = createAction(
+    'Like objava action',
+    props<{
+        email:string,
+        oid:string
+    }>()
+);
+export const likeObjavaSuccess = createAction(
+    'Like objava action success',
+    props<{
+        oid:string,
+        likes:string[]
+    }>()
+);
+export const dislikeObjava = createAction(
+    'Dislike objava action',
+    props<{
+        email:string,
+        oid:string
+    }>()
+);
+export const dislikeObjavaSuccess = createAction(
+    'Dislike objava action success',
+    props<{
+        oid:string,
+        likes:string[]
+    }>()
+);

@@ -9,6 +9,7 @@ import { DBResponse } from "../models/DBResponse";
 import { validateHeaderName } from "http";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ObjaveServiceService } from "../services/objave-service/objave-service.service";
+import { error } from "console";
 // import { error } from "console";
 
 @Injectable()
@@ -21,7 +22,18 @@ export class ObjaveEffects {
         exhaustMap((action)=>this.objaveService.getObjave(action.tags).pipe(
             map(value=>ObjaveActions.loadObjaveSuccess({objave:value.data})),
             catchError((err:HttpErrorResponse)=>{
-                alert(err.error.message)
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        ))
+    ));
+
+    likeObjava = createEffect(()=>this.action$.pipe(
+        ofType(ObjaveActions.likeObjava),
+        exhaustMap((action)=>this.objaveService.likeObjava(action.email,action.oid).pipe(
+            map(value=>ObjaveActions.likeObjavaSuccess({oid:value.oid,likes:value.likes})),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
                 throw new Error(err.error.message);
             })
         ))

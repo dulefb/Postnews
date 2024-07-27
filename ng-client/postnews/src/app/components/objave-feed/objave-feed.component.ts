@@ -30,7 +30,8 @@ export class ObjaveFeedComponent implements OnInit{
     this.store.select(selectUserObject).subscribe(next=>this.user=next);
     this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
     this.store.select(selectObjave).subscribe(next=>{
-      this.objave$=next;
+      if(next)
+        this.objave$=next;
     });
   }
 }

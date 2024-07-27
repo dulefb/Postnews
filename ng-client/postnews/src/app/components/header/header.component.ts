@@ -8,6 +8,7 @@ import { selectUser, selectUserObject } from '../../store/user.selectors';
 import { filter, map, Observable, of } from 'rxjs';
 import { AppState } from '../../app.state';
 import * as UserActions from '../../store/user.actions';
+import * as ObjaveActions from '../../store/objave.actions'
 
 @Component({
   selector: 'app-header',
@@ -36,5 +37,11 @@ export class HeaderComponent {
 
   onLogout(){
     this.store.dispatch(UserActions.logout());
+  }
+
+  onPocetna(){
+    // console.log(this.user?.tags);
+    if(this.user?.tags)
+      this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
   }
 }

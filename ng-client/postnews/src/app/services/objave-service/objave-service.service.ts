@@ -26,4 +26,8 @@ export class ObjaveServiceService {
       }
     );
   }
+
+  likeObjava(email:string,oid:string) : Observable<{oid:string,likes:string[]}>{
+    return this.httpClient.post<{oid:string,likes:string[]}>(environment.serverApi+'like?email='+email+'&oid='+oid,null);
+  }
 }

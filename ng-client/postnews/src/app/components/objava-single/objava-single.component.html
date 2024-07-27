@@ -1,9 +1,14 @@
 <div *ngIf="objava">
     <h2>{{objava.name}}</h2>
     <br/>
-    <p>{{objava.author.name+objava.author.lastname}}</p>
+    <p>{{objava.author.name+' '+objava.author.lastname}}</p>
     <br/>
     <p>{{objava.text}}</p>
     <br/>
+    <p *ngFor="let tag of objava.tags">{{tag+' '}}</p>
     <img src="{{objava.picture}}"/>
+    <p>
+        <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">Like</button>
+        <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()">Dislike</button>
+    </p>
 </div>

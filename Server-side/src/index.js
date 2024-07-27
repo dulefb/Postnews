@@ -291,6 +291,8 @@ const server = http.createServer(async(req,res)=>{
                         response.valid=true;
                         response.message='Objava found.';
                         response.data=arr;
+                        // console.log('---->X<------');
+                        // arr.map(x=>console.log('-'+x.name+'\n'+'--'+x.tags));
                         res.writeHead(200,"OK",headers);
                         res.write(JSON.stringify(response));
                         res.end();
@@ -359,6 +361,7 @@ const server = http.createServer(async(req,res)=>{
                             _id:new mongodb.ObjectId(queryData.oid)
                         },
                         {
+                            _id:1,
                             tags:1,
                             likes:1
                         }
@@ -377,7 +380,10 @@ const server = http.createServer(async(req,res)=>{
                     );
                     response.valid=true;
                     response.message="Post liked successfully.";
-                    response.data=getObjavaTags.likes.length;
+                    response.data=JSON.stringify({
+                        oid:getObjavaTags._id,
+                        likes:getObjavaTags.likes
+                    });
                     res.writeHead(200,"OK",headers);
                     res.write(JSON.stringify(response));
                     res.end();
@@ -429,6 +435,7 @@ const server = http.createServer(async(req,res)=>{
                         _id:new mongodb.ObjectId(queryData.oid)
                     },
                     {
+                        _id:1,
                         tags:1,
                         likes:1
                     }
@@ -446,7 +453,10 @@ const server = http.createServer(async(req,res)=>{
                     }
                 );
                 response.valid=true;
-                response.data=getObjavaTags.likes.length;
+                response.data=JSON.stringify({
+                    likes:getObjavaTags.likes,
+                    oid:getObjavaTags._id
+                });
                 response.message="You disliked this post.";
                 res.writeHead(200,"OK",headers);
                 res.write(JSON.stringify(response));
