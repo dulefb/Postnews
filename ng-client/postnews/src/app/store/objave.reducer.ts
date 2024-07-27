@@ -28,14 +28,6 @@ export const objaveReducer = createReducer(
         return objaveAdapter.addMany(objave,state);
     }),
     on(ObjaveActions.likeObjava,(state,{email,oid})=>{
-        // state.entities[oid]?.likes.push(email);
-        // let newLikes = state.entities[oid]?.likes;
-        // return objaveAdapter.updateOne({
-        //     id:oid,
-        //     changes:{
-        //         likes:newLikes
-        //     }
-        // },state);
         return state;
     }),
     on(ObjaveActions.likeObjavaSuccess,(state,{oid,likes})=>{
@@ -47,14 +39,6 @@ export const objaveReducer = createReducer(
         },state)
     }),
     on(ObjaveActions.dislikeObjava,(state,{email,oid})=>{
-        // state.entities[oid]?.likes.push(email);
-        // let newLikes = state.entities[oid]?.likes;
-        // return objaveAdapter.updateOne({
-        //     id:oid,
-        //     changes:{
-        //         likes:newLikes
-        //     }
-        // },state);
         return state;
     }),
     on(ObjaveActions.dislikeObjavaSuccess,(state,{oid,likes})=>{
@@ -66,14 +50,3 @@ export const objaveReducer = createReducer(
         },state)
     })
 )
-
-/*
-on(ObjaveActions.likeObjava,(state,{email,oid})=>{
-        return objaveAdapter.updateOne({
-            id:oid,
-            changes:{
-                likes:likes
-            }
-        },state)
-    })
-*/

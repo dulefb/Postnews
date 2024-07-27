@@ -20,7 +20,10 @@ export class ObjaveEffects {
     loadObjave = createEffect(()=>this.action$.pipe(
         ofType(ObjaveActions.loadObjave),
         exhaustMap((action)=>this.objaveService.getObjave(action.tags).pipe(
-            map(value=>ObjaveActions.loadObjaveSuccess({objave:value.data})),
+            map(value=>{
+                // alert(value.message);
+                return ObjaveActions.loadObjaveSuccess({objave:value.data})
+            }),
             catchError((err:HttpErrorResponse)=>{
                 alert(err.error.message);
                 throw new Error(err.error.message);
@@ -31,7 +34,22 @@ export class ObjaveEffects {
     likeObjava = createEffect(()=>this.action$.pipe(
         ofType(ObjaveActions.likeObjava),
         exhaustMap((action)=>this.objaveService.likeObjava(action.email,action.oid).pipe(
-            map(value=>ObjaveActions.likeObjavaSuccess({oid:value.oid,likes:value.likes})),
+            map(value=>{
+                return ObjaveActions.likeObjavaSuccess({oid:value.data.oid,likes:value.data.likes})
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        ))
+    ))
+
+    dislikeObjava = createEffect(()=>this.action$.pipe(
+        ofType(ObjaveActions.dislikeObjava),
+        exhaustMap((action)=>this.objaveService.dislikeObjava(action.email,action.oid).pipe(
+            map(value=>{
+                return ObjaveActions.dislikeObjavaSuccess({oid:value.data.oid,likes:value.data.likes})
+            }),
             catchError((err:HttpErrorResponse)=>{
                 alert(err.error.message);
                 throw new Error(err.error.message);

@@ -1,6 +1,7 @@
 import { createSelector } from "@ngrx/store";
 import { AppState } from "../app.state";
 import { Objava } from "../models/Objava";
+import { Dictionary } from "@ngrx/entity";
 
 export const selectObjave = createSelector(
     (state:AppState)=>state.objaveState,

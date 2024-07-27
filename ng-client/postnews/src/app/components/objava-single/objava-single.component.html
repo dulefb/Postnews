@@ -6,6 +6,7 @@
     <p>{{objava.text}}</p>
     <br/>
     <p *ngFor="let tag of objava.tags">{{tag+' '}}</p>
+    <p>Likes: {{objava.likes.length}}</p>
     <img src="{{objava.picture}}"/>
     <p>
         <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">Like</button>

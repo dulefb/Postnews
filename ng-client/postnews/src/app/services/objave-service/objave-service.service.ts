@@ -27,7 +27,11 @@ export class ObjaveServiceService {
     );
   }
 
-  likeObjava(email:string,oid:string) : Observable<{oid:string,likes:string[]}>{
-    return this.httpClient.post<{oid:string,likes:string[]}>(environment.serverApi+'like?email='+email+'&oid='+oid,null);
+  likeObjava(email:string,oid:string) : Observable<DBResponse>{
+    return this.httpClient.post<DBResponse>(environment.serverApi+'like?email='+email+'&oid='+oid,null);
+  }
+
+  dislikeObjava(email:string,oid:string) : Observable<DBResponse>{
+    return this.httpClient.post<DBResponse>(environment.serverApi+'dislike?email='+email+'&oid='+oid,null);
   }
 }

@@ -5,6 +5,8 @@ import { User } from '../../models/User';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.state';
 import * as ObjaveActions from '../../store/objave.actions'
+import { selectObjave } from '../../store/objave.selectors';
+import { nextTick } from 'process';
 
 @Component({
   selector: 'app-objava-single',
@@ -16,7 +18,7 @@ import * as ObjaveActions from '../../store/objave.actions'
 export class ObjavaSingleComponent implements OnInit {
 
   @Input()
-  objava? : Objava;
+  objava: Objava = new Objava();
 
   @Input()
   user?:User;
@@ -30,7 +32,6 @@ export class ObjavaSingleComponent implements OnInit {
   }
 
   onLike(){
-    console.log(this.user);
     if(this.user && this.objava){
       this.store.dispatch(ObjaveActions.likeObjava({email:this.user.email,oid:this.objava._id}));
     }

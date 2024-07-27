@@ -380,10 +380,10 @@ const server = http.createServer(async(req,res)=>{
                     );
                     response.valid=true;
                     response.message="Post liked successfully.";
-                    response.data=JSON.stringify({
+                    response.data={
                         oid:getObjavaTags._id,
                         likes:getObjavaTags.likes
-                    });
+                    };
                     res.writeHead(200,"OK",headers);
                     res.write(JSON.stringify(response));
                     res.end();
@@ -453,10 +453,10 @@ const server = http.createServer(async(req,res)=>{
                     }
                 );
                 response.valid=true;
-                response.data=JSON.stringify({
+                response.data={
                     likes:getObjavaTags.likes,
                     oid:getObjavaTags._id
-                });
+                };
                 response.message="You disliked this post.";
                 res.writeHead(200,"OK",headers);
                 res.write(JSON.stringify(response));

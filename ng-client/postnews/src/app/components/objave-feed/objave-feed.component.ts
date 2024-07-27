@@ -34,4 +34,8 @@ export class ObjaveFeedComponent implements OnInit{
         this.objave$=next;
     });
   }
+
+  onRefresh() {
+    console.log(this.objave$);
+  }
 }
