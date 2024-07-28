@@ -1,15 +1,11 @@
 import { createReducer, on } from "@ngrx/store";
-import * as ObjaveActions from '../store/objave.actions'
-import { state } from "@angular/animations";
+import * as ObjaveActions from '../store/objave.actions';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { Objava } from "../models/Objava";
-import { stat } from "fs";
-import { retry } from "rxjs";
 
 
 export interface ObjaveState extends EntityState<Objava>{
     tags:string[]
-    objave:Objava[]
 }
 
 export const objaveAdapter = createEntityAdapter<Objava>({
@@ -48,5 +44,11 @@ export const objaveReducer = createReducer(
                 likes
             }
         },state)
+    }),
+    on(ObjaveActions.loadObjaveFromUser,(state,{email})=>{
+        return state;
+    }),
+    on(ObjaveActions.loadObjaveFromUserSuccess,(state,{objave})=>{
+        return objaveAdapter.setAll(objave,state);
     })
 )

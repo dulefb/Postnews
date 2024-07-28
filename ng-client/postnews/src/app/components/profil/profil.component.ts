@@ -11,27 +11,28 @@ import { User } from '../../models/User';
 import { selectUserObject } from '../../store/user.selectors';
 
 @Component({
-  selector: 'app-objave-feed',
+  selector: 'app-profil',
   standalone: true,
   imports: [ObjavaSingleComponent,CommonModule,RouterOutlet],
-  templateUrl: './objave-feed.component.html',
-  styleUrl: './objave-feed.component.css'
+  templateUrl: './profil.component.html',
+  styleUrl: './profil.component.css'
 })
-export class ObjaveFeedComponent implements OnInit{
+export class ProfilComponent implements OnInit {
 
-  user:User;
-  objave$?:Objava[];
+  user:User = new User();
+  objaveUser:Objava[] = []
 
   constructor(private store:Store<AppState>){
-    this.user=new User();
+
   }
 
-  ngOnInit() : void{
-    this.store.select(selectUserObject).subscribe(next=>this.user=next);
-    this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
+  ngOnInit(): void {
+    this.store.select(selectUserObject).subscribe(next=>{
+      this.user=next;
+    });
     this.store.select(selectObjave).subscribe(next=>{
-      if(next)
-        this.objave$=next;
+      this.objaveUser=next;
     });
   }
+
 }

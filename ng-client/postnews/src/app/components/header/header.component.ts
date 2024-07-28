@@ -19,8 +19,8 @@ import * as ObjaveActions from '../../store/objave.actions'
 })
 export class HeaderComponent {
 
-  user$:Observable<User>=of();
-  user?:User;
+  // user$:Observable<User>=of();
+  user:User = new User();
   constructor(private store:Store<AppState>){
 
   }
@@ -32,7 +32,8 @@ export class HeaderComponent {
   }
 
   onProfile(){
-    console.log(this.user);
+    if(this.user.email)
+      this.store.dispatch(ObjaveActions.loadObjaveFromUser({email:this.user.email}))
   }
 
   onLogout(){
@@ -40,8 +41,7 @@ export class HeaderComponent {
   }
 
   onPocetna(){
-    // console.log(this.user?.tags);
-    if(this.user?.tags)
+    if(this.user.tags)
       this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
   }
 }

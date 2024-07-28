@@ -1,8 +1,10 @@
-<button (click)="triggerSearch()">Pretrazi</button>
-<div *ngIf='isOpen' class="search-bar">
-    <div class="search-bar-input">
-        <input type="name">
-    </div>
-    <div class="search-bar-data">
+<div class="search-bar">
+    <a (click)="triggerSearch()" class="search-button">Pretrazi</a>
+    <div *ngIf='isOpen' class="search-bar">
+        <div class="search-bar-input">
+            <input type="name">
+        </div>
+        <div class="search-bar-data">
+        </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ export class ObjaveEffects {
                 throw new Error(err.error.message);
             })
         ))
-    ))
+    ));
 
     dislikeObjava = createEffect(()=>this.action$.pipe(
         ofType(ObjaveActions.dislikeObjava),
@@ -55,5 +55,19 @@ export class ObjaveEffects {
                 throw new Error(err.error.message);
             })
         ))
-    ))
+    ));
+
+    objaveFromUser = createEffect(()=>this.action$.pipe(
+        ofType(ObjaveActions.loadObjaveFromUser),
+        exhaustMap((action)=>this.objaveService.getObjaveFromUser(action.email).pipe(
+            map(value=>{
+                console.log(value);
+                return ObjaveActions.loadObjaveFromUserSuccess({objave:value.data});
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        ))
+    ));
 }

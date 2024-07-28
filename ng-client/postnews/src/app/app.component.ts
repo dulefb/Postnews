@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Query } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ObjaveFeedComponent } from './components/objave-feed/objave-feed.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { User } from './models/User';
 import { Store, StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
 import { AppState } from './app.state';
-import { stat } from 'fs';
+import * as QueryActions from './store/query.actions'
 
 @Component({
   selector: 'app-root',
@@ -25,6 +25,7 @@ import { stat } from 'fs';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
+
   title = 'postnews';
 
   constructor(private store:Store<AppState>){
@@ -33,5 +34,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     
+  }
+
+  onMiddleClick($event: MouseEvent) {
+    if($event.target){
+      // console.log((<HTMLElement>$event.target).className);
+      this.store.dispatch(QueryActions.clickedTarget({targetClassName:(<HTMLElement>$event.target).className}));
+    }
   }
 }

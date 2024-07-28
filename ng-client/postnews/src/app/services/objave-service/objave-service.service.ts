@@ -34,4 +34,8 @@ export class ObjaveServiceService {
   dislikeObjava(email:string,oid:string) : Observable<DBResponse>{
     return this.httpClient.post<DBResponse>(environment.serverApi+'dislike?email='+email+'&oid='+oid,null);
   }
+
+  getObjaveFromUser(email:string) : Observable<DBResponse>{
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava?email='+email);
+  }
 }

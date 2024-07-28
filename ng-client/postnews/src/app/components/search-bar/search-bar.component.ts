@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import e from 'express';
+import { AppState } from '../../app.state';
+import { Store } from '@ngrx/store';
+import { selectTarget } from '../../store/query.selectors';
 
 @Component({
   selector: 'app-search-bar',
@@ -11,19 +14,24 @@ import e from 'express';
 })
 export class SearchBarComponent {
 
+  clickedTarget:string='';
   isOpen=false;
-  constructor(){
+  constructor(private store:Store<AppState>){
     
   }
 
   ngOnInit(): void {
-
+    this.store.select(selectTarget).subscribe(next=>{
+      this.clickedTarget=next;
+    })
   }
 
   triggerSearch(){
-    if(this.isOpen)
+    if(this.isOpen){
       this.isOpen=false;
-    else
+    }
+    else{
       this.isOpen=true;
+    }
   }
 }

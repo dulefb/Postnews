@@ -1,0 +1,32 @@
+.footer{
+    height: 150px;
+    background-color:#90a17d;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+}
+
+.footer > div{
+    width: 50%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.footer-links > a, .footer-info > label{
+    align-self: center;
+    font-size: larger;
+    font-style: bold;
+}
+.footer-links > a{
+    text-decoration: none;
+    color: black;
+}
+
+.footer-links > a:hover{
+    color: whitesmoke;
+    border-bottom: 1px solid whitesmoke;
+}
