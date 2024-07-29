@@ -70,4 +70,21 @@ export class ObjaveEffects {
             })
         ))
     ));
+
+    postObjava = createEffect(()=>this.action$.pipe(
+        ofType(ObjaveActions.postObjava),
+        exhaustMap((action)=>this.objaveService.postObjava(action.objava).pipe(
+            map(value=>{
+                alert(value.message);
+                return ObjaveActions.postObjavaSucces();
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        )),
+        tap(()=>{
+            this.router.navigateByUrl('');
+        })
+    ));
 }

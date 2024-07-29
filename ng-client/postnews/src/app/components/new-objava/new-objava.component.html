@@ -1,0 +1,25 @@
+<form (submit)="onSubmit($event)">
+    <div>
+        <label>Name:</label>
+        <input type="name" [(ngModel)]="name" name="objava-name">
+    </div>
+    <div>
+        <label>Text:</label>
+        <input type="text" [(ngModel)]="text" name="objava-text"/>
+    </div>
+    <div>
+        <label>Picture:</label>
+        <input type="file" [(ngModel)]="picture" name="objava-picture" (change)="loadPicture($event)"/>
+    </div>
+    <div>
+        <label>Tags:(enter separated by comma |,|)</label>
+        <input type="name"  [(ngModel)]="tags" name="objava-tags"/>
+    </div>
+    <div>
+        <label>Image preview:</label>
+        <img src="{{picture}}" class="picturePreview"/>
+    </div>
+    <div>
+        <button>Submit</button>
+    </div>
+</form>

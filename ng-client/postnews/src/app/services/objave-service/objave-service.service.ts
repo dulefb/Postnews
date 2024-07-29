@@ -5,6 +5,8 @@ import { DBResponse } from '../../models/DBResponse';
 import { objavaURL } from '../../config/config';
 import { response } from 'express';
 import { environment } from '../../../environment/environment';
+import { Objava } from '../../models/Objava';
+import { env } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +39,16 @@ export class ObjaveServiceService {
 
   getObjaveFromUser(email:string) : Observable<DBResponse>{
     return this.httpClient.get<DBResponse>(environment.serverApi+'objava?email='+email);
+  }
+
+  postObjava(objava:Objava) : Observable<DBResponse>{
+    let formBody = new URLSearchParams();
+    formBody.append('name',objava.name);
+    formBody.append('text',objava.text);
+    formBody.append('picture',objava.picture);
+    formBody.append('tags',JSON.stringify(objava.tags));
+    formBody.append('likes',JSON.stringify(objava.likes));
+    formBody.append('author',JSON.stringify(objava.author));
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava',formBody);
   }
 }

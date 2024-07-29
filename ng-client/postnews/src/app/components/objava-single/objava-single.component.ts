@@ -42,4 +42,12 @@ export class ObjavaSingleComponent implements OnInit {
       this.store.dispatch(ObjaveActions.dislikeObjava({email:this.user.email,oid:this.objava._id}));
     }
   }
+
+  onChange() {
+    console.log("We are in...");
+  }
+
+  onDelete() {
+    throw new Error('Method not implemented.');
+  }
 }

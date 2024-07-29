@@ -46,3 +46,14 @@ export const dislikeObjavaSuccess = createAction(
         likes:string[]
     }>()
 );
+
+export const postObjava = createAction(
+    'Post objava action',
+    props<{
+       objava:Objava 
+    }>()
+);
+
+export const postObjavaSucces = createAction(
+    'Post objava action success'
+);

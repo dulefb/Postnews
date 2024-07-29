@@ -44,4 +44,8 @@ export class HeaderComponent {
     if(this.user.tags)
       this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
   }
+
+  onNewPost(){
+    
+  }
 }

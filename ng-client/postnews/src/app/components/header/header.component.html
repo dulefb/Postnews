@@ -5,5 +5,5 @@
     <a [routerLink]="['/sign-in']" *ngIf="(user?.email==='')"  routerLinkActive="active">Register</a>
     <a [routerLink]="['/profile']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onProfile()">Profile</a>
     <a [routerLink]="['']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onLogout()">Log out</a>
-    <a [routerLink]="['']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page">New post</a>
+    <a [routerLink]="['/new-post']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onNewPost()">New post</a>
 </div>

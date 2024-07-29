@@ -300,24 +300,54 @@ const server = http.createServer(async(req,res)=>{
                 else if(dataObj){
                     const objave = await database.collection('objava');
                     let response=new DBResponse();
-                    let postObjava = await objave.insertOne(dataObj);
-                    let mongoUpdate = await objave.updateOne(
-                        {
-                            _id:postObjava.insertedId
-                        },
-                        {
-                            $set:{
-                                tags:JSON.parse(dataObj.tags),
-                                likes:[],
-                                author:JSON.parse(dataObj.author)
+                    if(dataObj.name.length===0){
+                        response.valid=false;
+                        response.message="Must enter post name...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.text.length===0){
+                        response.valid=false;
+                        response.message="Must enter post text...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.picture.length===0){
+                        response.valid=false;
+                        response.message="Must enter post picture...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(JSON.parse(dataObj.tags).length===1 && JSON.parse(dataObj.tags)[0]===""){
+                        response.valid=false;
+                        response.message="Must enter post tag/tags...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else{
+                        let postObjava = await objave.insertOne(dataObj);
+                        let mongoUpdate = await objave.updateOne(
+                            {
+                                _id:postObjava.insertedId
+                            },
+                            {
+                                $set:{
+                                    tags:JSON.parse(dataObj.tags),
+                                    likes:[],
+                                    author:JSON.parse(dataObj.author)
+                                }
                             }
-                        }
-                    );
-                    response.valid=true;
-                    response.message="Post added successfully";
-                    res.writeHead(200,"OK",headers);
-                    res.write(JSON.stringify(response));
-                    res.end();
+                        );
+                        response.valid=true;
+                        response.message="Post added successfully";
+                        res.writeHead(200,"OK",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
                 }
                 else{
                     let response = new DBResponse();
