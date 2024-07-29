@@ -1,10 +1,13 @@
 <div class="search-bar">
-    <a (click)="triggerSearch()" class="search-button">Pretrazi</a>
+    <a (click)="triggerSearchBar()" class="search-button">Pretrazi</a>
     <div *ngIf='isOpen' class="search-bar">
         <div class="search-bar-input">
-            <input type="name">
+            <input type="text" (input)="onQueryInput($event)" [(ngModel)]="queryText">
         </div>
-        <div class="search-bar-data">
+        <div class="search-bar-view">
+            <div class="search-bar-data" *ngFor="let objava of objave">
+                <label>{{objava.name}}</label>
+            </div>
         </div>
     </div>
 </div>

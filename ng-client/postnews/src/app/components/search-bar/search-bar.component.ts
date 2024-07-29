@@ -3,35 +3,61 @@ import { Component } from '@angular/core';
 import e from 'express';
 import { AppState } from '../../app.state';
 import { Store } from '@ngrx/store';
-import { selectTarget } from '../../store/query.selectors';
+import { selectQueryObjaveAsArray } from '../../store/query.selectors';
+import { FormsModule } from '@angular/forms';
+import { debounceTime, filter, from, map, Observable, of, Subject } from 'rxjs';
+import * as QueryActions from '../../store/query.actions';
+import { nextTick } from 'process';
+import { Objava } from '../../models/Objava';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.css'
 })
 export class SearchBarComponent {
 
-  clickedTarget:string='';
+  querySubject:Subject<string>=new Subject<string>();
+  queryText:string='';
   isOpen=false;
+  objave:Objava[]=[];
+
   constructor(private store:Store<AppState>){
     
   }
 
   ngOnInit(): void {
-    this.store.select(selectTarget).subscribe(next=>{
-      this.clickedTarget=next;
+    this.querySubject.pipe(
+      debounceTime(300),
+      filter(value=>value.length>3)
+    ).subscribe(next=>{
+      this.querySearchFunction(next);
+    });
+    
+    this.store.select(selectQueryObjaveAsArray).subscribe(next=>{
+      this.objave=next;
     })
   }
 
-  triggerSearch(){
+  triggerSearchBar(){
     if(this.isOpen){
       this.isOpen=false;
     }
     else{
       this.isOpen=true;
     }
+  }
+
+  onQueryInput($event:any){
+    this.querySubject.next(this.queryText);
+  }
+
+  querySearchFunction(searchValue:string){
+    this.store.dispatch(QueryActions.searchObjave({queryText:searchValue}));
   }
 }

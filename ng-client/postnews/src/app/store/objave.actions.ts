@@ -80,4 +80,4 @@ export const deleteObjava = createAction(
 export const deleteObjavaSuccess = createAction(
     'Delete objava',
     props<{objava:Objava}>()
-)
+);

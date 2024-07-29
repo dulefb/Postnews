@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { UserServiceService } from "../services/user-service/user-service.service";
-import * as QueryActions from "../store/objave.actions"
+import * as QueryActions from "../store/query.actions"
 import { catchError, concatMap, exhaustMap, map, tap } from "rxjs";
 import { User } from "../models/User";
 import { Route, Router } from "@angular/router";
@@ -14,4 +14,18 @@ import { ObjaveServiceService } from "../services/objave-service/objave-service.
 export class QueryEffects {
 
     constructor(private objaveService:ObjaveServiceService,private action$:Actions,private router:Router){ }
+
+    querySearch = createEffect(()=>this.action$.pipe(
+        ofType(QueryActions.searchObjave),
+        exhaustMap((action)=>this.objaveService.querySearchObjave(action.queryText).pipe(
+            map(value=>QueryActions.searchObjaveSuccess({objave:value.data}))
+        )),
+        catchError((err:HttpErrorResponse)=>{
+            alert(err.error.message);
+            throw new Error(err.error.message);
+        }),
+        tap(()=>{
+            //if something additional needs to be done...
+        })
+    ))
 }

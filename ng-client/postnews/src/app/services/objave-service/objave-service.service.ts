@@ -66,4 +66,9 @@ export class ObjaveServiceService {
     formBody.append('likes',JSON.stringify(objava.likes));
     return this.httpClient.put<DBResponse>(environment.serverApi+'objava',formBody);
   }
+
+  querySearchObjave(search:string) : Observable<DBResponse>{
+    let searchEncoded = encodeURIComponent(search);
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava?search='+searchEncoded);
+  }
 }
