@@ -18,6 +18,20 @@ export const loadObjaveFromUserSuccess = createAction(
     props<{objave:Objava[]}>()
 );
 
+export const loadObjavaChangeID = createAction(
+    'Select objava id for change',
+    props<{objava:Objava}>()
+);
+
+export const changeObjava = createAction(
+    'Change objava action',
+    props<{objava:Objava}>()
+)
+export const changeObjavaSuccess = createAction(
+    'Change objava action success',
+    props<{objava:Objava}>()
+)
+
 export const likeObjava = createAction(
     'Like objava action',
     props<{
@@ -57,3 +71,13 @@ export const postObjava = createAction(
 export const postObjavaSucces = createAction(
     'Post objava action success'
 );
+
+export const deleteObjava = createAction(
+    'Delete objava',
+    props<{objava:Objava}>()
+);
+
+export const deleteObjavaSuccess = createAction(
+    'Delete objava',
+    props<{objava:Objava}>()
+)

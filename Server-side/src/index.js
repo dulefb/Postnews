@@ -547,9 +547,11 @@ const server = http.createServer(async(req,res)=>{
             if(queryData.id){
                 const objave = await database.collection('objava');
                 let response=new DBResponse();
+                let mongoData = await objave.findOne({_id:new mongodb.ObjectId(queryData.id)});
                 let mongoRequest = await objave.deleteOne({_id:new mongodb.ObjectId(queryData.id)});
                 if(mongoRequest.acknowledged && mongoRequest.deletedCount>0){
                     response.valid=true;
+                    response.data=mongoData;
                     response.message="Objava successfully deleted.";
                     res.writeHead(200,"OK",headers);
                     res.write(JSON.stringify(response));
@@ -590,35 +592,56 @@ const server = http.createServer(async(req,res)=>{
                 if(dataObj){
                     const objave = await database.collection('objava');
                     let response = new DBResponse();
-                    if(dataObj.text!==null){
+                    if(dataObj.name.length===0){
+                        response.valid=false;
+                        response.message="Must enter post name...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.text.length===0){
+                        response.valid=false;
+                        response.message="Must enter post text...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(dataObj.picture.length===0){
+                        response.valid=false;
+                        response.message="Must enter post picture...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else if(JSON.parse(dataObj.tags).length===1 && JSON.parse(dataObj.tags)[0]===""){
+                        response.valid=false;
+                        response.message="Must enter post tag/tags...";
+                        res.writeHead(404,"Error",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
+                    }
+                    else{
                         let mongoResponse = await objave.updateOne(
                             {
                                 _id:new mongodb.ObjectId(dataObj.id)
                             },
                             {
                                 $set:{
-                                    text:dataObj.text
+                                    name:dataObj.name,
+                                    text:dataObj.text,
+                                    picture:dataObj.picture,
+                                    tags:JSON.parse(dataObj.tags)
                                 }
                             }
                         );
+                        let mongoData = await objave.findOne({_id:new mongodb.ObjectId(dataObj.id)});
+                        response.valid=true;
+                        response.data=mongoData;
+                        response.message='Objava changed...';
+                        res.writeHead(200,"OK",headers);
+                        res.write(JSON.stringify(response));
+                        res.end();
                     }
-                    if(dataObj.picture!==null){
-                        mongoResponse = await objave.updateOne(
-                            {
-                                _id:new mongodb.ObjectId(dataObj.id)
-                            },
-                            {
-                                $set:{
-                                    picture:dataObj.picture
-                                }
-                            }
-                        );
-                    }
-                    response.valid=true;
-                    response.message='Objava changed...';
-                    res.writeHead(200,"OK",headers);
-                    res.write(JSON.stringify(response));
-                    res.end();
                 }
                 else{
                     let response = new DBResponse();

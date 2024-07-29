@@ -11,7 +11,7 @@
     <p>
         <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">Like</button>
         <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()">Dislike</button>
-        <button *ngIf="user && (user.email===objava.author.email)" (click)="onChange()">Change</button>
+        <button *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page">Change</button>
         <button *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()">Delete</button>
     </p>
 </div>

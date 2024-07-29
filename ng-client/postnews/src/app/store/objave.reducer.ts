@@ -7,13 +7,13 @@ import { state } from "@angular/animations";
 
 export interface ObjaveState extends EntityState<Objava>{
     tags:string[],
-    selectedObjavaChange:string
+    selectObjavaID:string
 }
 
 export const objaveAdapter = createEntityAdapter<Objava>({
     selectId:(obj:Objava)=>obj._id
 });
-export const initialState = objaveAdapter.getInitialState({tags:['']});
+export const initialState = objaveAdapter.getInitialState({tags:[''],selectObjavaID:''});
 export const objaveReducer = createReducer(
     initialState,
     on(ObjaveActions.loadObjave,(state,{tags})=>{
@@ -56,5 +56,23 @@ export const objaveReducer = createReducer(
     on(ObjaveActions.postObjava,(state,{objava})=>state),
     on(ObjaveActions.postObjavaSucces,(state)=>{
         return state;
+    }),
+    on(ObjaveActions.deleteObjava,(state,{objava})=>{
+        return state
+    }),
+    on(ObjaveActions.deleteObjavaSuccess,(state,{objava})=>{
+        return objaveAdapter.removeOne(objava._id,state);
+    }),
+    on(ObjaveActions.loadObjavaChangeID,(state,{objava})=>{
+        return {
+            ...state,
+            selectObjavaID:objava._id
+        }
+    }),
+    on(ObjaveActions.changeObjava,(state,{objava})=>{
+        return state;
+    }),
+    on(ObjaveActions.changeObjavaSuccess,(state,{objava})=>{
+        return objaveAdapter.setOne(objava,state);
     })
 )

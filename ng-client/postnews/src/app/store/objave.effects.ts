@@ -61,7 +61,7 @@ export class ObjaveEffects {
         ofType(ObjaveActions.loadObjaveFromUser),
         exhaustMap((action)=>this.objaveService.getObjaveFromUser(action.email).pipe(
             map(value=>{
-                console.log(value);
+                // console.log(value);
                 return ObjaveActions.loadObjaveFromUserSuccess({objave:value.data});
             }),
             catchError((err:HttpErrorResponse)=>{
@@ -87,4 +87,38 @@ export class ObjaveEffects {
             this.router.navigateByUrl('');
         })
     ));
+
+    deleteObjavaEffect = createEffect(()=>this.action$.pipe(
+        ofType(ObjaveActions.deleteObjava),
+        exhaustMap((action)=>this.objaveService.deleteObjava(action.objava._id).pipe(
+            map(value=>{
+                alert(value.message);
+                return ObjaveActions.deleteObjavaSuccess({objava:value.data});
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        )),
+        tap(()=>{
+            this.router.navigateByUrl('profile');
+        })
+    ));
+
+    changeObjavaEffect = createEffect(()=>this.action$.pipe(
+        ofType(ObjaveActions.changeObjava),
+        exhaustMap((action)=>this.objaveService.changeObjava(action.objava).pipe(
+            map(value=>{
+                alert(value.message);
+                return ObjaveActions.changeObjavaSuccess({objava:value.data});
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        )),
+        tap(()=>{
+            this.router.navigateByUrl('profile');
+        })
+    ))
 }

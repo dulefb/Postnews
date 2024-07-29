@@ -1,11 +1,12 @@
+<h2>Change only the fileds you want to change,do not delete others.</h2>
 <form (submit)="onSubmit($event)">
     <div>
         <label>Name:</label>
-        <input type="name" [(ngModel)]="name" name="objava-name">
+        <input type="name" [(ngModel)]="name" name="objava-name"/>
     </div>
     <div>
         <label>Text:</label>
-        <textarea type="text" rows="30" cols="20" [(ngModel)]="text" name="objava-text"></textarea>
+        <textarea type="text" rows="20" cols="30" [(ngModel)]="text" name="objava-text"></textarea>
     </div>
     <div>
         <label>Picture:</label>
@@ -17,7 +18,7 @@
     </div>
     <div>
         <label>Image preview:</label>
-        <img src="{{picture}}" class="picturePreview"/>
+        <img src="{{picture}}" class="picturePreview" *ngIf="(picture!=='')"/>
     </div>
     <div>
         <button>Submit</button>

@@ -6,6 +6,7 @@ import { ObjavaSingleComponent } from './components/objava-single/objava-single.
 import { ObjaveFeedComponent } from './components/objave-feed/objave-feed.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { NewObjavaComponent } from './components/new-objava/new-objava.component';
+import { ChangeObjavaComponent } from './components/change-objava/change-objava.component';
 
 export const routes: Routes = [
     {
@@ -32,5 +33,10 @@ export const routes: Routes = [
         path:'new-post',
         component:NewObjavaComponent,
         title:'New post'
+    },
+    {
+        path:'change-objava/:id',
+        component:ChangeObjavaComponent,
+        title:'Change post'
     }
 ];

@@ -7,11 +7,12 @@ import { AppState } from '../../app.state';
 import * as ObjaveActions from '../../store/objave.actions'
 import { selectObjave } from '../../store/objave.selectors';
 import { nextTick } from 'process';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-objava-single',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './objava-single.component.html',
   styleUrl: './objava-single.component.css'
 })
@@ -44,10 +45,13 @@ export class ObjavaSingleComponent implements OnInit {
   }
 
   onChange() {
-    console.log("We are in...");
+    this.store.dispatch(ObjaveActions.loadObjavaChangeID({objava:this.objava}));
   }
 
   onDelete() {
-    throw new Error('Method not implemented.');
+    const confirmationDelete = confirm("Are you sure you want to delete this post?");
+    if(confirmationDelete){
+      this.store.dispatch(ObjaveActions.deleteObjava({objava:this.objava}));
+    }
   }
 }

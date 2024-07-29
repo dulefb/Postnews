@@ -1,4 +1,4 @@
+<h1>{{user.name}} {{user.lastname}} posts</h1>
 <div class="divObjaveFromUser" *ngFor="let objava of objaveUser">
-    <h1>{{user.name}} {{user.lastname}} posts</h1>
-    <app-objava-single [objava]="objava"></app-objava-single>
+    <app-objava-single [objava]="objava" [user]="user"></app-objava-single>
 </div>

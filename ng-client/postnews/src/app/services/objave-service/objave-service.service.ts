@@ -51,4 +51,19 @@ export class ObjaveServiceService {
     formBody.append('author',JSON.stringify(objava.author));
     return this.httpClient.post<DBResponse>(environment.serverApi+'objava',formBody);
   }
+
+  deleteObjava(oid:string) : Observable<DBResponse>{
+    return this.httpClient.delete<DBResponse>(environment.serverApi+'objava?id='+oid);
+  }
+
+  changeObjava(objava:Objava) : Observable<DBResponse>{
+    let formBody = new URLSearchParams();
+    formBody.append('id',objava._id);
+    formBody.append('name',objava.name);
+    formBody.append('text',objava.text);
+    formBody.append('picture',objava.picture);
+    formBody.append('tags',JSON.stringify(objava.tags));
+    formBody.append('likes',JSON.stringify(objava.likes));
+    return this.httpClient.put<DBResponse>(environment.serverApi+'objava',formBody);
+  }
 }
