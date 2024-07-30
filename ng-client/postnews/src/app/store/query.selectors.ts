@@ -22,3 +22,9 @@ export const selectViewObjava = createSelector(
     selectObjavaSelectedID,
     (objave,id)=>objave[id]
 )
+
+export const selectViewObjava2 = createSelector(
+    selectQueryObjaveAsArray,
+    selectObjavaSelectedID,
+    (objave,id)=>objave.find(value=>value._id===id)
+)

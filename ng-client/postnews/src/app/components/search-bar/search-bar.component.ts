@@ -9,13 +9,15 @@ import { debounceTime, filter, from, map, Observable, of, Subject } from 'rxjs';
 import * as QueryActions from '../../store/query.actions';
 import { nextTick } from 'process';
 import { Objava } from '../../models/Objava';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.css'
@@ -27,7 +29,7 @@ export class SearchBarComponent {
   isOpen=false;
   objave:Objava[]=[];
 
-  constructor(private store:Store<AppState>){
+  constructor(private store:Store<AppState>,private router:Router){
     
   }
 
@@ -59,5 +61,9 @@ export class SearchBarComponent {
 
   querySearchFunction(searchValue:string){
     this.store.dispatch(QueryActions.searchObjave({queryText:searchValue}));
+  }
+
+  onDataClick(id:string){
+    this.store.dispatch(QueryActions.viewObjavaAction({oid:id}));
   }
 }

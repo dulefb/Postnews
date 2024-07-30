@@ -22,5 +22,11 @@ export const queryReducer = createReducer(
     }),
     on(QueryActions.searchObjaveSuccess,(state,{objave})=>{
         return queryAdapter.setAll(objave,state);
+    }),
+    on(QueryActions.viewObjavaAction,(state,{oid})=>{
+        return{
+            ...state,
+            selectObjavaID:oid
+        }
     })
 )

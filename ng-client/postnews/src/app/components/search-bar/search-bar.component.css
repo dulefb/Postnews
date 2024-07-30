@@ -21,9 +21,13 @@ a:hover{
 }
 
 .search-bar{
+    position: relative;
+    display: inline-block;
+}
+
+.search-bar-main{
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .search-bar-input > input[type='text']{
@@ -34,15 +38,40 @@ a:hover{
 }
 
 .search-bar-view{
+    position: absolute;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 350px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .search-bar-data{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items:center;
+    padding: 5px;
+    width: 93%;
+    border: 1px dashed rgba(2, 53, 87, 0.996);
 }
 
 .search-bar-data:hover{
-    background-color: darkgray;
+    background-color: #3498DB;
+}
+
+.search-bar-data > img{
+    height: 40px;
+    width: 40px;
+    border-radius: 6px;
+}
+
+.search-bar-data > label{
+    font-size:small;
 }

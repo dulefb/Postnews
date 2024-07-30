@@ -39,7 +39,6 @@ export class AppComponent implements OnInit{
   onMiddleClick($event: MouseEvent) {
     if($event.target){
       // console.log((<HTMLElement>$event.target).className);
-      this.store.dispatch(QueryActions.clickedTarget({targetClassName:(<HTMLElement>$event.target).className}));
     }
   }
 }

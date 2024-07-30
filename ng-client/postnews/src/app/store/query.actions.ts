@@ -1,13 +1,6 @@
 import { createAction,props } from "@ngrx/store";
 import { Objava } from "../models/Objava";
 
-export const clickedTarget = createAction(
-    'Clicked target',
-    props<{
-        targetClassName:string
-    }>()
-)
-
 export const searchObjave = createAction(
     'Search objave action',
     props<{
@@ -20,4 +13,9 @@ export const searchObjaveSuccess = createAction(
     props<{
         objave:Objava[]
     }>()
+);
+
+export const viewObjavaAction = createAction(
+    'View objava action',
+    props<{oid:string}>()
 );

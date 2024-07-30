@@ -7,6 +7,7 @@ import { ObjaveFeedComponent } from './components/objave-feed/objave-feed.compon
 import { ProfilComponent } from './components/profil/profil.component';
 import { NewObjavaComponent } from './components/new-objava/new-objava.component';
 import { ChangeObjavaComponent } from './components/change-objava/change-objava.component';
+import { ShowDetailsComponent } from './components/show-details/show-details.component';
 
 export const routes: Routes = [
     {
@@ -38,5 +39,10 @@ export const routes: Routes = [
         path:'change-objava/:id',
         component:ChangeObjavaComponent,
         title:'Change post'
+    },
+    {
+        path:'show-details/:id',
+        component:ShowDetailsComponent,
+        title:'Show details'
     }
 ];
