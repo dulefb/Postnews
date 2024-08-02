@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Objava } from 'src/schemas/objave.schema';
 
 export class CreateUser{
 
@@ -15,7 +16,15 @@ export class CreateUser{
     @IsEmail()
     email:string;
     
+    @IsString()
+    @IsNotEmpty()
     password:string;
+
+    @IsOptional()
+    tags:string[];
+
+    @IsOptional()
+    objava:Objava[];
 
     constructor(){
         this.name='';

@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { User } from './user.schema';
 
 export class Objava{
     @Prop({required:true})
@@ -16,6 +18,8 @@ export class Objava{
     @Prop({required:false})
     public likes:string[];
 
-    // @Prop({required:true})
-    // public author:User;
+    @Prop({type:mongoose.Schema.Types.ObjectId,ref:'User',required:false})
+    public author:User;
 }
+
+export const ObjavaSchema = SchemaFactory.createForClass(Objava);

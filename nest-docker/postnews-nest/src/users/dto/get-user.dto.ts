@@ -1,3 +1,5 @@
+import { Objava } from "src/schemas/objave.schema";
+
 export class GetUser{
     _id:string;
     name:string;
@@ -5,6 +7,7 @@ export class GetUser{
     email:string;
     password:string;
     tags:string[];
+    objave:Objava[];
 
     constructor(){
         this._id='';

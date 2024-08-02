@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { config } from './app.config';
 import { UsersModule } from './users/users.module';
+import { ObjavaModule } from './objava/objava.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { UsersModule } from './users/users.module';
       dbName:'postnews'
     }),
     UsersModule,
+    ObjavaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
