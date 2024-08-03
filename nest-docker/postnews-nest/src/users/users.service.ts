@@ -22,15 +22,26 @@ export class UsersService {
     }
 
     async getAllUsers(){
-        return await this.userModel.find();
+        return (await this.userModel.find().populate('objave'));
     }
 
     async getUserByEmailAndPassword(email:string,password:string){
-        const user = await this.userModel.findOne<User>({email:email,password:password});
+        const user = await this.userModel.findOne({email:email,password:password});
         if(!user)
             throw new HttpException("Incorrect credentials",400);
 
-        return user;
+        return user.populate('objave');
+    }
+
+    async getUserByEmail(email:string){
+        const userFound = await this.userModel.findOne({
+            email
+        }).populate("objave");
+
+        if(!userFound)
+            throw new HttpException('User not found',HttpStatus.NOT_FOUND);
+
+        return userFound;
     }
 
     async deleteUser(email:string){

@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from './user.schema';
 
+@Schema()
 export class Objava{
     @Prop({required:true})
     public name:string;

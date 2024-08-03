@@ -16,6 +16,11 @@ export class UsersController {
     getUserByEmailAndPassword(@Param('email') email:string,@Param('password') password:string){
         return this.userService.getUserByEmailAndPassword(email,password);
     }
+    
+    @Get(':email')
+    getUserByEmail(@Param('email') email:string){
+        return this.userService.getUserByEmail(email);
+    }
 
     @Post()
     @UsePipes(new ValidationPipe())
