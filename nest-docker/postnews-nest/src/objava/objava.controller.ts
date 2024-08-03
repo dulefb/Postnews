@@ -1,6 +1,7 @@
-import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe, Delete } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe, Delete, Put } from '@nestjs/common';
 import { ObjavaService } from './objava.service';
 import { CreateObjavaDto } from './dto/create-objava.dto';
+import { UpdateObjavaDto } from './dto/update-objava.dto';
 
 @Controller('objava')
 export class ObjavaController {
@@ -44,6 +45,21 @@ export class ObjavaController {
     @Delete(':id')
     deleteObjavaById(@Param('id') objavaId:string){
         return this.objavaService.deleteObjavaById(objavaId);
+    }
+
+    @Put()
+    updateObjava(@Body() updateObjava:UpdateObjavaDto){
+        return this.objavaService.updateObjava(updateObjava);
+    }
+
+    @Post('/like/:email/:objavaId')
+    postLikeObjava(@Param('email') email:string, @Param('objavaId') objavaId:string){
+        return this.objavaService.likeObjava(email,objavaId);
+    }
+
+    @Post('/dislike/:email/:objavaId')
+    postDIslikeObjava(@Param('email') email:string, @Param('objavaId') objavaId:string){
+        return this.objavaService.dislikeObjava(email,objavaId);
     }
 
 }

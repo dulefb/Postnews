@@ -5,6 +5,8 @@ import { User } from 'src/schemas/user.schema';
 import { Objava } from 'src/schemas/objave.schema';
 import { CreateObjavaDto } from './dto/create-objava.dto';
 import { GetObjavaDto } from './dto/get-user.dto';
+import { UpdateObjavaDto } from './dto/update-objava.dto';
+import e from 'express';
 
 @Injectable()
 export class ObjavaService {
@@ -83,13 +85,13 @@ export class ObjavaService {
             tags:{
                 $in:tags
             }
-        }).sort({_id:-1});
+        }).sort({_id:-1}).populate('author');
 
         const objaveWithoutTags = await this.objavaModel.find({
             tags:{
                 $nin:tags
             }
-        }).sort({_id:-1});
+        }).sort({_id:-1}).populate('author');
 
         return objaveByTags.concat(objaveWithoutTags);
     }
@@ -102,6 +104,73 @@ export class ObjavaService {
         const objavaFound = await this.objavaModel.findByIdAndDelete(objavaId);
         if(!objavaFound)
             throw new HttpException("Objava not found",HttpStatus.NOT_FOUND);
+
+        return objavaFound;
+    }
+
+    async updateObjava(updatedObjava:UpdateObjavaDto){
+
+        if(!mongoose.Types.ObjectId.isValid(updatedObjava._id))
+            throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
+
+        const isUpdated = await this.objavaModel.findByIdAndUpdate(updatedObjava._id,updatedObjava);
+        if(!isUpdated)
+            throw new HttpException("Objava not updated",HttpStatus.SERVICE_UNAVAILABLE);
+
+        return isUpdated;
+    }
+
+    async likeObjava(email:string,objavaId:string){
+        if(!mongoose.Types.ObjectId.isValid(objavaId))
+            throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
+        
+        const validUser = await this.userModel.findOne({
+            email:email
+        });
+
+        if(!validUser)
+            throw new HttpException('User not found.',HttpStatus.NOT_FOUND);
+
+        const objavaFound = await this.objavaModel.findById(objavaId);
+
+        if(!objavaFound)
+            throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
+
+        const likedObjava = objavaFound.likes.includes(email);
+
+        if(likedObjava)
+            throw new HttpException('Objava already liked',HttpStatus.BAD_REQUEST);
+
+        await objavaFound.likes.push(email);
+        validUser.tags = await validUser.tags.concat(objavaFound.tags);
+        validUser.save();
+
+        return objavaFound.save();
+    }
+
+    async dislikeObjava(email:string,objavaId:string){
+        if(!mongoose.Types.ObjectId.isValid(objavaId))
+            throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
+        
+        const validUser = await this.userModel.findOne({
+            email:email
+        });
+
+        if(!validUser)
+            throw new HttpException('User not found.',HttpStatus.NOT_FOUND);
+
+        const objavaFound = await this.objavaModel.findById(objavaId);
+
+        if(!objavaFound)
+            throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
+
+        if(!objavaFound.likes.includes(email))
+            throw new HttpException('Invalid request',HttpStatus.BAD_REQUEST);
+
+        objavaFound.likes = await objavaFound.likes.filter(x=>x!==email);
+        objavaFound.save();
+        validUser.tags = await validUser.tags.filter(x=>!objavaFound.tags.includes(x));
+        validUser.save();
 
         return objavaFound;
     }
