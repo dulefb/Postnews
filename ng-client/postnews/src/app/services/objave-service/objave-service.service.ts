@@ -19,41 +19,34 @@ export class ObjaveServiceService {
     let formBody = new URLSearchParams();
     formBody.append('tags',JSON.stringify(tags));
     return this.httpClient.post<DBResponse>(
-      environment.serverApi+'objava'+'?tags=true',
+      environment.serverApi+'objava'+'/tags',
       formBody,
       {
         headers:{
-          'Content-Type':'application/x-www-form-urlencoded'
+          'Content-Type':'application/json'
         }
       }
     );
   }
 
   likeObjava(email:string,oid:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'like?email='+email+'&oid='+oid,null);
+    return this.httpClient.post<DBResponse>(environment.serverApi+'like/'+email+'/'+oid,null);
   }
 
   dislikeObjava(email:string,oid:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'dislike?email='+email+'&oid='+oid,null);
+    return this.httpClient.post<DBResponse>(environment.serverApi+'dislike/'+email+'/'+oid,null);
   }
 
   getObjaveFromUser(email:string) : Observable<DBResponse>{
-    return this.httpClient.get<DBResponse>(environment.serverApi+'objava?email='+email);
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava/email/'+email);
   }
 
-  postObjava(objava:Objava) : Observable<DBResponse>{
-    let formBody = new URLSearchParams();
-    formBody.append('name',objava.name);
-    formBody.append('text',objava.text);
-    formBody.append('picture',objava.picture);
-    formBody.append('tags',JSON.stringify(objava.tags));
-    formBody.append('likes',JSON.stringify(objava.likes));
-    formBody.append('author',JSON.stringify(objava.author));
-    return this.httpClient.post<DBResponse>(environment.serverApi+'objava',formBody);
+  postObjava(objava:Objava,email:string) : Observable<DBResponse>{
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+email,JSON.stringify(objava));
   }
 
   deleteObjava(oid:string) : Observable<DBResponse>{
-    return this.httpClient.delete<DBResponse>(environment.serverApi+'objava?id='+oid);
+    return this.httpClient.delete<DBResponse>(environment.serverApi+'objava/'+oid);
   }
 
   changeObjava(objava:Objava) : Observable<DBResponse>{
