@@ -4,9 +4,10 @@ import mongoose, { Model, mongo } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
 import { Objava } from 'src/schemas/objave.schema';
 import { CreateObjavaDto } from './dto/create-objava.dto';
-import { GetObjavaDto } from './dto/get-user.dto';
+import { GetObjavaDto } from './dto/get-objava.dto';
 import { UpdateObjavaDto } from './dto/update-objava.dto';
 import e from 'express';
+import { DBResponse } from 'src/models/DBResponse';
 
 @Injectable()
 export class ObjavaService {
@@ -38,7 +39,7 @@ export class ObjavaService {
             }
         });
 
-        return savedObjava;
+        return new DBResponse(true,"Objava created successfully",<GetObjavaDto>savedObjava);
     }
 
     async getObjavaById(objavaId:string){
@@ -46,15 +47,16 @@ export class ObjavaService {
         if(!isValidId)
             throw new HttpException('Invalid id',HttpStatus.BAD_REQUEST);
 
-        const foundObjava = await this.objavaModel.findById(objavaId);
+        const foundObjava = (await this.objavaModel.findById(objavaId)).populate('author');
         if(!foundObjava)
             throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
 
-        return foundObjava.populate('author');
+        return new DBResponse(true,"Objava received...",foundObjava);
     }
 
     async getAllObjave(){
-        return this.objavaModel.find<GetObjavaDto>().populate('author');
+        const objava$ = await this.objavaModel.find<GetObjavaDto>().populate('author');
+        return new DBResponse(true,"Objave received...",objava$);
     }
 
     async getAllObjaveByUser(email:string){
@@ -66,7 +68,7 @@ export class ObjavaService {
             author:userFound._id
         }).populate('author');
 
-        return objaveFound;
+        return new DBResponse(true,"Objava from user...",objaveFound);
     }
 
     async getObjaveBySearch(search:string){
@@ -77,7 +79,7 @@ export class ObjavaService {
             }
         }).sort({_id:-1}).populate('author');
 
-        return foundObjave;
+        return new DBResponse(true,"Query search objave...",foundObjave);;
     }
 
     async getObjaveByTags(tags:string[]){
@@ -93,7 +95,7 @@ export class ObjavaService {
             }
         }).sort({_id:-1}).populate('author');
 
-        return objaveByTags.concat(objaveWithoutTags);
+        return new DBResponse(true,"Feed objave received...",objaveByTags.concat(objaveWithoutTags));
     }
 
     async deleteObjavaById(objavaId:string){
@@ -105,11 +107,10 @@ export class ObjavaService {
         if(!objavaFound)
             throw new HttpException("Objava not found",HttpStatus.NOT_FOUND);
 
-        return objavaFound;
+        return new DBResponse(true,"Objava deleted...",objavaFound);;
     }
 
     async updateObjava(updatedObjava:UpdateObjavaDto){
-
         if(!mongoose.Types.ObjectId.isValid(updatedObjava._id))
             throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
 
@@ -117,7 +118,7 @@ export class ObjavaService {
         if(!isUpdated)
             throw new HttpException("Objava not updated",HttpStatus.SERVICE_UNAVAILABLE);
 
-        return isUpdated;
+        return new DBResponse(true,"Objava updated...",isUpdated);;
     }
 
     async likeObjava(email:string,objavaId:string){
@@ -144,8 +145,9 @@ export class ObjavaService {
         await objavaFound.likes.push(email);
         validUser.tags = await validUser.tags.concat(objavaFound.tags);
         validUser.save();
+        const obj = await objavaFound.save();
 
-        return objavaFound.save();
+        return new DBResponse(true,"Objava liked...",obj);
     }
 
     async dislikeObjava(email:string,objavaId:string){
@@ -168,10 +170,10 @@ export class ObjavaService {
             throw new HttpException('Invalid request',HttpStatus.BAD_REQUEST);
 
         objavaFound.likes = await objavaFound.likes.filter(x=>x!==email);
-        objavaFound.save();
         validUser.tags = await validUser.tags.filter(x=>!objavaFound.tags.includes(x));
         validUser.save();
+        const obj = await objavaFound.save();
 
-        return objavaFound;
+        return new DBResponse(true,"Objava disliked...",obj);
     }
 }

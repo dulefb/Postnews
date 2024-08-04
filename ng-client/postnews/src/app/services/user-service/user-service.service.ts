@@ -23,7 +23,7 @@ export class UserServiceService {
   postUser(user:User){
     return this.httpClient.post<DBResponse>(
       environment.serverApi+'users',
-      JSON.stringify(user),
+      user,
       {
         headers:{
           'Content-Type':'application/json'

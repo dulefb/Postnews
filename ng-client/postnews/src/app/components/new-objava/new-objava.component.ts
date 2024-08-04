@@ -55,6 +55,6 @@ export class NewObjavaComponent implements OnInit{
       author:this.author,
       likes:[]
     }
-    this.store.dispatch(ObjaveActions.postObjava({objava}));
+    this.store.dispatch(ObjaveActions.postObjava({objava:objava,email:this.author.email}));
   }
 }

@@ -64,7 +64,8 @@ export const dislikeObjavaSuccess = createAction(
 export const postObjava = createAction(
     'Post objava action',
     props<{
-       objava:Objava 
+       objava:Objava,
+       email:string
     }>()
 );
 

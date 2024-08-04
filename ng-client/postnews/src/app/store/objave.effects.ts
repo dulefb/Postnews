@@ -73,7 +73,7 @@ export class ObjaveEffects {
 
     postObjava = createEffect(()=>this.action$.pipe(
         ofType(ObjaveActions.postObjava),
-        exhaustMap((action)=>this.objaveService.postObjava(action.objava).pipe(
+        exhaustMap((action)=>this.objaveService.postObjava(action.objava,action.email).pipe(
             map(value=>{
                 alert(value.message);
                 return ObjaveActions.postObjavaSucces();
@@ -112,13 +112,13 @@ export class ObjaveEffects {
                 alert(value.message);
                 return ObjaveActions.changeObjavaSuccess({objava:value.data});
             }),
+            tap(()=>{
+                this.router.navigateByUrl('profile');
+            }),
             catchError((err:HttpErrorResponse)=>{
                 alert(err.error.message);
                 throw new Error(err.error.message);
             })
-        )),
-        tap(()=>{
-            this.router.navigateByUrl('profile');
-        })
+        ))
     ))
 }

@@ -7,6 +7,7 @@ import { response } from 'express';
 import { environment } from '../../../environment/environment';
 import { Objava } from '../../models/Objava';
 import { env } from 'process';
+import { text } from 'stream/consumers';
 
 @Injectable({
   providedIn: 'root'
@@ -16,25 +17,16 @@ export class ObjaveServiceService {
   constructor(private httpClient:HttpClient) { }
 
   getObjave(tags:string[]):Observable<DBResponse>{
-    let formBody = new URLSearchParams();
-    formBody.append('tags',JSON.stringify(tags));
-    return this.httpClient.post<DBResponse>(
-      environment.serverApi+'objava'+'/tags',
-      formBody,
-      {
-        headers:{
-          'Content-Type':'application/json'
-        }
-      }
-    );
+    let encodedArray = encodeURIComponent(JSON.stringify(tags));
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava'+'/tags/'+encodedArray);
   }
 
   likeObjava(email:string,oid:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'like/'+email+'/'+oid,null);
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+'like/'+email+'/'+oid,null);
   }
 
   dislikeObjava(email:string,oid:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'dislike/'+email+'/'+oid,null);
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+'dislike/'+email+'/'+oid,null);
   }
 
   getObjaveFromUser(email:string) : Observable<DBResponse>{
@@ -42,7 +34,7 @@ export class ObjaveServiceService {
   }
 
   postObjava(objava:Objava,email:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+email,JSON.stringify(objava));
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+email,objava);
   }
 
   deleteObjava(oid:string) : Observable<DBResponse>{
@@ -50,18 +42,19 @@ export class ObjaveServiceService {
   }
 
   changeObjava(objava:Objava) : Observable<DBResponse>{
-    let formBody = new URLSearchParams();
-    formBody.append('id',objava._id);
-    formBody.append('name',objava.name);
-    formBody.append('text',objava.text);
-    formBody.append('picture',objava.picture);
-    formBody.append('tags',JSON.stringify(objava.tags));
-    formBody.append('likes',JSON.stringify(objava.likes));
-    return this.httpClient.put<DBResponse>(environment.serverApi+'objava',formBody);
+    const updatedObjava = {
+      _id:objava._id,
+      name:objava.name,
+      text:objava.text,
+      picture:objava.picture,
+      tags:objava.tags
+    }
+    console.log(updatedObjava);
+    return this.httpClient.put<DBResponse>(environment.serverApi+'objava',updatedObjava);
   }
 
   querySearchObjave(search:string) : Observable<DBResponse>{
     let searchEncoded = encodeURIComponent(search);
-    return this.httpClient.get<DBResponse>(environment.serverApi+'objava?search='+searchEncoded);
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava/search/'+searchEncoded);
   }
 }

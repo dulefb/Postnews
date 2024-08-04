@@ -37,9 +37,9 @@ export class ObjavaController {
         return this.objavaService.getObjaveBySearch(querySearch);
     }
 
-    @Get('/tags')
-    getObjaveByTags(@Body() tags:string[]){
-        return this.objavaService.getObjaveByTags(tags);
+    @Get('/tags/:encodedArray')
+    getObjaveByTags(@Param('encodedArray') encodedArray:string){
+        return this.objavaService.getObjaveByTags(JSON.parse(decodeURIComponent(encodedArray)));
     }
 
     @Delete(':id')
@@ -48,6 +48,7 @@ export class ObjavaController {
     }
 
     @Put()
+    @UsePipes(new ValidationPipe())
     updateObjava(@Body() updateObjava:UpdateObjavaDto){
         return this.objavaService.updateObjava(updateObjava);
     }
