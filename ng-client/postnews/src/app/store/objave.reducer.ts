@@ -73,14 +73,6 @@ export const objaveReducer = createReducer(
         return state;
     }),
     on(ObjaveActions.changeObjavaSuccess,(state,{objava})=>{
-        return objaveAdapter.updateOne({
-            id:objava._id,
-            changes:{
-                name:objava.name,
-                text:objava.text,
-                tags:objava.tags,
-                picture:objava.picture
-            }
-        },state);
+        return objaveAdapter.setOne(objava,state);
     })
 )

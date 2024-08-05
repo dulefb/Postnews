@@ -65,5 +65,6 @@ export class SearchBarComponent {
 
   onDataClick(id:string){
     this.store.dispatch(QueryActions.viewObjavaAction({oid:id}));
+    this.router.navigateByUrl('/show-details/'+id);
   }
 }

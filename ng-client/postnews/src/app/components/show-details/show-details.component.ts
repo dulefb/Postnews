@@ -7,9 +7,9 @@ import { AppState } from '../../app.state';
 import * as ObjaveActions from '../../store/objave.actions'
 import { selectObjave } from '../../store/objave.selectors';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { selectObjavaSelectedID, selectQueryObjave, selectQueryObjaveAsArray, selectViewObjava, selectViewObjava2 } from '../../store/query.selectors';
+import { selectObjavaSelectedID, selectQueryObjave, selectQueryObjaveAsArray, selectQueryState, selectViewObjava } from '../../store/query.selectors';
 import { selectUserObject } from '../../store/user.selectors';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 
 @Component({
@@ -25,24 +25,22 @@ export class ShowDetailsComponent implements OnInit{
   objave$:Objava[]=[];
   objava:Objava=new Objava();
   selectedID:string='';
+
   constructor(private store:Store<AppState>,private route:ActivatedRoute){
 
   }
 
   ngOnInit(): void {
 
-    this.selectedID=String(this.route.snapshot.params['id']);
     this.store.select(selectUserObject).subscribe(next=>{
       if(next){
         this.user=next;
       }
     });
 
-    this.store.select(selectQueryObjaveAsArray).subscribe(next=>{
-      this.objave$=next;
-      let obj = this.objave$.find(value=>value._id===this.selectedID);
-      if(obj)
-        this.objava=obj;
+    this.store.select(selectViewObjava).subscribe(next=>{
+      if(next)
+        this.objava=next;
     });
 
   }

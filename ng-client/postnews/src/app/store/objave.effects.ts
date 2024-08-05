@@ -35,7 +35,8 @@ export class ObjaveEffects {
         ofType(ObjaveActions.likeObjava),
         exhaustMap((action)=>this.objaveService.likeObjava(action.email,action.oid).pipe(
             map(value=>{
-                return ObjaveActions.likeObjavaSuccess({oid:value.data.oid,likes:value.data.likes})
+                console.log(value);
+                return ObjaveActions.likeObjavaSuccess({oid:value.data._id,likes:value.data.likes})
             }),
             catchError((err:HttpErrorResponse)=>{
                 alert(err.error.message);
@@ -48,7 +49,7 @@ export class ObjaveEffects {
         ofType(ObjaveActions.dislikeObjava),
         exhaustMap((action)=>this.objaveService.dislikeObjava(action.email,action.oid).pipe(
             map(value=>{
-                return ObjaveActions.dislikeObjavaSuccess({oid:value.data.oid,likes:value.data.likes})
+                return ObjaveActions.dislikeObjavaSuccess({oid:value.data._id,likes:value.data.likes})
             }),
             catchError((err:HttpErrorResponse)=>{
                 alert(err.error.message);

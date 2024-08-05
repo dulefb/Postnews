@@ -117,8 +117,8 @@ export class ObjavaService {
         const isUpdated = await this.objavaModel.findByIdAndUpdate(updatedObjava._id,updatedObjava);
         if(!isUpdated)
             throw new HttpException("Objava not updated",HttpStatus.SERVICE_UNAVAILABLE);
-
-        return new DBResponse(true,"Objava updated...",isUpdated);;
+        const obj = await this.objavaModel.findById(updatedObjava._id);
+        return new DBResponse(true,"Objava updated...",obj);;
     }
 
     async likeObjava(email:string,objavaId:string){

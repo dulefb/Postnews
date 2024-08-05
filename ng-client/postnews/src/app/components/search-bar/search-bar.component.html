@@ -5,7 +5,7 @@
             <input type="text" (input)="onQueryInput($event)" [(ngModel)]="queryText" autofocus>
         </div>
         <div class="search-bar-view">
-            <div class="search-bar-data" *ngFor="let objava of objave" (click)="onDataClick(objava._id)" [routerLink]="['/show-details',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <div class="search-bar-data" *ngFor="let objava of objave" (click)="onDataClick(objava._id)">
                 <img src={{objava.picture}}><label>{{objava.name}}</label>
             </div>
         </div>

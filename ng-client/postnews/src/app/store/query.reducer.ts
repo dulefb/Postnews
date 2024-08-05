@@ -12,7 +12,7 @@ export const queryAdapter = createEntityAdapter<Objava>({
 });
 
 const initialState = queryAdapter.getInitialState({
-    selectObjavaID:''
+    selectedObjavaID:''
 });
 
 export const queryReducer = createReducer(
@@ -26,7 +26,7 @@ export const queryReducer = createReducer(
     on(QueryActions.viewObjavaAction,(state,{oid})=>{
         return{
             ...state,
-            selectObjavaID:oid
+            selectedObjavaID:oid
         }
     })
 )

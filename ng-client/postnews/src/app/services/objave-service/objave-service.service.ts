@@ -49,7 +49,6 @@ export class ObjaveServiceService {
       picture:objava.picture,
       tags:objava.tags
     }
-    console.log(updatedObjava);
     return this.httpClient.put<DBResponse>(environment.serverApi+'objava',updatedObjava);
   }
 
