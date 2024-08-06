@@ -8,9 +8,13 @@ import { ObjavaModule } from './objava/objava.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb://${config.username}:${config.password}@${config.host}:${config.port}/`,{
-      dbName:'postnews'
-    }),
+    MongooseModule.forRoot(`mongodb://${config.username}:${config.password}@${config.host}:${config.port}/`,
+      {
+        authSource:'admin',
+        directConnection:true,
+        dbName:'postnews'
+      }
+    ),
     UsersModule,
     ObjavaModule,
   ],

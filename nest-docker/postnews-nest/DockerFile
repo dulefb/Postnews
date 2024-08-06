@@ -1,4 +1,5 @@
 FROM node:22-alpine3.19
+#FROM node:22-alpine3.19 alternativa ali ne radi
 #postaviti radni direktorijum
 WORKDIR /usr/src/app
 #kopirati u radni dir samo listu paketa za install
