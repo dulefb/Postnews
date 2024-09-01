@@ -1,19 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.state';
 import { selectUser, selectUserObject } from '../../store/user.selectors';
 import { User } from '../../models/User';
 import { Objava } from '../../models/Objava';
 import * as ObjaveActions from '../../store/objave.actions';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-new-objava',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatBadgeModule,
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule,
+    ReactiveFormsModule
   ],
   templateUrl: './new-objava.component.html',
   styleUrl: './new-objava.component.css'
@@ -25,6 +38,11 @@ export class NewObjavaComponent implements OnInit{
   picture:string = '';
   tags:string = '';
   author:User = new User();
+
+  nameFormControl = new FormControl('',[Validators.required]);
+  textFormControl = new FormControl('',[Validators.required]);
+  pictureFormControl = new FormControl('',[Validators.required]);
+  tagsFormControl = new FormControl('',[Validators.required]);
 
   constructor(private store:Store<AppState>){
 

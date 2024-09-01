@@ -8,11 +8,23 @@ import * as ObjaveActions from '../../store/objave.actions'
 import { selectObjave } from '../../store/objave.selectors';
 import { nextTick } from 'process';
 import { RouterModule } from '@angular/router';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @Component({
   selector: 'app-objava-single',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatBadgeModule,
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule
+  ],
   templateUrl: './objava-single.component.html',
   styleUrl: './objava-single.component.css'
 })

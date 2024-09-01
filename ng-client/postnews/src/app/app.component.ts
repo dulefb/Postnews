@@ -9,6 +9,12 @@ import { Store, StoreModule } from '@ngrx/store';
 import { userReducer } from './store/user.reducer';
 import { AppState } from './app.state';
 import * as QueryActions from './store/query.actions'
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +25,13 @@ import * as QueryActions from './store/query.actions'
     HttpClientModule,
     HeaderComponent,
     FooterComponent,
-    StoreModule
+    StoreModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatBadgeModule,
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

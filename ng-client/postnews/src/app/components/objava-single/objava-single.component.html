@@ -8,12 +8,14 @@
     <div class="objava-tags">
         <label *ngFor="let tag of objava.tags">#{{tag}}</label>
     </div>
-    <p>Likes: {{objava.likes.length}}</p>
+    <div matBadgeSize="large" matBadge="{{objava.likes.length}}" class="badge-selection">
+        Likes
+    </div>
     <img src="{{objava.picture}}"/>
     <p>
-        <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">Like</button>
-        <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()">Dislike</button>
-        <button *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page">Change</button>
-        <button *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()">Delete</button>
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()"><mat-icon>thumb_up</mat-icon></button>
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()"><mat-icon>thumb_down</mat-icon></button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page"><mat-icon>edit</mat-icon>Edit</button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()"><mat-icon>delete</mat-icon>Delete</button>
     </p>
 </div>

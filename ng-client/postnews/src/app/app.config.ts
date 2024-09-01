@@ -14,6 +14,7 @@ import { objaveReducer } from './store/objave.reducer';
 import { ObjaveEffects } from './store/objave.effects';
 import { queryReducer } from './store/query.reducer';
 import { QueryEffects } from './store/query.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,6 +37,6 @@ export const appConfig: ApplicationConfig = {
         trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
         traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
         connectInZone: true // If set to true, the connection is established within the Angular zone
-    }),
+    }), provideAnimationsAsync(),
 ]
 };

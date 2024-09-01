@@ -14,3 +14,9 @@ img{
     display: flex;
     flex-direction: row;
 }
+
+.badge-selection{
+    margin-top: 16px;
+    display: block;
+    width: 3.2%;
+}
