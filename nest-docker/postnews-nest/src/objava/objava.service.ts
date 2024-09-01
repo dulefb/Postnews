@@ -167,7 +167,7 @@ export class ObjavaService {
             throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
 
         if(!objavaFound.likes.includes(email))
-            throw new HttpException('Invalid request',HttpStatus.BAD_REQUEST);
+            throw new HttpException('Objava already liked',HttpStatus.BAD_REQUEST);
 
         objavaFound.likes = await objavaFound.likes.filter(x=>x!==email);
         validUser.tags = await validUser.tags.filter(x=>!objavaFound.tags.includes(x));

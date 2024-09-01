@@ -13,7 +13,9 @@ export class UsersService {
     }
 
     async createUser(user:CreateUser){
-            const existingUser = await this.userModel.exists(user);
+            const existingUser = await this.userModel.findOne({
+                email:user.email
+            });
             if(existingUser){
                 throw new HttpException("User with this email already exists",400);
             }

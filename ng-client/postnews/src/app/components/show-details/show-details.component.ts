@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../models/User';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.state';
-import * as ObjaveActions from '../../store/objave.actions'
+import * as ObjaveActions from '../../store/objave.actions';
+import * as QueryActions from '../../store/query.actions';
 import { selectObjave } from '../../store/objave.selectors';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { selectObjavaSelectedID, selectQueryObjave, selectQueryObjaveAsArray, selectQueryState, selectViewObjava } from '../../store/query.selectors';
@@ -60,13 +61,13 @@ export class ShowDetailsComponent implements OnInit{
 
   onLike(){
     if(this.user && this.objava){
-      this.store.dispatch(ObjaveActions.likeObjava({email:this.user.email,oid:this.objava._id}));
+      this.store.dispatch(QueryActions.likeObjava({email:this.user.email,oid:this.objava._id}));
     }
   }
 
   onDislike(){
     if(this.user && this.objava){
-      this.store.dispatch(ObjaveActions.dislikeObjava({email:this.user.email,oid:this.objava._id}));
+      this.store.dispatch(QueryActions.dislikeObjava({email:this.user.email,oid:this.objava._id}));
     }
   }
 

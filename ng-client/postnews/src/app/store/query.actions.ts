@@ -19,3 +19,33 @@ export const viewObjavaAction = createAction(
     'View objava action',
     props<{oid:string}>()
 );
+
+export const likeObjava = createAction(
+    'Like query objava action',
+    props<{
+        oid:string,
+        email:string
+    }>()
+);
+
+export const likeObjavaSuccess = createAction(
+    'Like query objava action success',
+    props<{
+        oid:string,
+        likes:string[]
+    }>()
+);
+export const dislikeObjava = createAction(
+    'Dislike query objava action',
+    props<{
+        email:string,
+        oid:string
+    }>()
+);
+export const dislikeObjavaSuccess = createAction(
+    'Dislike query objava action success',
+    props<{
+        oid:string,
+        likes:string[]
+    }>()
+);

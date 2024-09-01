@@ -27,5 +27,32 @@ export class QueryEffects {
         tap(()=>{
             //if something additional needs to be done...
         })
-    ))
+    ));
+
+    likeObjava = createEffect(()=>this.action$.pipe(
+        ofType(QueryActions.likeObjava),
+        exhaustMap((action)=>this.objaveService.likeObjava(action.email,action.oid).pipe(
+            map(value=>{
+                console.log(value);
+                return QueryActions.likeObjavaSuccess({oid:value.data._id,likes:value.data.likes})
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        ))
+    ));
+
+    dislikeObjava = createEffect(()=>this.action$.pipe(
+        ofType(QueryActions.dislikeObjava),
+        exhaustMap((action)=>this.objaveService.dislikeObjava(action.email,action.oid).pipe(
+            map(value=>{
+                return QueryActions.dislikeObjavaSuccess({oid:value.data._id,likes:value.data.likes})
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                alert(err.error.message);
+                throw new Error(err.error.message);
+            })
+        ))
+    ));
 }

@@ -28,5 +28,27 @@ export const queryReducer = createReducer(
             ...state,
             selectedObjavaID:oid
         }
-    })
+    }),
+    on(QueryActions.likeObjava,(state,{oid,email})=>{
+        return state;
+    }),
+    on(QueryActions.likeObjavaSuccess,(state,{oid,likes})=>{
+        return queryAdapter.updateOne({
+            id:oid,
+            changes:{
+                likes
+            }
+        },state)
+    }),
+    on(QueryActions.dislikeObjava,(state,{email,oid})=>{
+        return state;
+    }),
+    on(QueryActions.dislikeObjavaSuccess,(state,{oid,likes})=>{
+        return queryAdapter.updateOne({
+            id:oid,
+            changes:{
+                likes
+            }
+        },state)
+    }),
 )
