@@ -1,18 +1,33 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.state';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/User';
 import * as UserActions from '../../store/user.actions'
 import { last } from 'rxjs';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatBadgeModule,
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule,
+    ReactiveFormsModule,
+    MatCardModule
   ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
@@ -24,6 +39,11 @@ export class SignInComponent {
   email:string='';
   password:string='';
 
+  firstnameFormControl = new FormControl('',[Validators.required]);
+  lastnameFormControl = new FormControl('',[Validators.required]);
+  emailFormControl = new FormControl('',[Validators.required,Validators.email]);
+  passwordFormControl = new FormControl('',[Validators.required,Validators.minLength(8)]);
+
   constructor(private store:Store<AppState>){
     
   }
@@ -31,7 +51,7 @@ export class SignInComponent {
   ngOnInit(): void {
   }
 
-  signinSubmit($event: SubmitEvent) {
+  signinSubmit($event: MouseEvent) {
     let user = new User();
     user.name=this.firstname;
     user.lastname=this.lastname;

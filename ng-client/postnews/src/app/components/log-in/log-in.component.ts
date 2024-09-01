@@ -11,6 +11,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-log-in',
@@ -24,7 +25,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule, 
     MatDividerModule, 
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.css'

@@ -1,21 +1,26 @@
-<form (submit)="signinSubmit($event)">
-    <div>
-        <label>Ime:</label>
-        <input type="name" name="user-name" [(ngModel)]="firstname"/>
-    </div>
-    <div>
-        <label>Prezime:</label>
-        <input type="name" name="user-lastname" [(ngModel)]="lastname"/>
-    </div>
-    <div>
-        <label>E-mail</label>
-        <input type="email" name="user-email" [(ngModel)]="email"/>
-    </div>
-    <div>
-        <label>Lozinka:</label>
-        <input type="password" name="user-password" [(ngModel)]="password"/>
-    </div>
-    <div>
-        <button>Prijavi se</button>
-    </div>
-</form>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sign in:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="content-output">
+        <mat-form-field>
+            <mat-label>Ime:</mat-label>
+            <input matInput type="name" name="user-name" [(ngModel)]="firstname" [formControl]="firstnameFormControl"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Prezime:</mat-label>
+            <input matInput type="name" name="user-lastname" [(ngModel)]="lastname" [formControl]="lastnameFormControl"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" name="user-email" [(ngModel)]="email" [formControl]="emailFormControl"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Lozinka:</mat-label>
+            <input matInput type="password" name="user-password" [(ngModel)]="password" [formControl]="passwordFormControl"/>
+        </mat-form-field>
+        <mat-card-actions>
+            <button mat-flat-button (click)="signinSubmit($event)" >Prijavi se</button>
+        </mat-card-actions>
+    </mat-card-content>
+</mat-card>

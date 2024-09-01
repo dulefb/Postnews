@@ -13,6 +13,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { MatCard, MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-new-objava',
@@ -26,7 +27,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule, 
     MatDividerModule, 
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   templateUrl: './new-objava.component.html',
   styleUrl: './new-objava.component.css'
@@ -41,7 +43,6 @@ export class NewObjavaComponent implements OnInit{
 
   nameFormControl = new FormControl('',[Validators.required]);
   textFormControl = new FormControl('',[Validators.required]);
-  pictureFormControl = new FormControl('',[Validators.required]);
   tagsFormControl = new FormControl('',[Validators.required]);
 
   constructor(private store:Store<AppState>){

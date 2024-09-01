@@ -36,7 +36,7 @@ export class SearchBarComponent {
   ngOnInit(): void {
     this.querySubject.pipe(
       debounceTime(300),
-      filter(value=>value.length>3)
+      filter(value=>value.length>=3)
     ).subscribe(next=>{
       this.querySearchFunction(next);
     });
