@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.state';
 import { selectUser, selectUserObject } from '../../store/user.selectors';
@@ -9,13 +9,28 @@ import { Objava } from '../../models/Objava';
 import * as ObjaveActions from '../../store/objave.actions';
 import { ActivatedRoute } from '@angular/router';
 import { selectObjavaForChange } from '../../store/objave.selectors';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-change-objava',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatBadgeModule,
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule,
+    ReactiveFormsModule,
+    MatCardModule
   ],
   templateUrl: './change-objava.component.html',
   styleUrl: './change-objava.component.css'
@@ -29,6 +44,10 @@ export class ChangeObjavaComponent implements OnInit{
   tags:string = '';
   author:User = new User();
   objava:Objava = new Objava();
+
+  nameFormControl = new FormControl('',[Validators.required]);
+  textFormControl = new FormControl('',[Validators.required]);
+  tagsFormControl = new FormControl('',[Validators.required]);
 
   constructor(private store:Store<AppState>,private route:ActivatedRoute){
     

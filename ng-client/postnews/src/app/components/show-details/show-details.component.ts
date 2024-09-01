@@ -9,13 +9,26 @@ import { selectObjave } from '../../store/objave.selectors';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { selectObjavaSelectedID, selectQueryObjave, selectQueryObjaveAsArray, selectQueryState, selectViewObjava } from '../../store/query.selectors';
 import { selectUserObject } from '../../store/user.selectors';
-import { Observable, of, Subject } from 'rxjs';
-import { Dictionary } from '@ngrx/entity';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 
 @Component({
   selector: 'app-show-details',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatBadgeModule,
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule,
+    MatCardModule,
+    MatChipsModule
+  ],
   templateUrl: './show-details.component.html',
   styleUrl: './show-details.component.css'
 })

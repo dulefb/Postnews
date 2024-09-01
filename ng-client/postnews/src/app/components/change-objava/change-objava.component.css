@@ -1,0 +1,14 @@
+.change-objava-container{
+    min-width: 500px;
+    width: 100%;
+    margin: 5px;
+}
+.content-output{
+    display: flex;
+    flex-direction: column;
+}
+
+div{
+    display: flex;
+    flex-direction: row;
+}

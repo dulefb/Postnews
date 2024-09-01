@@ -1,12 +1,9 @@
-div{
+
+.objava-feed-container{
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
     padding: 2px 8px 2px 8px;
-}
-
-img{
-    width: 20%;
-    height: 40%;
-    max-height: 300px;
+    width: 100%;
 }

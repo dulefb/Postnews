@@ -1,19 +1,26 @@
-<div class="objava-main">
-    <h2>{{objava.name}}</h2>
-    <br/>
-    <p>{{objava.author.name+' '+objava.author.lastname}}</p>
-    <br/>
-    <p>{{objava.text}}</p>
-    <br/>
-    <div class="objava-tags">
-        <label *ngFor="let tag of objava.tags">#{{tag}}</label>
-    </div>
-    <p>Likes: {{objava.likes.length}}</p>
-    <img src="{{objava.picture}}"/>
-    <p>
-        <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">Like</button>
-        <button *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()">Dislike</button>
-        <button *ngIf="user && (user?.email!=='') && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page">Change</button>
-        <button *ngIf="user && (user?.email!=='') && (user.email===objava.author.email)" (click)="onDelete()">Delete</button>
-    </p>
-</div>
+<mat-card *ngIf="objava" class="objava-main">
+    <mat-card-header class="header-border">
+        <mat-card-title>{{objava.name}}</mat-card-title>
+        <mat-card-subtitle>{{objava.author.name+' '+objava.author.lastname}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-card-content>{{objava.text}}</mat-card-content>
+        <div matBadgeSize="large" matBadge="{{objava.likes.length}}" class="badge-selection">
+            Likes
+        </div>
+        <mat-card-content class="objava-single-img">
+            <img src="{{objava.picture}}"/>
+        </mat-card-content>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-chip-set class="objava-tags">
+            <mat-chip *ngFor="let tag of objava.tags">#{{tag}}</mat-chip>
+        </mat-chip-set>
+    </mat-card-footer>
+    <mat-card-actions class="actions-border" *ngIf="user">
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()"><mat-icon>thumb_up</mat-icon></button>
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()"><mat-icon>thumb_down</mat-icon></button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page"><mat-icon>edit</mat-icon>Edit</button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()"><mat-icon>delete</mat-icon>Delete</button>
+    </mat-card-actions>
+</mat-card>

@@ -12,6 +12,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @Component({
@@ -23,7 +25,9 @@ import {MatButtonModule} from '@angular/material/button';
     MatBadgeModule,
     MatButtonModule, 
     MatDividerModule, 
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatChipsModule
   ],
   templateUrl: './objava-single.component.html',
   styleUrl: './objava-single.component.css'

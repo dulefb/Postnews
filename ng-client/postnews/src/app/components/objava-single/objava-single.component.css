@@ -3,11 +3,16 @@
     flex-direction: column;
     border: 1px solid black;
     padding: 2px 8px 2px 8px;
+    width: 900px;
+}
+
+.objava-single-img{
+    width: 100%;
+    height: 100%;
 }
 
 img{
-    width: 20%;
-    height: 40%;
+    max-width: 450px;
     max-height: 300px;
 }
 .objava-tags{
@@ -18,5 +23,13 @@ img{
 .badge-selection{
     margin-top: 16px;
     display: block;
-    width: 3.2%;
+    width: 6%;
+}
+
+.header-border{
+    border-bottom: 1px solid black;
+}
+
+.actions-border{
+    border-top: 1px solid black;
 }

@@ -9,4 +9,5 @@ app-header{
     align-items: center;
     justify-content: center;
     min-height: 400px;
+    width: 100%;
 }
