@@ -202,6 +202,7 @@ export class ObjavaService {
     }
 
     async deleteCommentOnObjava(objavaId:string,commentId:string){
+
         if(!mongoose.Types.ObjectId.isValid(objavaId))
             throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
 
@@ -213,7 +214,7 @@ export class ObjavaService {
         if(!objavaFound)
             throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
 
-        objavaFound.comments = await objavaFound.comments.filter(x=>x._id===commentId);
+        objavaFound.comments = await objavaFound.comments.filter(x=>x._id!==commentId);
         await objavaFound.save();
 
         return new DBResponse(true,"Comment deleted",objavaFound);

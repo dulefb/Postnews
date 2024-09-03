@@ -33,7 +33,6 @@ export class QueryEffects {
         ofType(QueryActions.likeObjava),
         exhaustMap((action)=>this.objaveService.likeObjava(action.email,action.oid).pipe(
             map(value=>{
-                console.log(value);
                 return QueryActions.likeObjavaSuccess({oid:value.data._id,likes:value.data.likes})
             }),
             catchError((err:HttpErrorResponse)=>{

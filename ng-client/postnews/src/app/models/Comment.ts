@@ -1,11 +1,11 @@
 export class Comment{
     _id:string;
     userEmail:string;
-    text:string;
+    textContent:string;
     
-    constructor(email:string,text:string){
+    constructor(email:string,textContent:string){
         this._id='';
         this.userEmail=email;
-        this.text=text;
+        this.textContent=textContent;
     }
 }

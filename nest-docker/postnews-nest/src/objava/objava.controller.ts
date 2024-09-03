@@ -71,7 +71,7 @@ export class ObjavaController {
 
     @Delete('/comment/:objavaId/:commentId')
     deleteCommentOnObjava(@Param('objavaId') objavaId:string,@Param('commentId') commentId:string){
-        this.objavaService.deleteCommentOnObjava(objavaId,commentId);
+        return this.objavaService.deleteCommentOnObjava(objavaId,commentId);
     }
 
 }

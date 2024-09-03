@@ -18,9 +18,23 @@
         </mat-chip-set>
     </mat-card-footer>
     <mat-card-actions class="actions-border" *ngIf="user">
-        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()"><mat-icon>thumb_up</mat-icon></button>
-        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()"><mat-icon>thumb_down</mat-icon></button>
-        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page"><mat-icon>edit</mat-icon>Edit</button>
-        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()"><mat-icon>delete</mat-icon>Delete</button>
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">
+            <mat-icon>thumb_up</mat-icon>
+        </button>
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()">
+            <mat-icon>thumb_down</mat-icon>
+        </button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <mat-icon>edit</mat-icon>
+            Edit
+        </button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()">
+            <mat-icon>delete</mat-icon>
+            Delete
+        </button>
+        <button mat-fab extended *ngIf="user && (user.email!=='')" (click)="onComment()">
+            <mat-icon>comment</mat-icon>
+            Comment
+        </button>
     </mat-card-actions>
 </mat-card>

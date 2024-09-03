@@ -15,6 +15,7 @@ import { ObjaveEffects } from './store/objave.effects';
 import { queryReducer } from './store/query.reducer';
 import { QueryEffects } from './store/query.effects';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,5 +39,11 @@ export const appConfig: ApplicationConfig = {
         traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
         connectInZone: true // If set to true, the connection is established within the Angular zone
     }), provideAnimationsAsync(),
+    // {
+    //   provide:MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    //   useValue:{
+    //     subscriptSizing:'dynamic'
+    //   }
+    // }
 ]
 };

@@ -127,8 +127,8 @@ export class ObjaveEffects {
         ofType(ObjaveActions.postComment),
         exhaustMap((action)=>this.objaveService.postCommentOnObjava(action.objavaId,action.comment).pipe(
             map(value=>{
-                alert(value.message);
-                return ObjaveActions.postCommentSuccess({objavaId:value.data._id,comments:value.data.commets});
+                // alert(value.message);
+                return ObjaveActions.postCommentSuccess({objavaId:value.data._id,comments:value.data.comments});
             }),
             catchError((err:HttpErrorResponse)=>{
                 alert(err.error.message);
@@ -141,7 +141,7 @@ export class ObjaveEffects {
         ofType(ObjaveActions.deleteComment),
         exhaustMap((action)=>this.objaveService.deleteCommentOnObjava(action.objavaId,action.commentId).pipe(
             map(value=>{
-                alert(value.message);
+                // alert(value.message);
                 return ObjaveActions.deleteCommentSuccess({objavaId:value.data._id,comments:value.data.comments})
             }),
             catchError((err:HttpErrorResponse)=>{

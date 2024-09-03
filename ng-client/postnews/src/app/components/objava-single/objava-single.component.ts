@@ -14,6 +14,11 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Comment } from '../../models/Comment';
+import { text } from 'stream/consumers';
 
 
 @Component({
@@ -27,7 +32,11 @@ import {MatChipsModule} from '@angular/material/chips';
     MatDividerModule, 
     MatIconModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './objava-single.component.html',
   styleUrl: './objava-single.component.css'
@@ -39,6 +48,10 @@ export class ObjavaSingleComponent implements OnInit {
 
   @Input()
   user?:User;
+
+  enableEnterComment = false;
+  enterComment:string = '';
+  enterCommentFormControl = new FormControl('',[Validators.minLength(1),Validators.maxLength(140)]);
 
   constructor(private store:Store<AppState>){
 
@@ -68,6 +81,26 @@ export class ObjavaSingleComponent implements OnInit {
     const confirmationDelete = confirm("Are you sure you want to delete this post?");
     if(confirmationDelete){
       this.store.dispatch(ObjaveActions.deleteObjava({objava:this.objava}));
+    }
+  }
+
+  onComment() {
+    if(this.enableEnterComment)
+      this.enableEnterComment=false;
+    else
+      this.enableEnterComment=true;
+
+    this.enterComment='';
+  }
+
+  submitComment() {
+    if(this.user)
+      this.store.dispatch(ObjaveActions.postComment({objavaId:this.objava._id,comment:new Comment(this.user?.email,this.enterComment)}));
+  }
+
+  deleteComment(objavaId:string,commentId:string){
+    if(this.user){
+      this.store.dispatch(ObjaveActions.deleteComment({objavaId:objavaId,commentId:commentId}));
     }
   }
 }

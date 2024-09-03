@@ -5,22 +5,57 @@
     </mat-card-header>
     <mat-card-content>
         <mat-card-content>{{objava.text}}</mat-card-content>
+        <mat-card-content class="objava-single-img-comment">
+            <div class="outer-div-img">
+                <img src="{{objava.picture}}"/>
+            </div>
+            <div class="outer-div-comment-section">
+                <label>Comments:</label>
+                <div class="comment-section">
+                    <div class="comment-section-single" *ngFor="let comment of objava.comments">
+                        <div class="comment-section-single-labels">
+                            <label class="comment-section-single-user-label"><mat-icon class="comment-section-single-person-icon">person</mat-icon> {{comment.userEmail}} </label>
+                            <label class="comment-section-single-text-label"> {{comment.textContent}} </label>
+                        </div>
+                        <button *ngIf="comment.userEmail===user?.email" mat-icon-button (click)="deleteComment(objava._id,comment._id)">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card-content>
+    <mat-card-footer class="matcard-footer">
         <div matBadgeSize="large" matBadge="{{objava.likes.length}}" class="badge-selection">
             Likes
         </div>
-        <mat-card-content class="objava-single-img">
-            <img src="{{objava.picture}}"/>
-        </mat-card-content>
-    </mat-card-content>
-    <mat-card-footer>
         <mat-chip-set class="objava-tags">
             <mat-chip *ngFor="let tag of objava.tags">#{{tag}}</mat-chip>
         </mat-chip-set>
     </mat-card-footer>
-    <mat-card-actions class="actions-border" *ngIf="user">
-        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()"><mat-icon>thumb_up</mat-icon></button>
-        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()"><mat-icon>thumb_down</mat-icon></button>
-        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page"><mat-icon>edit</mat-icon>Edit</button>
-        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()"><mat-icon>delete</mat-icon>Delete</button>
+    <mat-card-actions class="actions-border" *ngIf="user && (user.email!=='')">
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onLike()">
+            <mat-icon>thumb_up</mat-icon>
+        </button>
+        <button mat-fab *ngIf="user && (user?.email!=='') && (user.email!==objava.author.email)" (click)="onDislike()">
+            <mat-icon>thumb_down</mat-icon>
+        </button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onChange()" [routerLink]="['/change-objava',objava._id]" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <mat-icon>edit</mat-icon>
+            Edit
+        </button>
+        <button mat-fab extended *ngIf="user && (user.email===objava.author.email)" (click)="onDelete()">
+            <mat-icon>delete</mat-icon>
+            Delete
+        </button>
+        <button mat-fab extended *ngIf="user && (user.email!=='')" (click)="onComment()">
+            <mat-icon>comment</mat-icon>
+            Comment
+        </button>
+        <mat-form-field *ngIf="enableEnterComment" class="comment-input" appearance="outline">
+            <mat-label>Comment</mat-label>
+            <input matInput type="text" name="comment-text" [(ngModel)]="enterComment" [formControl]="enterCommentFormControl"/>
+            <button mat-icon-button matSuffix (click)="submitComment()"><mat-icon>check</mat-icon></button>
+        </mat-form-field>
     </mat-card-actions>
 </mat-card>

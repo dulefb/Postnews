@@ -81,4 +81,8 @@ export class ShowDetailsComponent implements OnInit{
       this.store.dispatch(ObjaveActions.deleteObjava({objava:this.objava}));
     }
   }
+
+  onComment() {
+    throw new Error('Method not implemented.');
+  }
 }
