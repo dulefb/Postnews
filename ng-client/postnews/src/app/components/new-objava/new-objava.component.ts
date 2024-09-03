@@ -72,7 +72,8 @@ export class NewObjavaComponent implements OnInit{
       picture:this.picture,
       tags:this.tags.split(','),
       author:this.author,
-      likes:[]
+      likes:[],
+      comments:[]
     }
     this.store.dispatch(ObjaveActions.postObjava({objava:objava,email:this.author.email}));
   }

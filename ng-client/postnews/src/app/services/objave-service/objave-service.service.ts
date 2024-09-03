@@ -8,6 +8,7 @@ import { environment } from '../../../environment/environment';
 import { Objava } from '../../models/Objava';
 import { env } from 'process';
 import { text } from 'stream/consumers';
+import { Comment } from '../../models/Comment';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,13 @@ export class ObjaveServiceService {
   querySearchObjave(search:string) : Observable<DBResponse>{
     let searchEncoded = encodeURIComponent(search);
     return this.httpClient.get<DBResponse>(environment.serverApi+'objava/search/'+searchEncoded);
+  }
+
+  postCommentOnObjava(objavaId:string,comment:Comment){
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/comment/'+objavaId,comment);
+  }
+
+  deleteCommentOnObjava(objavaId:string,commentId:string){
+    return this.httpClient.delete<DBResponse>(environment.serverApi+'objava/comment/'+objavaId+'/'+commentId);
   }
 }

@@ -2,6 +2,7 @@ import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe, Delete, P
 import { ObjavaService } from './objava.service';
 import { CreateObjavaDto } from './dto/create-objava.dto';
 import { UpdateObjavaDto } from './dto/update-objava.dto';
+import { Comment } from 'src/models/Comment';
 
 @Controller('objava')
 export class ObjavaController {
@@ -61,6 +62,16 @@ export class ObjavaController {
     @Post('/dislike/:email/:objavaId')
     postDIslikeObjava(@Param('email') email:string, @Param('objavaId') objavaId:string){
         return this.objavaService.dislikeObjava(email,objavaId);
+    }
+
+    @Post('/comment/:objavaId')
+    postCommentOnObjava(@Body() comment:Comment,@Param('objavaId') objavaId:string){
+        return this.objavaService.postCommentOnObjava(objavaId,comment);
+    }
+
+    @Delete('/comment/:objavaId/:commentId')
+    deleteCommentOnObjava(@Param('objavaId') objavaId:string,@Param('commentId') commentId:string){
+        this.objavaService.deleteCommentOnObjava(objavaId,commentId);
     }
 
 }

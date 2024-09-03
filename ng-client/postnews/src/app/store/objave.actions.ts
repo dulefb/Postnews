@@ -1,5 +1,6 @@
 import { createAction,props } from "@ngrx/store";
 import { Objava } from "../models/Objava";
+import { Comment } from "../models/Comment";
 
 export const loadObjave = createAction(
     'Load objave feed',
@@ -81,4 +82,36 @@ export const deleteObjava = createAction(
 export const deleteObjavaSuccess = createAction(
     'Delete objava',
     props<{objava:Objava}>()
+);
+
+export const postComment = createAction(
+    'Post comment on objava',
+    props<{
+        objavaId:string,
+        comment:Comment
+    }>()
+);
+
+export const postCommentSuccess = createAction(
+    'Post comment on objava success',
+    props<{
+        objavaId:string,
+        comments:Comment[]
+    }>()
+);
+
+export const deleteComment = createAction(
+    'Delete comment on objava',
+    props<{
+        objavaId:string,
+        commentId:string
+    }>()
+);
+
+export const deleteCommentSuccess = createAction(
+    'Delete comment on objava success',
+    props<{
+        objavaId:string,
+        comments:Comment[]
+    }>()
 );

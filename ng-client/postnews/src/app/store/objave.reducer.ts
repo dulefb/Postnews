@@ -74,5 +74,27 @@ export const objaveReducer = createReducer(
     }),
     on(ObjaveActions.changeObjavaSuccess,(state,{objava})=>{
         return objaveAdapter.setOne(objava,state);
+    }),
+    on(ObjaveActions.postComment,(state,{objavaId,comment})=>{
+        return state;
+    }),
+    on(ObjaveActions.postCommentSuccess,(state,{objavaId,comments})=>{
+        return objaveAdapter.updateOne({
+            id:objavaId,
+            changes:{
+                comments
+            }
+        },state);
+    }),
+    on(ObjaveActions.deleteComment,(state,{objavaId,commentId})=>{
+        return state;
+    }),
+    on(ObjaveActions.deleteCommentSuccess,(state,{objavaId,comments})=>{
+        return objaveAdapter.updateOne({
+            id:objavaId,
+            changes:{
+                comments
+            }
+        },state);
     })
 )

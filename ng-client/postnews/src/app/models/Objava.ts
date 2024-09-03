@@ -1,3 +1,4 @@
+import { Comment } from "./Comment";
 import { User } from "./User";
 
 export class Objava{
@@ -7,6 +8,7 @@ export class Objava{
     public picture:string;
     public tags:string[];
     public likes:string[];
+    public comments:Comment[];
     public author:User;
 
     constructor(){
@@ -16,6 +18,7 @@ export class Objava{
         this.picture='';
         this.tags=[];
         this.likes=[];
+        this.comments=[];
         this.author=new User();
     }
 }

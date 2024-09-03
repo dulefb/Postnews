@@ -8,6 +8,7 @@ import { GetObjavaDto } from './dto/get-objava.dto';
 import { UpdateObjavaDto } from './dto/update-objava.dto';
 import e from 'express';
 import { DBResponse } from 'src/models/DBResponse';
+import { Comment } from 'src/models/Comment';
 
 @Injectable()
 export class ObjavaService {
@@ -175,5 +176,46 @@ export class ObjavaService {
         const obj = await objavaFound.save();
 
         return new DBResponse(true,"Objava disliked...",obj);
+    }
+
+    async postCommentOnObjava(objavaId:string,comment:Comment){
+        if(!mongoose.Types.ObjectId.isValid(objavaId))
+            throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
+        
+        const validUser = await this.userModel.findOne({
+            email:comment.userEmail
+        });
+
+        if(!validUser)
+            throw new HttpException('User not found.',HttpStatus.NOT_FOUND);
+
+        const objavaFound = await this.objavaModel.findById(objavaId);
+
+        if(!objavaFound)
+            throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
+
+        comment._id = new mongoose.Types.ObjectId().toString();
+        await objavaFound.comments.push(comment);
+        const obj = await objavaFound.save();
+
+        return new DBResponse(true,"Comment added successfully",obj);
+    }
+
+    async deleteCommentOnObjava(objavaId:string,commentId:string){
+        if(!mongoose.Types.ObjectId.isValid(objavaId))
+            throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
+
+        if(!mongoose.Types.ObjectId.isValid(commentId))
+            throw new HttpException('Invalid id.',HttpStatus.BAD_REQUEST);
+
+        const objavaFound = await this.objavaModel.findById(objavaId);
+
+        if(!objavaFound)
+            throw new HttpException('Objava not found',HttpStatus.NOT_FOUND);
+
+        objavaFound.comments = await objavaFound.comments.filter(x=>x._id===commentId);
+        await objavaFound.save();
+
+        return new DBResponse(true,"Comment deleted",objavaFound);
     }
 }
