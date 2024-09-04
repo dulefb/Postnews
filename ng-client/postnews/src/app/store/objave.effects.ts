@@ -10,12 +10,13 @@ import { validateHeaderName } from "http";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ObjaveServiceService } from "../services/objave-service/objave-service.service";
 import { error } from "console";
+import { SseServiceService } from "../services/sse-service/sse-service.service";
 // import { error } from "console";
 
 @Injectable()
 export class ObjaveEffects {
 
-    constructor(private objaveService:ObjaveServiceService,private action$:Actions,private router:Router){ }
+    constructor(private objaveService:ObjaveServiceService,private action$:Actions,private router:Router,private sseService:SseServiceService){ }
 
     loadObjave = createEffect(()=>this.action$.pipe(
         ofType(ObjaveActions.loadObjave),
@@ -150,4 +151,17 @@ export class ObjaveEffects {
             })
         ))
     ));
+
+    // initiateSseObjaveService = createEffect(()=>this.action$.pipe(
+    //     ofType(ObjaveActions.initiateSseObjaveService),
+    //     exhaustMap((action)=>this.sseService.connectToSSE(action.tags).pipe(
+    //         map(value=>{
+    //             return ObjaveActions.initiateSseObjaveServiceSuccess({objave:value.data});
+    //         }),
+    //         catchError((err:HttpErrorResponse)=>{
+    //             alert(err.error.message);
+    //             throw new Error(err.error.message);
+    //         })
+    //     ))
+    // ));
 }

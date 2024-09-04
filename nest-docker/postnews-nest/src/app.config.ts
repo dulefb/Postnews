@@ -1,5 +1,5 @@
 export const config = {
-    host:'192.168.1.3',
+    host:'192.168.174.160',
     port:'27017',
     username:'root',
     password:'secretpassword',

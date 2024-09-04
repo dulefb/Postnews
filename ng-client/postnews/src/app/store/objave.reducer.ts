@@ -23,7 +23,7 @@ export const objaveReducer = createReducer(
         }
     }),
     on(ObjaveActions.loadObjaveSuccess,(state,{objave})=>{
-        return objaveAdapter.addMany(objave,state);
+        return objaveAdapter.upsertMany(objave,state);
     }),
     on(ObjaveActions.likeObjava,(state,{email,oid})=>{
         return state;
@@ -96,5 +96,14 @@ export const objaveReducer = createReducer(
                 comments
             }
         },state);
+    }),
+    on(ObjaveActions.initiateSseObjaveService,(state,{tags})=>{
+        return{
+            ...state,
+            tags:tags
+        }
+    }),
+    on(ObjaveActions.initiateSseObjaveServiceSuccess,(state,{objave})=>{
+        return objaveAdapter.upsertMany(objave,state);
     })
 )

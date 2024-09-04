@@ -115,3 +115,13 @@ export const deleteCommentSuccess = createAction(
         comments:Comment[]
     }>()
 );
+
+export const initiateSseObjaveService = createAction(
+    'Initiate Sse Objave Service action',
+    props<{tags:string[]}>()
+);
+
+export const initiateSseObjaveServiceSuccess = createAction(
+    'Initiate Sse Objave Service Success Action',
+    props<{objave:Objava[]}>()
+)

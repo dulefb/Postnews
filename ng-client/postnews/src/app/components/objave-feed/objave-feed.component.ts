@@ -9,6 +9,7 @@ import { selectObjave } from '../../store/objave.selectors'
 import * as ObjaveActions from '../../store/objave.actions'
 import { User } from '../../models/User';
 import { selectUserObject } from '../../store/user.selectors';
+import { interval, map } from 'rxjs';
 
 @Component({
   selector: 'app-objave-feed',
@@ -29,6 +30,12 @@ export class ObjaveFeedComponent implements OnInit{
   ngOnInit() : void{
     this.store.select(selectUserObject).subscribe(next=>this.user=next);
     this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
+
+    // interval(5000).pipe(
+    //   map(()=>this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags})))
+    // )
+    // .subscribe(next=>{});
+
     this.store.select(selectObjave).subscribe(next=>{
       if(next)
         this.objave$=next;

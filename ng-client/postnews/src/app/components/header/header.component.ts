@@ -41,8 +41,10 @@ export class HeaderComponent {
   }
 
   onPocetna(){
-    if(this.user.tags)
+    if(this.user.tags){
       this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
+      // this.store.dispatch(ObjaveActions.initiateSseObjaveService({tags:this.user.tags}));
+    }
   }
 
   onNewPost(){
