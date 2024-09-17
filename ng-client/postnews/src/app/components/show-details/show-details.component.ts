@@ -16,6 +16,10 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Comment } from '../../models/Comment';
 
 @Component({
   selector: 'app-show-details',
@@ -28,7 +32,11 @@ import {MatChipsModule} from '@angular/material/chips';
     MatDividerModule, 
     MatIconModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './show-details.component.html',
   styleUrl: './show-details.component.css'
@@ -39,6 +47,10 @@ export class ShowDetailsComponent implements OnInit{
   objave$:Objava[]=[];
   objava:Objava=new Objava();
   selectedID:string='';
+
+  enableEnterComment = false;
+  enterComment:string = '';
+  enterCommentFormControl = new FormControl('',[Validators.minLength(1),Validators.maxLength(140)]);
 
   constructor(private store:Store<AppState>,private route:ActivatedRoute){
 
@@ -83,6 +95,22 @@ export class ShowDetailsComponent implements OnInit{
   }
 
   onComment() {
-    throw new Error('Method not implemented.');
+    if(this.enableEnterComment)
+      this.enableEnterComment=false;
+    else
+      this.enableEnterComment=true;
+
+    this.enterComment='';
+  }
+
+  submitComment() {
+    if(this.user)
+      this.store.dispatch(ObjaveActions.postComment({objavaId:this.objava._id,comment:new Comment(this.user?.email,this.enterComment)}));
+  }
+
+  deleteComment(objavaId:string,commentId:string){
+    if(this.user){
+      this.store.dispatch(ObjaveActions.deleteComment({objavaId:objavaId,commentId:commentId}));
+    }
   }
 }

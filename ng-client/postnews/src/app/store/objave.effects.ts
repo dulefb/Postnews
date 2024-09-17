@@ -22,7 +22,6 @@ export class ObjaveEffects {
         ofType(ObjaveActions.loadObjave),
         exhaustMap((action)=>this.objaveService.getObjave(action.tags).pipe(
             map(value=>{
-                // alert(value.message);
                 return ObjaveActions.loadObjaveSuccess({objave:value.data})
             }),
             catchError((err:HttpErrorResponse)=>{
@@ -31,6 +30,19 @@ export class ObjaveEffects {
             })
         ))
     ));
+
+    // loadObjaveChanges = createEffect(()=>this.action$.pipe(
+    //     ofType(ObjaveActions.loadObjaveChanges),
+    //     exhaustMap((action)=>this.objaveService.getObjave(action.tags).pipe(
+    //         map(value=>{
+    //             return ObjaveActions.loadObjaveChangesSuccess({objave:value.data})
+    //         }),
+    //         catchError((err:HttpErrorResponse)=>{
+    //             alert(err.error.message);
+    //             throw new Error(err.error.message);
+    //         })
+    //     ))
+    // ));
 
     likeObjava = createEffect(()=>this.action$.pipe(
         ofType(ObjaveActions.likeObjava),

@@ -30,12 +30,6 @@ export class ObjaveFeedComponent implements OnInit{
   ngOnInit() : void{
     this.store.select(selectUserObject).subscribe(next=>this.user=next);
     this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags}));
-
-    // interval(5000).pipe(
-    //   map(()=>this.store.dispatch(ObjaveActions.loadObjave({tags:this.user.tags})))
-    // )
-    // .subscribe(next=>{});
-
     this.store.select(selectObjave).subscribe(next=>{
       if(next)
         this.objave$=next;

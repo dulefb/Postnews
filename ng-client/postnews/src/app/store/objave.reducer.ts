@@ -1,8 +1,9 @@
-import { createReducer, on } from "@ngrx/store";
+import { createReducer, on, UPDATE } from "@ngrx/store";
 import * as ObjaveActions from '../store/objave.actions';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
 import { Objava } from "../models/Objava";
 import { state } from "@angular/animations";
+import { stat } from "node:fs";
 
 
 export interface ObjaveState extends EntityState<Objava>{
@@ -23,7 +24,7 @@ export const objaveReducer = createReducer(
         }
     }),
     on(ObjaveActions.loadObjaveSuccess,(state,{objave})=>{
-        return objaveAdapter.upsertMany(objave,state);
+        return objaveAdapter.addMany(objave,state);
     }),
     on(ObjaveActions.likeObjava,(state,{email,oid})=>{
         return state;
@@ -97,13 +98,19 @@ export const objaveReducer = createReducer(
             }
         },state);
     }),
-    on(ObjaveActions.initiateSseObjaveService,(state,{tags})=>{
-        return{
-            ...state,
-            tags:tags
-        }
-    }),
-    on(ObjaveActions.initiateSseObjaveServiceSuccess,(state,{objave})=>{
-        return objaveAdapter.upsertMany(objave,state);
-    })
+    // on(ObjaveActions.loadObjaveChanges,(state,{tags})=>{
+    //     return state;
+    // }),
+    // on(ObjaveActions.loadObjaveChangesSuccess,(state,{objave})=>{
+    //     return objaveAdapter.updateMany(objave,state);
+    // })
+    // on(ObjaveActions.initiateSseObjaveService,(state,{tags})=>{
+    //     return{
+    //         ...state,
+    //         tags:tags
+    //     }
+    // }),
+    // on(ObjaveActions.initiateSseObjaveServiceSuccess,(state,{objave})=>{
+    //     return objaveAdapter.upsertMany(objave,state);
+    // })
 )

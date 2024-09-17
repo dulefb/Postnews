@@ -1,6 +1,7 @@
 import { createAction,props } from "@ngrx/store";
 import { Objava } from "../models/Objava";
 import { Comment } from "../models/Comment";
+import { Update } from "@ngrx/entity";
 
 export const loadObjave = createAction(
     'Load objave feed',
@@ -116,12 +117,22 @@ export const deleteCommentSuccess = createAction(
     }>()
 );
 
-export const initiateSseObjaveService = createAction(
-    'Initiate Sse Objave Service action',
-    props<{tags:string[]}>()
-);
+// export const loadObjaveChanges = createAction(
+//     'Load objave changes',
+//     props<{tags:string[]}>()
+// );
 
-export const initiateSseObjaveServiceSuccess = createAction(
-    'Initiate Sse Objave Service Success Action',
-    props<{objave:Objava[]}>()
-)
+// export const loadObjaveChangesSuccess = createAction(
+//     'Load objave changes success',
+//     props<{objave:Update<Objava>[]}>()
+// );
+
+// export const initiateSseObjaveService = createAction(
+//     'Initiate Sse Objave Service action',
+//     props<{tags:string[]}>()
+// );
+
+// export const initiateSseObjaveServiceSuccess = createAction(
+//     'Initiate Sse Objave Service Success Action',
+//     props<{objave:Objava[]}>()
+// )
