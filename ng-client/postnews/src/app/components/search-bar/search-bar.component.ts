@@ -10,6 +10,8 @@ import * as QueryActions from '../../store/query.actions';
 import { nextTick } from 'process';
 import { Objava } from '../../models/Objava';
 import { Router, RouterModule } from '@angular/router';
+import { MatCard } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-search-bar',
@@ -17,7 +19,9 @@ import { Router, RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    MatCard,
+    MatIcon
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.css'

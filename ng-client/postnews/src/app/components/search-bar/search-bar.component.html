@@ -1,5 +1,5 @@
 <div class="search-bar-main">
-    <a (click)="triggerSearchBar()" class="search-button">Pretrazi</a>
+    <a (click)="triggerSearchBar()" class="search-button"></a>
     <div *ngIf='isOpen' class="search-bar">
         <div class="search-bar-input">
             <input type="text" (input)="onQueryInput($event)" [(ngModel)]="queryText" autofocus>

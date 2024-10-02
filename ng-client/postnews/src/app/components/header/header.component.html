@@ -1,9 +1,23 @@
-<div class="header">
-    <a [routerLink]="['']" routerLinkActive="active" (click)="onPocetna()">Pocetna</a>
-    <app-search-bar></app-search-bar>
-    <a [routerLink]="['/log-in']" *ngIf="(user?.email==='')" routerLinkActive="active">Log in</a>
-    <a [routerLink]="['/sign-in']" *ngIf="(user?.email==='')"  routerLinkActive="active">Register</a>
-    <a [routerLink]="['/profile']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onProfile()">Profile</a>
-    <a [routerLink]="['']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onLogout()">Log out</a>
-    <a [routerLink]="['/new-post']" *ngIf="(user?.email!=='')" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onNewPost()">New post</a>
-</div>
+<mat-card class="header">
+    <mat-card-content [routerLink]="['']" routerLinkActive="active" (click)="onPocetna()" class="header-link"><mat-icon>home</mat-icon>Home</mat-card-content>
+    <mat-card-content routerLinkActive="active">
+        <div class="search-bar-main">
+            <a (click)="triggerSearchBar()" class="search-button" class="header-link"><mat-icon>search</mat-icon>Search</a>
+            <div *ngIf='isOpen' class="search-bar">
+                <div class="search-bar-input">
+                    <input type="text" (input)="onQueryInput($event)" [(ngModel)]="queryText" autofocus>
+                </div>
+                <div class="search-bar-view">
+                    <div class="search-bar-data" *ngFor="let objava of objave" (click)="onDataClick(objava._id)">
+                        <img src={{objava.picture}}><label>{{objava.name}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-content [routerLink]="['/log-in']" *ngIf="(user?.email==='')" class="header-link" routerLinkActive="active"><mat-icon>login</mat-icon>Log in</mat-card-content>
+    <mat-card-content [routerLink]="['/sign-in']" *ngIf="(user?.email==='')" class="header-link"  routerLinkActive="active"><mat-icon>manage_accounts</mat-icon>Register</mat-card-content>
+    <mat-card-content [routerLink]="['/profile']" *ngIf="(user?.email!=='')" class="header-link" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onProfile()"><mat-icon>account-circle</mat-icon>Profile</mat-card-content>
+    <mat-card-content [routerLink]="['']" *ngIf="(user?.email!=='')" class="header-link" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onLogout()"><mat-icon>logout</mat-icon>Log out</mat-card-content>
+    <mat-card-content [routerLink]="['/new-post']" *ngIf="(user?.email!=='')" class="header-link" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="onNewPost()">New post</mat-card-content>
+</mat-card>

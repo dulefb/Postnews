@@ -8,15 +8,25 @@
     align-items: center;
 }
 
-.header a,app-search-bar{
+.header .header-link{
     text-decoration: none;
     color: black;
     font-size: larger;
     font-style: bold;
     height: 70%;
-    width: 40%;
+    width: 10%;
+    align-self: center;
+    text-align: center;
 }
-.header a:hover{
+.header .header-link:hover{
     color: whitesmoke;
     border-bottom: 1px solid whitesmoke;
+}
+
+mat-icon{
+    margin-bottom: -0.2em;
+}
+
+mat-card-content{
+    align-self: center;
 }
