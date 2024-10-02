@@ -23,11 +23,23 @@ export class ObjaveServiceService {
   }
 
   likeObjava(email:string,oid:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+'like/'+email+'/'+oid,null);
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+'like/'+email+'/'+oid,null,
+      {
+        headers:{
+          Authorization:'Bearer '+sessionStorage.getItem('userToken')
+        }
+      }
+    );
   }
 
   dislikeObjava(email:string,oid:string) : Observable<DBResponse>{
-    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+'dislike/'+email+'/'+oid,null);
+    return this.httpClient.post<DBResponse>(environment.serverApi+'objava/'+'dislike/'+email+'/'+oid,null,
+      {
+        headers:{
+          Authorization:'Bearer '+sessionStorage.getItem('userToken')
+        }
+      }
+    );
   }
 
   getObjaveFromUser(email:string) : Observable<DBResponse>{

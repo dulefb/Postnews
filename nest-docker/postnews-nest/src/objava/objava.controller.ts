@@ -57,13 +57,15 @@ export class ObjavaController {
     }
 
     @Post('/like/:email/:objavaId')
-    postLikeObjava(@Param('email') email:string, @Param('objavaId') objavaId:string){
-        return this.objavaService.likeObjava(email,objavaId);
+    @UseGuards(JwtAuthGuard)
+    postLikeObjava(@Req() req:any,@Param('email') email:string, @Param('objavaId') objavaId:string){
+        return this.objavaService.likeObjava(req.user.data.user.email,objavaId);
     }
 
     @Post('/dislike/:email/:objavaId')
-    postDIslikeObjava(@Param('email') email:string, @Param('objavaId') objavaId:string){
-        return this.objavaService.dislikeObjava(email,objavaId);
+    @UseGuards(JwtAuthGuard)
+    postDIslikeObjava(@Req() req:any,@Param('email') email:string, @Param('objavaId') objavaId:string){
+        return this.objavaService.dislikeObjava(req.user.data.user.email,objavaId);
     }
 
     @Post('/comment/:objavaId')
