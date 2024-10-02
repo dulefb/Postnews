@@ -17,7 +17,10 @@ export class UserEffects {
     loadUser = createEffect(()=>this.action$.pipe(
             ofType(UserActions.login),
             exhaustMap((action)=>this.userService.getUser(action.email,action.password).pipe(
-                map(value=>UserActions.loginSucces({user:value.data})),
+                map(value=>{
+                    sessionStorage.setItem('userToken',value.data.jwtoken);
+                    return UserActions.loginSucces({user:value.data.user})
+                }),
                 catchError((value:HttpErrorResponse)=>{
                     alert(value.error.message);
                     throw new Error(value.error.message);
@@ -34,7 +37,8 @@ export class UserEffects {
         ofType(UserActions.signin),
         exhaustMap((action)=>this.userService.postUser(action.user).pipe(
             map(value=>{
-                return UserActions.signinSuccess({response:value})
+                sessionStorage.setItem('userToken',value.data.jwtoken);
+                return UserActions.signinSuccess({response:value.data.user})
             }),
             catchError((value:HttpErrorResponse)=>{
                 alert(value.error.message);

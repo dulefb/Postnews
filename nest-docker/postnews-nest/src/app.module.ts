@@ -5,9 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { config } from './app.config';
 import { UsersModule } from './users/users.module';
 import { ObjavaModule } from './objava/objava.module';
-import { SseService } from './sse/sse.service';
-import { SseController } from './sse/sse.controller';
-import { SseModule } from './sse/sse.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,8 +17,7 @@ import { SseModule } from './sse/sse.module';
       }
     ),
     UsersModule,
-    ObjavaModule,
-    SseModule,
+    ObjavaModule
   ],
   controllers: [AppController],
   providers: [AppService],

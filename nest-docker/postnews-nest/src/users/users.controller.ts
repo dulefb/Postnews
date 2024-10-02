@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUser } from './dto/create-user.dto';
+import { JwtAuthGuard } from './guards/jwt.guard';
+import { LocalAuthGuard } from './guards/local.guard';
 
 @Controller('users')
 export class UsersController {
@@ -13,12 +15,14 @@ export class UsersController {
     }
 
     @Get(':email/:password')
+    // @UseGuards(LocalAuthGuard)
     getUserByEmailAndPassword(@Param('email') email:string,@Param('password') password:string){
         return this.userService.getUserByEmailAndPassword(email,password);
     }
     
     @Get(':email')
-    getUserByEmail(@Param('email') email:string){
+    getUserByEmail(@Req() req:Request,@Param('email') email:string){
+        console.log(req);
         return this.userService.getUserByEmail(email);
     }
 

@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit,AfterViewInit {
 
   onLogout(){
     this.store.dispatch(UserActions.logout());
+    sessionStorage.removeItem('userToken');
   }
 
   onPocetna(){

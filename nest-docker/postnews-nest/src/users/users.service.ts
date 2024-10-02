@@ -5,11 +5,12 @@ import { User } from 'src/schemas/user.schema';
 import { CreateUser } from './dto/create-user.dto'
 import { DBResponse } from 'src/models/DBResponse';
 import { GetUser } from './dto/get-user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
 
-    constructor(@InjectModel(User.name) private userModel:Model<User>){
+    constructor(@InjectModel(User.name) private userModel:Model<User>,private jwtService:JwtService){
     }
 
     async createUser(user:CreateUser){
@@ -22,7 +23,14 @@ export class UsersService {
             else{
                 const newUser = await new this.userModel(user);
                 const userSaved = await newUser.save();
-                return new DBResponse(true,"User created successfully",userSaved);
+                const jwtoken = this.jwtService.sign({
+                    id:userSaved.id,
+                    email:userSaved.email,
+                    password:userSaved.password,
+                    tags:userSaved.tags,
+                    objave:userSaved.objave
+                });
+                return new DBResponse(true,"User created successfully",{jwtoken,userSaved});
             }
     }
 
@@ -31,11 +39,19 @@ export class UsersService {
     }
 
     async getUserByEmailAndPassword(email:string,password:string){
-        const user = await this.userModel.findOne({email:email,password:password}).populate('objave');
+        const user = await this.userModel.findOne({email:email,password:password});
         if(!user)
             throw new HttpException("Incorrect credentials",400);
 
-        return new DBResponse(true,"User found.",<User>user);
+        // console.log(user);
+        const jwtoken = this.jwtService.sign({
+            id:user.id,
+            email:user.email,
+            password:user.password,
+            tags:user.tags,
+            objave:user.objave
+        });
+        return new DBResponse(true,"User found.",{jwtoken,user});
     }
 
     async getUserByEmail(email:string){

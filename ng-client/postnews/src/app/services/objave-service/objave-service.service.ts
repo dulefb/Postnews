@@ -31,7 +31,13 @@ export class ObjaveServiceService {
   }
 
   getObjaveFromUser(email:string) : Observable<DBResponse>{
-    return this.httpClient.get<DBResponse>(environment.serverApi+'objava/email/'+email);
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava/email/'+email,
+      {
+        headers:{
+          Authorization:'Bearer '+sessionStorage.getItem('userToken')
+        }
+      }
+    );
   }
 
   postObjava(objava:Objava,email:string) : Observable<DBResponse>{
