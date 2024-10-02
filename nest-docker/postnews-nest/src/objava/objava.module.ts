@@ -4,6 +4,9 @@ import { ObjavaService } from './objava.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UsersSchema } from 'src/schemas/user.schema';
 import { Objava, ObjavaSchema } from 'src/schemas/objave.schema';
+import { LocalStrategy } from 'src/users/strategies/local.strategy';
+import { JwtStrategy } from 'src/users/strategies/jwt.strategy';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports:[

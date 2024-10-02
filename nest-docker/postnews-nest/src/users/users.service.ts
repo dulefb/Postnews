@@ -38,7 +38,7 @@ export class UsersService {
         return (await this.userModel.find().populate('objave'));
     }
 
-    async getUserByEmailAndPassword(email:string,password:string){
+    async validateUser(email:string,password:string){
         const user = await this.userModel.findOne({email:email,password:password});
         if(!user)
             throw new HttpException("Incorrect credentials",400);

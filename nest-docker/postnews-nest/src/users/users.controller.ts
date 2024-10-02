@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUser } from './dto/create-user.dto';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { LocalAuthGuard } from './guards/local.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
@@ -15,19 +16,21 @@ export class UsersController {
     }
 
     @Get(':email/:password')
-    // @UseGuards(LocalAuthGuard)
+    @UseGuards(LocalAuthGuard)
     getUserByEmailAndPassword(@Param('email') email:string,@Param('password') password:string){
-        return this.userService.getUserByEmailAndPassword(email,password);
+        const user = this.userService.validateUser(email,password);
+        return user;
     }
     
     @Get(':email')
     getUserByEmail(@Req() req:Request,@Param('email') email:string){
-        console.log(req);
+        // console.log(req);
         return this.userService.getUserByEmail(email);
     }
 
     @Post()
     @UsePipes(new ValidationPipe())
+    @UseGuards(LocalAuthGuard)
     createUser(@Body() user:CreateUser){
         return this.userService.createUser(user);
     }

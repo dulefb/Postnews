@@ -1,8 +1,9 @@
-import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe, Delete, Put } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, UsePipes, ValidationPipe, Delete, Put, UseGuards, Req } from '@nestjs/common';
 import { ObjavaService } from './objava.service';
 import { CreateObjavaDto } from './dto/create-objava.dto';
 import { UpdateObjavaDto } from './dto/update-objava.dto';
 import { Comment } from 'src/models/Comment';
+import { JwtAuthGuard } from 'src/users/guards/jwt.guard';
 
 @Controller('objava')
 export class ObjavaController {
@@ -27,9 +28,10 @@ export class ObjavaController {
         return this.objavaService.getObjavaById(objavaId);
     }
 
-    @Get('/email/:email')
-    getObjaveByUser(@Param('email') email:string){
-        return this.objavaService.getAllObjaveByUser(email);
+    @Get('/email')
+    @UseGuards(JwtAuthGuard)
+    getObjaveByUser(@Req() req:any){
+        return this.objavaService.getAllObjaveByUser(req.user);
     }
 
     @Get('/search/:search')

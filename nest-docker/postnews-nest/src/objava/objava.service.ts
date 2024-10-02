@@ -9,6 +9,7 @@ import { UpdateObjavaDto } from './dto/update-objava.dto';
 import e from 'express';
 import { DBResponse } from 'src/models/DBResponse';
 import { Comment } from 'src/models/Comment';
+import { GetUser } from 'src/users/dto/get-user.dto';
 
 @Injectable()
 export class ObjavaService {
@@ -60,8 +61,8 @@ export class ObjavaService {
         return new DBResponse(true,"Objave received...",objava$);
     }
 
-    async getAllObjaveByUser(email:string){
-        const userFound = await this.userModel.findOne({email:email});
+    async getAllObjaveByUser(user:GetUser){
+        const userFound = await this.userModel.findOne({email:user.email});
         if(!userFound)
             throw new HttpException('User not found',HttpStatus.NOT_FOUND);
 

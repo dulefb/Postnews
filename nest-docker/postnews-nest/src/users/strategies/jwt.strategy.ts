@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { User } from "src/schemas/user.schema";
+import { GetUser } from "../dto/get-user.dto";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
@@ -13,7 +15,8 @@ export class JwtStrategy extends PassportStrategy(Strategy){
         })
     }
 
-    validate(payload:any){
+    validate(payload:GetUser){
+        console.log("JWT strategy hit...");
         return payload;
     }
 }
