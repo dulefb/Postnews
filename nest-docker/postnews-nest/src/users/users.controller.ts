@@ -15,9 +15,10 @@ export class UsersController {
         return this.userService.getAllUsers();
     }
 
-    @Get(':email/:password')
+    @Post(':email/:password')
     @UseGuards(LocalAuthGuard)
-    getUserByEmailAndPassword(@Param('email') email:string,@Param('password') password:string){
+    getUserByEmailAndPassword(@Param('email') email:string,@Param('password') password:string,@Req() req:any){
+        console.log(req);
         const user = this.userService.validateUser(email,password);
         return user;
     }

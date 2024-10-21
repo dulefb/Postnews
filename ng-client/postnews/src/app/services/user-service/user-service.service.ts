@@ -15,9 +15,17 @@ export class UserServiceService {
   constructor(private httpClient:HttpClient) { }
 
   getUser(email:string,password:string){
-    return this.httpClient.get<DBResponse>(
+    return this.httpClient.post<DBResponse>(
       environment.serverApi+'users'+'/'+email+'/'+password
-    );
+    ,{
+      username:email,
+      password:password
+    }
+    ,{
+      headers:{
+        'Content-Type':'application/json'
+      }
+    });
   }
 
   postUser(user:User){
