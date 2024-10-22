@@ -6,6 +6,7 @@ import { config } from './app.config';
 import { UsersModule } from './users/users.module';
 import { ObjavaModule } from './objava/objava.module';
 import { JwtModule } from '@nestjs/jwt';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { JwtModule } from '@nestjs/jwt';
       }
     ),
     UsersModule,
-    ObjavaModule
+    ObjavaModule,
+    EventsModule
   ],
   controllers: [AppController],
   providers: [AppService],
