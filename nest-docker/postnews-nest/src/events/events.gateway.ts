@@ -1,9 +1,17 @@
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { ObjavaService } from 'src/objava/objava.service';
 
 @WebSocketGateway()
 export class EventsGateway {
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+
+  constructor(private objavaService:ObjavaService){
+
+  }
+
+  @SubscribeMessage('events')
+  handleMessage(client: any, payload: any): any {
+    console.log('client',client);
+    console.log('payload',payload);
+    return this.objavaService.getAllObjave();
   }
 }

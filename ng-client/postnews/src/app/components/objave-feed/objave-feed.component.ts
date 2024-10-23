@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Objava } from '../../models/Objava';
 import { ObjavaSingleComponent } from "../objava-single/objava-single.component";
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import * as ObjaveActions from '../../store/objave.actions'
 import { User } from '../../models/User';
 import { selectUserObject } from '../../store/user.selectors';
 import { interval, map } from 'rxjs';
+import { WebSocketServiceService } from '../../services/web-socket-service.service';
 
 @Component({
   selector: 'app-objave-feed',
@@ -23,9 +24,13 @@ export class ObjaveFeedComponent implements OnInit{
   user:User;
   objave$?:Objava[];
 
-  constructor(private store:Store<AppState>){
+  constructor(private store:Store<AppState>,private socketService:WebSocketServiceService){
     this.user=new User();
   }
+
+  // ngOnDestroy(): void {
+  //   this.socketService.disconnectSocket();
+  // }
 
   ngOnInit() : void{
     this.store.select(selectUserObject).subscribe(next=>this.user=next);
@@ -34,5 +39,7 @@ export class ObjaveFeedComponent implements OnInit{
       if(next)
         this.objave$=next;
     });
+
+    this.socketService.receiveFeed('radi li ovo.');
   }
 }

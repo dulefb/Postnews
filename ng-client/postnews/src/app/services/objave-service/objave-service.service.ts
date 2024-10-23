@@ -19,12 +19,12 @@ export class ObjaveServiceService {
 
   getObjave(tags:string[]):Observable<DBResponse>{
     let encodedArray = encodeURIComponent(JSON.stringify(tags));
-    return this.httpClient.get<DBResponse>(environment.serverApi+'objava'+'/tags/'+encodedArray,
+    return this.httpClient.get<DBResponse>(environment.serverApi+'objava'+'/tags/'+encodedArray/*,
       {
         headers:{
           Authorization:'Bearer '+sessionStorage.getItem('userToken')
         }
-      }
+      }*/
     );
   }
 

@@ -9,8 +9,12 @@ async function bootstrap() {
     origin:[
       'http://localhost:4200',
       'http://localhost:8080',
+      'http://localhost:80',
       'http://192.168.1.4:4200',
       'http://192.168.1.4:8080',
+      'http://192.168.0.23:4200',
+      'http://192.168.0.23:8080',
+      'http://192.168.0.23:80',
     ]
   });
   app.useGlobalPipes(new ValidationPipe());
