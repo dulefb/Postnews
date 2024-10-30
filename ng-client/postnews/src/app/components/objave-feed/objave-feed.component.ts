@@ -28,9 +28,9 @@ export class ObjaveFeedComponent implements OnInit{
     this.user=new User();
   }
 
-  // ngOnDestroy(): void {
-  //   this.socketService.disconnectSocket();
-  // }
+  ngOnDestroy(): void {
+    this.socketService.disconnectSocket();
+  }
 
   ngOnInit() : void{
     this.store.select(selectUserObject).subscribe(next=>this.user=next);
@@ -39,7 +39,6 @@ export class ObjaveFeedComponent implements OnInit{
       if(next)
         this.objave$=next;
     });
-
-    this.socketService.receiveFeed('radi li ovo.');
+    this.socketService.receiveFeed(this.objave$?.map(value=>value._id));
   }
 }
